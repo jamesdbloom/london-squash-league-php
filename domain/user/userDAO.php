@@ -16,7 +16,7 @@ class UserDAO extends DAO implements Mapper
     {
         $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'remove table', $errors);
+        self::insert_update_delete_create($query, $parameters, 'remove table ', $errors);
 
         $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
@@ -28,14 +28,14 @@ class UserDAO extends DAO implements Mapper
             "CONSTRAINT unique_" . self::email_column . " UNIQUE (" . self::email_column . ") " .
             ")";
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'create table', $errors);
+        self::insert_update_delete_create($query, $parameters, 'create table ', $errors);
     }
 
     public static function get_all(Error $errors)
     {
         $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
-        return self::load_all_objects($query, $parameters, new self(), 'load list of users', $errors);
+        return self::load_all_objects($query, $parameters, new self(), 'load list of users ', $errors);
     }
 
     public static function get_by_id($id, Error $errors)
@@ -44,7 +44,7 @@ class UserDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        return self::load_object($query, $parameters, new self(), 'load user by id', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by id ', $errors);
     }
 
     public static function get_by_session_id($session_id, Error $errors)
@@ -58,7 +58,7 @@ class UserDAO extends DAO implements Mapper
         $parameters = array(
             ':' . SessionDAO::id_column => $session_id,
         );
-        return self::load_object($query, $parameters, new self(), 'load user by id', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by id ', $errors);
     }
 
     public static function get_by_email($email, Error $errors)
@@ -67,7 +67,7 @@ class UserDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::email_column => self::sanitize_email($email),
         );
-        return self::load_object($query, $parameters, new self(), 'load user by email', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by email ', $errors);
     }
 
     public static function email_already_registered($email, Error $errors)
@@ -82,7 +82,7 @@ class UserDAO extends DAO implements Mapper
             ':' . self::email_column => self::sanitize_email($email),
             ':' . self::activation_key_column => $key,
         );
-        return self::load_object($query, $parameters, new self(), 'load user by email and activation key', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by email and activation key ', $errors);
     }
 
 
@@ -93,7 +93,7 @@ class UserDAO extends DAO implements Mapper
             ':' . self::email_column => self::sanitize_email($email),
             ':' . self::password_column => $password,
         );
-        return self::load_object($query, $parameters, new self(), 'load user by email and password', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by email and password ', $errors);
     }
 
     public static function create($name, $password, $email, $mobile, $key, Error $errors)
@@ -118,7 +118,7 @@ class UserDAO extends DAO implements Mapper
             ':' . self::mobile_column => self::sanitize_value($mobile),
             ':' . self::activation_key_column => $key,
         );
-        self::insert_update_delete_create($query, $parameters, 'save user', $errors);
+        self::insert_update_delete_create($query, $parameters, 'save user ', $errors);
         return self::get_by_email($email, $errors);
     }
 
@@ -130,7 +130,7 @@ class UserDAO extends DAO implements Mapper
             ':' . self::password_column => $new_password,
             ':' . self::email_column => self::sanitize_email($email),
         );
-        self::insert_update_delete_create($query, $parameters, 'update password', $errors);
+        self::insert_update_delete_create($query, $parameters, 'update password ', $errors);
     }
 
     public static function update_activation_key($email, $key, Error $errors)
@@ -140,7 +140,7 @@ class UserDAO extends DAO implements Mapper
             ':' . self::activation_key_column => $key,
             ':' . self::email_column => self::sanitize_email($email),
         );
-        self::insert_update_delete_create($query, $parameters, 'update activate key', $errors);
+        self::insert_update_delete_create($query, $parameters, 'update activate key ', $errors);
     }
 
     public static function delete_by_id($id, Error $errors)
@@ -149,7 +149,7 @@ class UserDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'delete user by id', $errors);
+        self::insert_update_delete_create($query, $parameters, 'delete user by id ', $errors);
     }
 
     public static function get_activation_key($email, Error $errors)
@@ -158,7 +158,7 @@ class UserDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::email_column => self::sanitize_email($email),
         );
-        self::insert_update_delete_create($query, $parameters, 'load activation key', $errors);
+        self::insert_update_delete_create($query, $parameters, 'load activation key ', $errors);
     }
 
     public function map(array $user_row, Error $errors)

@@ -15,7 +15,7 @@ class SessionDAO extends DAO implements Mapper
     {
         $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'remove table', $errors);
+        self::insert_update_delete_create($query, $parameters, 'remove table ', $errors);
 
         $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " VARCHAR(128) NOT NULL PRIMARY KEY, " .
@@ -26,14 +26,14 @@ class SessionDAO extends DAO implements Mapper
             "CONSTRAINT unique_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") " .
             ")";
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'create table', $errors);
+        self::insert_update_delete_create($query, $parameters, 'create table ', $errors);
     }
 
     public static function get_all(Error $errors)
     {
         $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
-        return self::load_all_objects($query, $parameters, new self(), 'load list of sessions', $errors);
+        return self::load_all_objects($query, $parameters, new self(), 'load list of sessions ', $errors);
     }
 
     public static function get_by_id($id, Error $errors)
@@ -42,7 +42,7 @@ class SessionDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        return self::load_object($query, $parameters, new self(), 'load session by id', $errors);
+        return self::load_object($query, $parameters, new self(), 'load session by id ', $errors);
     }
 
     public static function get_by_user_id($user_id, Error $errors)
@@ -51,7 +51,7 @@ class SessionDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::user_id_column => self::sanitize_email($user_id),
         );
-        return self::load_object($query, $parameters, new self(), 'load session by user id', $errors);
+        return self::load_object($query, $parameters, new self(), 'load session by user id ', $errors);
     }
 
     public static function session_id_already_taken($id, Error $errors)
@@ -86,7 +86,7 @@ class SessionDAO extends DAO implements Mapper
             ':' . self::created_date_column => date('Y-m-d H:i:s'),
             ':' . self::last_activity_date_column => date('Y-m-d H:i:s'),
         );
-        self::insert_update_delete_create($query, $parameters, 'save session', $errors);
+        self::insert_update_delete_create($query, $parameters, 'save session ', $errors);
         return self::get_by_id($id, $errors);
     }
 
@@ -98,7 +98,7 @@ class SessionDAO extends DAO implements Mapper
             ':' . self::status_column => $status,
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'update status', $errors);
+        self::insert_update_delete_create($query, $parameters, 'update status ', $errors);
     }
 
     public static function update_last_activity_date($id, Error $errors)
@@ -108,7 +108,7 @@ class SessionDAO extends DAO implements Mapper
             ':' . self::last_activity_date_column => date('Y-m-d H:i:s'),
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'update last activity date', $errors);
+        self::insert_update_delete_create($query, $parameters, 'update last activity date ', $errors);
     }
 
     public static function delete_by_id($id, Error $errors)
@@ -117,7 +117,7 @@ class SessionDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'delete session by id', $errors);
+        self::insert_update_delete_create($query, $parameters, 'delete session by id ', $errors);
     }
 
     public static function delete_by_user_id($user_id, Error $errors)
@@ -126,7 +126,7 @@ class SessionDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::user_id_column => $user_id,
         );
-        self::insert_update_delete_create($query, $parameters, 'delete session by user id', $errors);
+        self::insert_update_delete_create($query, $parameters, 'delete session by user id ', $errors);
     }
 
     public function map(array $row, Error $errors)

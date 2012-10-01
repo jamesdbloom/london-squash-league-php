@@ -114,7 +114,7 @@ class Session
         } else {
             $user = UserDAO::get_by_email_and_password($email, $password, $errors);
             if (!$errors->has_errors() && !empty($user)) {
-                $session = SessionDAO::create(self::generate_session_id($user->id, $errors), $user->id, 'new', $errors);
+                $session = SessionDAO::create(self::generate_session_id($user->id, $errors), $user->id, 'new ', $errors);
                 if (!$errors->has_errors()) {
                     Cookies::set_cookie(self::SSO_ID_COOKIE_NAME, $session->id);
                 }

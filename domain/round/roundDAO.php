@@ -14,7 +14,7 @@ class RoundDAO extends DAO implements Mapper
     {
         $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'remove table', $errors);
+        self::insert_update_delete_create($query, $parameters, 'remove table ', $errors);
 
         $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
@@ -24,14 +24,14 @@ class RoundDAO extends DAO implements Mapper
             "CONSTRAINT unique_" . self::division_id_column . " FOREIGN KEY (" . self::division_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . ") " .
             ")";
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'create table', $errors);
+        self::insert_update_delete_create($query, $parameters, 'create table ', $errors);
     }
 
     public static function get_all(Error $errors)
     {
         $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
-        return self::load_all_objects($query, $parameters, new self(), 'load list of rounds', $errors);
+        return self::load_all_objects($query, $parameters, new self(), 'load list of rounds ', $errors);
     }
 
     public static function get_by_id($id, Error $errors)
@@ -40,7 +40,7 @@ class RoundDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        return self::load_object($query, $parameters, new self(), 'load round by id', $errors);
+        return self::load_object($query, $parameters, new self(), 'load round by id ', $errors);
     }
 
     public static function create($division_id, $start, $end, Error $errors)
@@ -59,7 +59,7 @@ class RoundDAO extends DAO implements Mapper
             ':' . self::start_column => self::sanitize_value($start),
             ':' . self::end_column => self::sanitize_value($end),
         );
-        self::insert_update_delete_create($query, $parameters, 'save round', $errors);
+        self::insert_update_delete_create($query, $parameters, 'save round ', $errors);
     }
 
     public static function delete_by_id($id, Error $errors)
@@ -68,7 +68,7 @@ class RoundDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'delete round by id', $errors);
+        self::insert_update_delete_create($query, $parameters, 'delete round by id ', $errors);
     }
 
     public function map(array $round_row, Error $errors)

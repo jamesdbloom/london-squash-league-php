@@ -13,7 +13,7 @@ class DivisionDAO extends DAO implements Mapper
     {
         $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'remove table', $errors);
+        self::insert_update_delete_create($query, $parameters, 'remove table ', $errors);
 
         $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
@@ -23,14 +23,14 @@ class DivisionDAO extends DAO implements Mapper
             "CONSTRAINT unique_" . self::name_column . " UNIQUE (" . self::name_column . ") " .
             ")";
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'create table', $errors);
+        self::insert_update_delete_create($query, $parameters, 'create table ', $errors);
     }
 
     public static function get_all(Error $errors)
     {
         $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
-        return self::load_all_objects($query, $parameters, new self(), 'load list of divisions', $errors);
+        return self::load_all_objects($query, $parameters, new self(), 'load list of divisions ', $errors);
     }
 
     public static function get_by_id($id, Error $errors)
@@ -39,7 +39,7 @@ class DivisionDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        return self::load_object($query, $parameters, new self(), 'load division by id', $errors);
+        return self::load_object($query, $parameters, new self(), 'load division by id ', $errors);
     }
 
     public static function get_by_name($name, Error $errors)
@@ -48,7 +48,7 @@ class DivisionDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::name_column => self::sanitize_email($name),
         );
-        return self::load_object($query, $parameters, new self(), 'load user by email', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by email ', $errors);
     }
 
     public static function create($league_id, $name, Error $errors)
@@ -64,7 +64,7 @@ class DivisionDAO extends DAO implements Mapper
             ':' . self::league_id_column => self::sanitize_value($league_id),
             ':' . self::name_column => self::sanitize_value($name),
         );
-        self::insert_update_delete_create($query, $parameters, 'save division', $errors);
+        self::insert_update_delete_create($query, $parameters, 'save division ', $errors);
         return self::get_by_name($name, $errors);
     }
 
@@ -74,7 +74,7 @@ class DivisionDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'delete division by id', $errors);
+        self::insert_update_delete_create($query, $parameters, 'delete division by id ', $errors);
     }
 
     public function map(array $division_row, Error $errors)

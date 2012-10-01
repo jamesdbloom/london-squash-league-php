@@ -1,6 +1,6 @@
 <?php
 require_once('../../load.php');
-load::load_file('domain/Round', 'roundDAO.php');
+load::load_file('domain/round', 'roundDAO.php');
 ?>
 <?php
 $errors = new Error();
