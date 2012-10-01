@@ -9,6 +9,6 @@ if ($errors->has_errors()) {
     echo $errors;
     include '../layout/footer/footer.php';
 } else {
-    Headers::set_redirect_header('/admin/view/user/list_users_view.php');
+    Headers::set_redirect_header('/admin/admin/user/list_users_view.php');
 }
 ?>

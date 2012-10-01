@@ -17,7 +17,6 @@ if (file_exists($message_bundle_class_file)) {
 load::load_file('config', 'config.php');
 
 // load error framework
-load::load_file('includes/email', 'phpmailer.php');
 load::load_file('includes/email', 'email.php');
 
 // load error framework

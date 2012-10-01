@@ -8,7 +8,7 @@ class SessionDAO extends DAO implements Mapper
     const table_name = 'SESSION';
     const user_id_column = 'USER_ID';
     const status_column = 'STATUS';
-    const created_date_column = 'CREATED_DATE';
+    const created_date_column = 'CREATED';
     const last_activity_date_column = 'LAST_ACTIVITY';
 
     public static function create_session_schema(Error $errors)
@@ -23,7 +23,7 @@ class SessionDAO extends DAO implements Mapper
             self::status_column . " VARCHAR(12), " .
             self::created_date_column . " DATETIME, " .
             self::last_activity_date_column . " DATETIME, " .
-            "CONSTRAINT unique_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ")" .
+            "CONSTRAINT unique_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") " .
             ")";
         $parameters = array();
         self::insert_update_delete_create($query, $parameters, 'create table', $errors);
