@@ -14,6 +14,6 @@ if ($errors->has_errors()) {
     echo $errors;
     include '../layout/footer/footer.php';
 } else {
-    Headers::set_redirect_header('/admin/admin/league/list_leagues_view.php');
+    Headers::set_redirect_header('/admin/admin/club/list_clubs_view.php');
 }
 ?>

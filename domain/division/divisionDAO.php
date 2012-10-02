@@ -20,7 +20,7 @@ class DivisionDAO extends DAO implements Mapper
             self::league_id_column . " INT NOT NULL, " .
             self::name_column . " VARCHAR(25), " .
             "CONSTRAINT unique_" . self::league_id_column . " FOREIGN KEY (" . self::league_id_column . ") REFERENCES " . LeagueDAO::table_name . "(" . LeagueDAO::id_column . "), " .
-            "CONSTRAINT unique_" . self::name_column . " UNIQUE (" . self::name_column . ") " .
+            "CONSTRAINT unique_" . self::name_column . " UNIQUE (" . self::league_id_column . ", " . self::name_column . ") " .
             ")";
         $parameters = array();
         self::insert_update_delete_create($query, $parameters, 'create table ', $errors);
