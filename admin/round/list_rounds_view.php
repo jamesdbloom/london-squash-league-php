@@ -1,6 +1,5 @@
 <?php
 require_once('../../load.php');
-load::load_file('domain/round', 'round.php');
 load::load_file('domain/round', 'roundDAO.php');
 ?>
 

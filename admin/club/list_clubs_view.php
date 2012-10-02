@@ -1,6 +1,5 @@
 <?php
 require_once('../../load.php');
-load::load_file('domain/club', 'club.php');
 load::load_file('domain/club', 'clubDAO.php');
 ?>
 

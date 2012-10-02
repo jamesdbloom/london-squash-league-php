@@ -1,6 +1,5 @@
 <?php
 require_once('../../load.php');
-load::load_file('domain/division', 'division.php');
 load::load_file('domain/division', 'divisionDAO.php');
 ?>
 

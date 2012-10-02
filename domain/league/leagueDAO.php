@@ -20,7 +20,7 @@ class LeagueDAO extends DAO implements Mapper
             self::club_id_column . " INT NOT NULL, " .
             self::name_column . " VARCHAR(25), " .
             "CONSTRAINT unique_" . self::club_id_column . " FOREIGN KEY (" . self::club_id_column . ") REFERENCES " . ClubDAO::table_name . "(" . ClubDAO::id_column . "), " .
-            "CONSTRAINT unique_" . self::name_column . " UNIQUE (" . self::name_column . ") " .
+            "CONSTRAINT unique_" . self::name_column . " UNIQUE (" . self::club_id_column . ", " . self::name_column . ") " .
             ")";
         $parameters = array();
         self::insert_update_delete_create($query, $parameters, 'create table ', $errors);

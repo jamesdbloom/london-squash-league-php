@@ -1,6 +1,5 @@
 <?php
 require_once('../../load.php');
-load::load_file('domain/user', 'user.php');
 load::load_file('domain/user', 'userDAO.php');
 ?>
 

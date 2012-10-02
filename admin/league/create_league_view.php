@@ -1,3 +1,7 @@
+<?php
+require_once('../../load.php');
+load::load_file('domain/club', 'clubDAO.php');
+?>
 <!DOCTYPE>
 <html>
 
@@ -32,7 +36,21 @@
                 <form method="post" action="create_league_controller.php">
                     <tr>
                         <td>Club Id</td>
-                        <td><input name="club_id" type="number" size="25" required="required" min="0">
+                        <td>
+                            <?php
+                            $errors = new Error();
+                            $club_list = ClubDAO::get_all($errors);
+                            if ($errors->has_errors()) {
+                                echo $errors;
+                            }
+                            if (count($club_list) > 0) {
+                                print "<select name=\"club_id\">";
+                                foreach ($club_list as $club) {
+                                    print "<option value=\"$club->id\">$club->name</option>\n";
+                                }
+                                print "</select>";
+                            }
+                            ?>
                         </td>
                     </tr>
                     <tr>

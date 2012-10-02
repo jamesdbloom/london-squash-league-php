@@ -1,6 +1,5 @@
 <?php
 require_once('../../load.php');
-load::load_file('domain/session', 'session.php');
 load::load_file('domain/session', 'sessionDAO.php');
 ?>
 
