@@ -1,8 +1,7 @@
-SSLRequireSSL
-ErrorDocument 403 /admin/redirect.php
+Options +FollowSymLinks
+RewriteEngine On
+RewriteBase /
 
-AuthType Basic
-AuthName "protected area"
-AuthUserFile /home/143442/.htpasswd
-AuthGroupFile /home/143442/.htgroup
-Require group squash_admin
+# force all requests to HTTPS
+RewriteCond %{SERVER_PORT} !443
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R]
