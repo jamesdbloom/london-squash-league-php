@@ -5,6 +5,7 @@ include '../admin/user_header.php';
 <html>
 <head>
     <title>Administration</title>
+    <link rel="stylesheet" type="text/css" href="/secure/view/global.css">
     <link rel="stylesheet" type="text/css" href="/secure/view/admin/admin.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -33,7 +34,7 @@ foreach ($user_list as $user) {
 }
 print "<form method='post' action='create_controller.php'>\n";
 print "<input name='type' type='hidden' value='user'>\n";
-print "<tr><td class='id'></td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='email'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td><td class='mobile'><input name='mobile' type='tel' pattern='\d{5,25}' required='required'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "<tr><td class='id'>&nbsp;</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='email'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td><td class='mobile'><input name='mobile' type='tel' pattern='\d{5,25}' required='required'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
 print "</form>\n";
 print "</table>\n";
 
@@ -52,7 +53,7 @@ foreach ($session_list as $session) {
 }
 print "<form method='post' action='create_controller.php'>\n";
 print "<input name='type' type='hidden' value='session'>\n";
-print "<tr><td class='session'></td><td class='name'>";
+print "<tr><td class='session'>&nbsp;</td><td class='name'>";
 if (count($user_list) > 0) {
     print "<select name='user_id'>";
     foreach ($user_list as $user) {
@@ -60,7 +61,7 @@ if (count($user_list) > 0) {
     }
     print "</select>";
 }
-print "</td><td class='status'></td><td class='date'></td><td class='date'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "</td><td class='status'>&nbsp;</td><td class='date'>&nbsp;</td><td class='date'>&nbsp;</td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
 print "</form>\n";
 print "</table>\n";
 

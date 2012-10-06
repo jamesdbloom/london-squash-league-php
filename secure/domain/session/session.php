@@ -157,7 +157,7 @@ class Session
             if (!empty($user)) {
                 print '<p>Hello ' . $user->name . '</p>';
             } else {
-                print '<p><a href="/admin/view/login/login.php">Login</a></p>';
+                print '<p><a href="/secure/view/login/login.php">Login</a></p>';
             }
         }
     }

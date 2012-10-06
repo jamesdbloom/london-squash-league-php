@@ -1,6 +1,7 @@
 <?php
 include '../admin/user_header.php';
 require_once('../admin/user_footer.php');
+require_once('../login/login_view_helper.php');
 
 $type = Parameters::read_post_input('type');
 if ($type == 'user') {
@@ -14,7 +15,7 @@ if ($type == 'user') {
         $errors
     );
     if (!$errors->has_errors()) {
-        User::send_new_user_notification($user, $password, $errors);
+        LoginViewHelper::send_new_user_notification($user, $password, $errors);
     }
 }
 if ($type == 'session') {

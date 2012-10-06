@@ -38,7 +38,7 @@ foreach ($club_list as $club) {
 }
 print "<form method='post' action='create_controller.php'>\n";
 print "<input name='type' type='hidden' value='club'>\n";
-print "<tr><td class='id'></td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address'><input name='address' type='text' pattern='.{10,125}'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "<tr><td class='id'>&nbsp;</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address'><input name='address' type='text' pattern='.{10,125}'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
 print "</form>\n";
 print "</table>\n";
 
@@ -57,7 +57,7 @@ foreach ($league_list as $league) {
 }
 print "<form method='post' action='create_controller.php'>\n";
 print "<input name='type' type='hidden' value='league'>\n";
-print "<tr><td class='id'></td><td class='name'>";
+print "<tr><td class='id'>&nbsp;</td><td class='name'>";
 if (count($club_list) > 0) {
     print "<select name='club_id'>";
     foreach ($club_list as $club) {
@@ -84,7 +84,7 @@ foreach ($division_list as $division) {
 }
 print "<form method='post' action='create_controller.php'>\n";
 print "<input name='type' type='hidden' value='division'>\n";
-print "<tr><td class='id'></td><td class='name'>";
+print "<tr><td class='id'>&nbsp;</td><td class='name'>";
 if (count($league_list) > 0) {
     print "<select name='league_id'>";
     foreach ($league_list as $league) {
@@ -93,6 +93,36 @@ if (count($league_list) > 0) {
     print "</select>";
 }
 print "</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "</form>\n";
+print "</table>\n";
+
+print "<p><a href='recreate_tables.php'>Recreate Table</a></p>";
+print "<p><a href='/secure'>Home</a></p>";
+
+//
+// ROUNDS
+//
+print "<h2>Rounds</h2>";
+print "<table>\n";
+print "<tr><th class='id'>Id</th><th class='name'>Division</th><th class='date'>Start</th><th class='date'>End</th><th class='button'></th></tr>\n";
+foreach ($round_list as $round) {
+    $division = $division_map[$round->division_id];
+    print "<form method='post' action='delete_controller.php'>\n";
+    print "<input name='round_id' type='hidden' value='" . $round->id . "'>\n";
+    print "<tr><td class='id'>$round->id</td><td class='name'>" . (!empty($division) ? $division->name : $round->division_id ) . "</td><td class='date'>$round->start</td><td class='date'>$round->end</td><td class='button'><input type='submit' name='delete' value='delete'></td></tr>\n";
+    print "</form>\n";
+}
+print "<form method='post' action='create_controller.php'>\n";
+print "<input name='type' type='hidden' value='round'>\n";
+print "<tr><td class='id'>&nbsp;</td><td class='name'>";
+if (count($division_list) > 0) {
+    print "<select name='division_id'>";
+    foreach ($division_list as $division) {
+        print "<option value='" . $division->id . "''>$division->name</option>\n";
+    }
+    print "</select>";
+}
+print "</td><td class='date'><input name='start' type='date' required='required'/></td><td class='date'><input name='end' type='date' required='required'/></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
 print "</form>\n";
 print "</table>\n";
 

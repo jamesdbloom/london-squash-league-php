@@ -158,7 +158,7 @@ class UserDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::email_column => self::sanitize_email($email),
         );
-        self::insert_update_delete_create($query, $parameters, 'load activation key ', $errors);
+        return self::load_value($query, $parameters, 'load activation key ', $errors);
     }
 
     public function map(array $user_row, Error $errors)

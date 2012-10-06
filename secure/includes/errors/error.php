@@ -9,19 +9,19 @@ class Error
     /**
      * Stores the list of data for error codes.
      */
-    var $error_data = array();
+    var $severity = array();
 
     var $has_errors = false;
 
     /**
      * Constructor - Sets up error message.
      */
-    public function __construct($code = '', $message = '', $data = '')
+    public function __construct($code = '', $message = '', $severity = '')
     {
         if (empty($code)) {
             return;
         } else {
-            $this->add($code, $message, $data);
+            $this->add($code, $message, $severity);
         }
     }
 
@@ -85,13 +85,13 @@ class Error
     /**
      * Retrieve error data for error code.
      */
-    public function get_error_data($code = '')
+    public function get_severity($code = '')
     {
         if (empty($code))
             $code = $this->get_error_code();
 
-        if (isset($this->error_data[$code]))
-            return $this->error_data[$code];
+        if (isset($this->severity[$code]))
+            return $this->severity[$code];
         return null;
     }
 
@@ -102,7 +102,7 @@ class Error
     {
         $this->errors[$code][] = $message;
         if (!empty($data))
-            $this->error_data[$code] = $data;
+            $this->severity[$code] = $data;
         $this->has_errors = true;
     }
 
@@ -113,7 +113,7 @@ class Error
     {
         if (empty($code))
             $code = $this->get_error_code();
-        $this->error_data[$code] = $data;
+        $this->severity[$code] = $data;
         $this->has_errors = true;
     }
 
@@ -133,8 +133,8 @@ class Error
             foreach ($this->errors[$code] as $error_message) {
                 $output .= $error_message . ' <br/> ';
             }
-            if (!empty($this->error_data[$code])) {
-                $output .= $this->error_data[$code] . ' <br/> ';
+            if (!empty($this->severity[$code])) {
+                $output .= $this->severity[$code] . ' <br/> ';
             }
         }
         return $output;
@@ -153,7 +153,7 @@ class Error
             $errors_messages = '';
             $errors_warnings = '';
             foreach ($errors->get_error_codes() as $code) {
-                $severity = $errors->get_error_data($code);
+                $severity = $errors->get_severity($code);
                 foreach ($errors->get_error_messages($code) as $error) {
                     if ('message' == $severity) {
                         $errors_messages .= $error . '<br/>';

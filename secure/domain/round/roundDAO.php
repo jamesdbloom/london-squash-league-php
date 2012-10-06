@@ -55,6 +55,14 @@ class RoundDAO extends DAO implements Mapper
             ":" . self::start_column . "," .
             ":" . self::end_column .
             ")";
+        echo 'start - ' . $start;
+        echo 'start - ' . $end;
+        echo 'sanitize_value start - ' . self::sanitize_value($start);
+        echo 'sanitize_value start - ' . self::sanitize_value($end);
+        echo 'strtotime start - ' . strtotime(self::sanitize_value($start));
+        echo 'strtotime start - ' . strtotime(self::sanitize_value($end));
+        echo 'date start - ' . date('Y-m-d H:i:s', strtotime(self::sanitize_value($start)));
+        echo 'date end - ' . date('Y-m-d H:i:s', strtotime(self::sanitize_value($end)));
         $parameters = array(
             ':' . self::division_id_column => self::sanitize_value($division_id),
             ':' . self::start_column => date('Y-m-d H:i:s', strtotime(self::sanitize_value($start))),
