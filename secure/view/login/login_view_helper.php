@@ -46,15 +46,25 @@ class LoginViewHelper
         }
     }
 
-    public static function login_footer($scripts = '')
+    public static function login_footer($scripts = '', $logged_in = false)
     {
+        if ($logged_in) {
         ?>
-        <p id="nav">
-            <a href="<?php echo self::login_url; ?>">Login</a> |
-            <a href="<?php echo self::login_url . '?action=logout'; ; ?>">Logout</a> |
-            <a href="<?php echo self::login_url . '?action=register'; ?>">Register</a> |
-            <a href="<?php echo self::login_url . '?action=retrieve_password'; ?>" title="Password Lost and Found">Lost your password?</a>
-        </p>
+            <p id="nav">
+                <a href="<?php echo self::login_url . '?action=logout'; ; ?>">Logout</a> |
+                <a href="<?php echo self::login_url . '?action=retrieve_password'; ?>" title="Update Password">Update Password</a>
+            </p>
+        <?php
+        } else {
+        ?>
+            <p id="nav">
+                <a href="<?php echo self::login_url; ?>">Login</a> |
+                <a href="<?php echo self::login_url . '?action=register'; ?>">Register</a> |
+                <a href="<?php echo self::login_url . '?action=retrieve_password'; ?>" title="Lost password?">Lost password?</a>
+            </p>
+        <?php
+        }
+        ?>
 
         </div>
 

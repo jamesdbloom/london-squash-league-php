@@ -196,6 +196,8 @@ switch ($action) {
 
     case 'login' :
     default:
+        $logged_in = false;
+
         // todo handle redirecting back to referer page
         $redirect_to = Parameters::read_request_input('redirect_to', Urls::get_root_url());
 
@@ -213,6 +215,8 @@ switch ($action) {
             $session = Session::create_session($email, $password, $errors);
             if(empty($session)) {
                 $errors->add('authentication_failure', 'Username and password combination incorrect.', 'warning');
+            } else {
+                $logged_in = true;
             }
         }
 
@@ -275,7 +279,7 @@ switch ($action) {
         </form>
 
         <?php
-        LoginViewHelper::login_footer();
+        LoginViewHelper::login_footer('', $logged_in);
         break;
 }
 //
