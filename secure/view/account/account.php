@@ -3,7 +3,7 @@ require_once('../../load.php');
 load::load_file('view/admin', 'form_output.php');
 load::load_file('view/league_admin', 'league_data.php');
 
-Page::header('Administration', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
+Page::header('Account Settings', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
 
 //
 // READ DATABASE DATA
@@ -131,56 +131,4 @@ if (count($leagueData->user_list) > 0) {
 }
 print "</td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
-
-//
-// PLAYERS
-//
-print_table_start('Players');
-print "<tr><th class='id'>Id</th><th class='name'>Division</th><th class='name'>User</th><th class='button'></th></tr>\n";
-foreach ($leagueData->player_list as $player) {
-    print_delete_form('player_id', array('id', 'name', 'name'), array($player->id, $leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id)));
-}
-print_create_form_start('player');
-print "<tr><td class='id'>&nbsp;</td><td class='name'>";
-if (count($leagueData->division_list) > 0) {
-    print "<select name='division_id'>";
-    foreach ($leagueData->division_list as $division) {
-        print "<option value='" . $division->id . "''>" . $leagueData->print_division_name($division->id) . "</option>\n";
-    }
-    print "</select>";
-} else {
-    print "&nbsp;";
-}
-print "</td><td class='name'>";
-if (count($leagueData->user_list) > 0) {
-    print "<select name='user_id'>";
-    foreach ($leagueData->user_list as $user) {
-        print "<option value='" . $user->id . "''>" . $user->name . "</option>\n";
-    }
-    print "</select>";
-} else {
-    print "&nbsp;";
-}
-print "</td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
-print_form_table_end();
-
-print "<p><a href='recreate_tables.php'>Recreate Table</a></p>";
-print "<p><a href='/secure'>Home</a></p>";
-
-
-//function choose_players(LeagueData $leagueData, $field_id, $callback)
-//{
-//    if (count($leagueData->user_list) > 0) {
-//        print "<select name='" . $field_id . "'>";
-//        foreach ($leagueData->player_list as $player) {
-//            print "<option value='" . $player->id . "''>" . call_user_func(array($leagueData, $callback), $player->user_id) . "</option>\n";
-//        }
-//        print "</select>";
-//    } else {
-//        print "&nbsp;";
-//    }
-//}
-
-Page::footer();
-
 ?>

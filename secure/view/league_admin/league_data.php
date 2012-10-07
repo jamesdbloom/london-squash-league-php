@@ -1,8 +1,9 @@
 <?php
-include '../admin/league_imports.php';
-include '../admin/admin_data.php';
+require_once('../../load.php');
+load::load_file('view/admin', 'league_imports.php');
+load::load_file('view/admin', 'abstract_data.php');
 
-class LeagueData extends AdminData {
+class LeagueData extends AbstractData {
     public $club_list;
     public $league_list;
     public $division_list;

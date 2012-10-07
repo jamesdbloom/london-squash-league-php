@@ -1,5 +1,5 @@
 <?php
-class AdminData {
+abstract class AbstractData {
     public function list_to_map($list)
     {
         $map = array();

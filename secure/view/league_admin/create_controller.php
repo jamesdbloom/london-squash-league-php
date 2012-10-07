@@ -1,5 +1,6 @@
 <?php
-include '../admin/league_imports.php';
+require_once('../../load.php');
+load::load_file('view/admin', 'league_imports.php');
 
 $type = Parameters::read_post_input('type');
 if ($type == 'club') {

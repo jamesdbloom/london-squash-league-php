@@ -1,5 +1,6 @@
 <?php
-include '../admin/league_imports.php';
+require_once('../../load.php');
+load::load_file('view/admin', 'league_imports.php');
 
 $club_id = Parameters::read_post_input('club_id');
 $league_id = Parameters::read_post_input('league_id');

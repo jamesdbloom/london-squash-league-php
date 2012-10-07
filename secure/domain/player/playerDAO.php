@@ -6,17 +6,17 @@ load::load_file('domain/user', 'userDAO.php');
 load::load_file('domain/division', 'divisionDAO.php');
 class PlayerDAO extends DAO implements Mapper
 {
-    const table_division_id = 'PLAYER';
+    const table_name = 'PLAYER';
     const user_id_column = 'USER_ID';
     const division_id_column = 'DIVISION_ID';
 
     public static function create_player_schema()
     {
-        $query = "DROP TABLE IF EXISTS " . self::table_division_id;
+        $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
         self::insert_update_delete_create($query, $parameters, 'remove table ');
 
-        $query = "CREATE TABLE " . self::table_division_id . " (" .
+        $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
             self::user_id_column . " INT NOT NULL, " .
             self::division_id_column . " VARCHAR(25), " .
@@ -30,33 +30,32 @@ class PlayerDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_division_id;
+        $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of players ');
     }
 
+    public static function get_all_by_user_id($user_id)
+    {
+        $query = "SELECT * FROM " . self::table_name . " WHERE " . self::user_id_column . " = :" . self::user_id_column;
+        $parameters = array(
+            ':' . self::user_id_column => self::sanitize_value($user_id),
+        );
+        return self::load_all_objects($query, $parameters, new self(), 'load list of player by user_id ');
+    }
+
     public static function get_by_id($id)
     {
-        $query = "SELECT * FROM " . self::table_division_id . " WHERE " . self::id_column . " = :" . self::id_column;
+        $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );
         return self::load_object($query, $parameters, new self(), 'load player by id ');
     }
 
-    public static function get_by_user_id_and_division_id($user_id, $division_id)
-    {
-        $query = "SELECT * FROM " . self::table_division_id . " WHERE " . self::user_id_column . " = :" . self::user_id_column . " AND " . self::division_id_column . " = :" . self::division_id_column;
-        $parameters = array(
-            ':' . self::user_id_column => self::sanitize_value($user_id),
-            ':' . self::division_id_column => self::sanitize_email($division_id),
-        );
-        return self::load_object($query, $parameters, new self(), 'load user by email ');
-    }
-
     public static function create($user_id, $division_id)
     {
-        $query = "INSERT INTO " . self::table_division_id . "(" .
+        $query = "INSERT INTO " . self::table_name . "(" .
             self::user_id_column . "," .
             self::division_id_column .
             ") VALUES (" .
@@ -68,12 +67,11 @@ class PlayerDAO extends DAO implements Mapper
             ':' . self::division_id_column => self::sanitize_value($division_id),
         );
         self::insert_update_delete_create($query, $parameters, 'save player ');
-        return self::get_by_user_id_and_division_id($user_id, $division_id);
     }
 
     public static function delete_by_id($id)
     {
-        $query = "DELETE FROM " . self::table_division_id . " WHERE " . self::id_column . " = :" . self::id_column;
+        $query = "DELETE FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );

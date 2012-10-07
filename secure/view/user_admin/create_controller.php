@@ -1,7 +1,7 @@
 <?php
-include '../admin/user_imports.php';
-require_once('../admin/user_footer.php');
-require_once('../login/login_view_helper.php');
+require_once('../../load.php');
+load::load_file('view/admin', 'user_imports.php');
+load::load_file('view/login', 'login_view_helper.php');
 
 $type = Parameters::read_post_input('type');
 if ($type == 'user') {

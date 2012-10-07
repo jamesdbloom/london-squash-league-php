@@ -33,6 +33,19 @@ class DivisionDAO extends DAO implements Mapper
         return self::load_all_objects($query, $parameters, new self(), 'load list of divisions ');
     }
 
+    public static function get_all_by_user_id($user_id)
+    {
+        $query = "SELECT " . self::table_name . "* " .
+            " FROM " . self::table_name .
+            " INNER JOIN " . PlayerDAO::table_name .
+            " ON " . self::table_name . "." . self::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column .
+            " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+        $parameters = array(
+            ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
+        );
+        return self::load_all_objects($query, $parameters, new self(), 'load list of divisions by user_id ');
+    }
+
     public static function get_by_id($id)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;

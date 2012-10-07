@@ -1,6 +1,6 @@
 <?php
-include '../admin/league_imports.php';
-require_once('../admin/user_footer.php');
+require_once('../../load.php');
+load::load_file('view/admin', 'user_imports.php');
 
 UserDAO::create_user_schema();
 SessionDAO::create_session_schema();

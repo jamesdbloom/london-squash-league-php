@@ -1,5 +1,6 @@
 <?php
-include '../admin/league_imports.php';
+require_once('../../load.php');
+load::load_file('view/admin', 'league_imports.php');
 
 PlayerDAO::create_player_schema();
 MatchDAO::create_match_schema();

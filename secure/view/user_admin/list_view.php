@@ -1,6 +1,7 @@
 <?php
-include 'user_data.php';
-include '../admin/form_output.php';
+require_once('../../load.php');
+load::load_file('view/admin', 'form_output.php');
+load::load_file('view/user_admin', 'user_data.php');
 
 Page::header('Administration', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
 

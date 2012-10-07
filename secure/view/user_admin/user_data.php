@@ -1,8 +1,9 @@
 <?php
-include '../admin/user_imports.php';
-include '../admin/admin_data.php';
+require_once('../../load.php');
+load::load_file('view/admin', 'user_imports.php');
+load::load_file('view/admin', 'abstract_data.php');
 
-class UserData extends AdminData {
+class UserData extends AbstractData {
     public $user_list;
     public $session_list;
 

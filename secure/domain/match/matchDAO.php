@@ -6,18 +6,18 @@ load::load_file('domain/player', 'playerDAO.php');
 load::load_file('domain/round', 'roundDAO.php');
 class MatchDAO extends DAO implements Mapper
 {
-    const table_round_id = 'MATCHES';
+    const table_name = 'MATCHES';
     const player_one_id_column = 'PLAYER_ONE_ID';
     const player_two_id_column = 'PLAYER_TWO_ID';
     const round_id_column = 'ROUND_ID';
 
     public static function create_match_schema()
     {
-        $query = "DROP TABLE IF EXISTS " . self::table_round_id;
+        $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
         self::insert_update_delete_create($query, $parameters, 'remove table ');
 
-        $query = "CREATE TABLE " . self::table_round_id . " (" .
+        $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
             self::player_one_id_column . " INT NOT NULL, " .
             self::player_two_id_column . " INT NOT NULL, " .
@@ -33,14 +33,28 @@ class MatchDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_round_id;
+        $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of matches ');
     }
 
+    public static function get_all_by_user_id($user_id)
+    {
+        $query = "SELECT " . self::table_name . "* " .
+            " FROM " . self::table_name .
+            " INNER JOIN " . PlayerDAO::table_name .
+            " ON ((" . self::table_name . "." . self::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
+            " OR  (" . self::table_name . "." . self::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . "))" .
+            " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+        $parameters = array(
+            ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
+        );
+        return self::load_all_objects($query, $parameters, new self(), 'load list of divisions by user_id ');
+    }
+
     public static function get_by_id($id)
     {
-        $query = "SELECT * FROM " . self::table_round_id . " WHERE " . self::id_column . " = :" . self::id_column;
+        $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );
@@ -49,7 +63,7 @@ class MatchDAO extends DAO implements Mapper
 
     public static function get_by_player_id_and_round_id($player_one_id, $player_two_id, $round_id)
     {
-        $query = "SELECT * FROM " . self::table_round_id . " WHERE " . self::player_one_id_column . " = :" . self::player_one_id_column . " AND " . self::player_two_id_column . " = :" . self::player_two_id_column . " AND " . self::round_id_column . " = :" . self::round_id_column;
+        $query = "SELECT * FROM " . self::table_name . " WHERE " . self::player_one_id_column . " = :" . self::player_one_id_column . " AND " . self::player_two_id_column . " = :" . self::player_two_id_column . " AND " . self::round_id_column . " = :" . self::round_id_column;
         $parameters = array(
             ':' . self::player_one_id_column => self::sanitize_value($player_one_id),
             ':' . self::player_two_id_column => self::sanitize_value($player_two_id),
@@ -60,7 +74,7 @@ class MatchDAO extends DAO implements Mapper
 
     public static function create($player_one_id, $player_two_id, $round_id)
     {
-        $query = "INSERT INTO " . self::table_round_id . "(" .
+        $query = "INSERT INTO " . self::table_name . "(" .
             self::player_one_id_column . "," .
             self::player_two_id_column . "," .
             self::round_id_column .
@@ -80,7 +94,7 @@ class MatchDAO extends DAO implements Mapper
 
     public static function delete_by_id($id)
     {
-        $query = "DELETE FROM " . self::table_round_id . " WHERE " . self::id_column . " = :" . self::id_column;
+        $query = "DELETE FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );

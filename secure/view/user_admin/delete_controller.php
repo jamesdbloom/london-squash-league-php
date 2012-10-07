@@ -1,6 +1,6 @@
 <?php
-include '../admin/user_imports.php';
-require_once('../admin/user_footer.php');
+require_once('../../load.php');
+load::load_file('view/admin', 'user_imports.php');
 
 $user_id = Parameters::read_post_input('user_id');
 $session_id = Parameters::read_post_input('session_id');
