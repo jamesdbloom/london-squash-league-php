@@ -25,7 +25,7 @@ if (Form::is_post()) {
     }
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Page::header('Password Reset', array('/secure/view/global.css'), '<p class="message reset-pass">' . 'Your password has been reset ' . ' <a href="' . LoginViewHelper::login_base_url . '">' . 'Log in' . '</a></p>');
+        Page::header('Password Reset', array('/secure/view/global.css'), "<p class='message reset-pass'>Your password has been reset <a href='" . LoginViewHelper::login_base_url . "login.php'>Log in</a></p>");
         LoginViewHelper::login_footer();
         exit;
     }

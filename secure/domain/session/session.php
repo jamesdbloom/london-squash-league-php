@@ -1,5 +1,6 @@
 <?php
 load::load_file('domain/session', 'sessionDAO.php');
+
 class Session
 {
     public $id;
@@ -93,12 +94,7 @@ class Session
 
     public static function create_session($email, $password)
     {
-        $session = null;
-
-        $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);
-        if (!empty($secure_cookie)) {
-            $session = SessionDAO::get_by_id($secure_cookie);
-        }
+        $session = self::get_session();
 
         if (!empty($session)) {
             if (self::validate_session($session)) {
@@ -114,6 +110,24 @@ class Session
             }
         }
         return $session;
+    }
+
+    public static function get_session()
+    {
+        $session = null;
+
+        $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);
+        if (!empty($secure_cookie)) {
+            $session = SessionDAO::get_by_id($secure_cookie);
+            return $session;
+        }
+        return $session;
+    }
+
+    public static function has_active_session()
+    {
+        $session = self::get_session();
+        return !empty($session);
     }
 
     public static function get_user()

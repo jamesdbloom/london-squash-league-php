@@ -22,19 +22,19 @@ if (Form::is_post()) {
             }
 
             $title = PageSearchTerms::site_title . ' Password Reset';
-            $reset_url = Urls::get_root_url() . self::login_url . "reset_password.php?key=" . rawurlencode($key) . "&email=" . rawurlencode($user->email);
+            $reset_url = Urls::get_root_url() . LoginViewHelper::login_base_url . "reset_password.php?key=" . rawurlencode($key) . "&email=" . rawurlencode($user->email);
             $message = '
                     <p>Someone requested that the password be reset for the account associated to this email address.</p>
                     <p>If this was a mistake, just ignore this email and nothing will happen.</p>
                     <p>To reset your password, visit the following address <a href="' . $reset_url . '">' . $reset_url . '</a></p>
                 ';
 
-            return Email::send_email($user->email, $title, $message);
+            Email::send_email($user->email, $title, $message);
         }
     }
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Headers::set_redirect_header(LoginViewHelper::login_base_url . "?check_email=retrieve_password");
+        Headers::set_redirect_header(LoginViewHelper::login_base_url . "login.php?check_email=retrieve_password");
         exit;
     }
 }

@@ -14,7 +14,7 @@ if (Form::is_post()) {
     LoginViewHelper::validate_and_create_user($human_name, $email, $mobile);
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Headers::set_redirect_header(LoginViewHelper::login_base_url . "?check_email=registered");
+        Headers::set_redirect_header(LoginViewHelper::login_base_url . "login.php?check_email=registered");
         exit;
     }
 }
