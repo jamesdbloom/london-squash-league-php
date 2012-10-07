@@ -12,11 +12,11 @@ class UserDAO extends DAO implements Mapper
     const mobile_column = 'MOBILE';
     const activation_key_column = 'USER_ACTIVATION_KEY';
 
-    public static function create_user_schema(Error $errors)
+    public static function create_user_schema()
     {
         $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'remove table ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'remove table ');
 
         $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
@@ -28,26 +28,26 @@ class UserDAO extends DAO implements Mapper
             "CONSTRAINT unique_" . self::email_column . " UNIQUE (" . self::email_column . ") " .
             ")";
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'create table ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'create table ');
     }
 
-    public static function get_all(Error $errors)
+    public static function get_all()
     {
         $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
-        return self::load_all_objects($query, $parameters, new self(), 'load list of users ', $errors);
+        return self::load_all_objects($query, $parameters, new self(), 'load list of users ');
     }
 
-    public static function get_by_id($id, Error $errors)
+    public static function get_by_id($id)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        return self::load_object($query, $parameters, new self(), 'load user by id ', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by id ');
     }
 
-    public static function get_by_session_id($session_id, Error $errors)
+    public static function get_by_session_id($session_id)
     {
         $query =
             "SELECT * " .
@@ -58,45 +58,45 @@ class UserDAO extends DAO implements Mapper
         $parameters = array(
             ':' . SessionDAO::id_column => $session_id,
         );
-        return self::load_object($query, $parameters, new self(), 'load user by id ', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by id ');
     }
 
-    public static function get_by_email($email, Error $errors)
+    public static function get_by_email($email)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::email_column . " = :" . self::email_column;
         $parameters = array(
             ':' . self::email_column => self::sanitize_email($email),
         );
-        return self::load_object($query, $parameters, new self(), 'load user by email ', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by email ');
     }
 
-    public static function email_already_registered($email, Error $errors)
+    public static function email_already_registered($email)
     {
-        return self::get_by_email($email, $errors) != null;
+        return self::get_by_email($email) != null;
     }
 
-    public static function get_by_email_and_activation_key($email, $key, Error $errors)
+    public static function get_by_email_and_activation_key($email, $key)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::email_column . " = :" . self::email_column . " AND " . self::activation_key_column . " = :" . self::activation_key_column;
         $parameters = array(
             ':' . self::email_column => self::sanitize_email($email),
             ':' . self::activation_key_column => $key,
         );
-        return self::load_object($query, $parameters, new self(), 'load user by email and activation key ', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by email and activation key ');
     }
 
 
-    public static function get_by_email_and_password($email, $password, Error $errors)
+    public static function get_by_email_and_password($email, $password)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::email_column . " = :" . self::email_column . " AND " . self::password_column . " = :" . self::password_column;
         $parameters = array(
             ':' . self::email_column => self::sanitize_email($email),
             ':' . self::password_column => $password,
         );
-        return self::load_object($query, $parameters, new self(), 'load user by email and password ', $errors);
+        return self::load_object($query, $parameters, new self(), 'load user by email and password ');
     }
 
-    public static function create($name, $password, $email, $mobile, $key, Error $errors)
+    public static function create($name, $password, $email, $mobile, $key)
     {
         $query = "INSERT INTO " . self::table_name . "(" .
             self::name_column . "," .
@@ -118,50 +118,50 @@ class UserDAO extends DAO implements Mapper
             ':' . self::mobile_column => self::sanitize_value($mobile),
             ':' . self::activation_key_column => $key,
         );
-        self::insert_update_delete_create($query, $parameters, 'save user ', $errors);
-        return self::get_by_email($email, $errors);
+        self::insert_update_delete_create($query, $parameters, 'save user ');
+        return self::get_by_email($email);
     }
 
 
-    public static function update_password($email, $new_password, Error $errors)
+    public static function update_password($email, $new_password)
     {
         $query = "UPDATE " . self::table_name . " SET " . self::password_column . " = :" . self::password_column . " WHERE " . self::email_column . " = :" . self::email_column;
         $parameters = array(
             ':' . self::password_column => $new_password,
             ':' . self::email_column => self::sanitize_email($email),
         );
-        self::insert_update_delete_create($query, $parameters, 'update password ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'update password ');
     }
 
-    public static function update_activation_key($email, $key, Error $errors)
+    public static function update_activation_key($email, $key)
     {
         $query = "UPDATE " . self::table_name . " SET " . self::activation_key_column . " = :" . self::activation_key_column . " WHERE " . self::email_column . " = :" . self::email_column;
         $parameters = array(
             ':' . self::activation_key_column => $key,
             ':' . self::email_column => self::sanitize_email($email),
         );
-        self::insert_update_delete_create($query, $parameters, 'update activate key ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'update activate key ');
     }
 
-    public static function delete_by_id($id, Error $errors)
+    public static function delete_by_id($id)
     {
         $query = "DELETE FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'delete user by id ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'delete user by id ');
     }
 
-    public static function get_activation_key($email, Error $errors)
+    public static function get_activation_key($email)
     {
         $query = "SELECT " . self::activation_key_column . " FROM " . self::table_name . " WHERE " . self::email_column . " = :" . self::email_column;
         $parameters = array(
             ':' . self::email_column => self::sanitize_email($email),
         );
-        return self::load_value($query, $parameters, 'load activation key ', $errors);
+        return self::load_value($query, $parameters, 'load activation key ');
     }
 
-    public function map(array $user_row, Error $errors)
+    public function map(array $user_row)
     {
         return new User(
             $user_row[self::id_column],

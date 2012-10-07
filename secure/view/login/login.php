@@ -8,8 +8,6 @@ require_once('login_view_helper.php');
 // START Main Page Control
 //
 
-$errors = new Error();
-
 $action = LoginViewHelper::determine_action();
 
 Headers::set_nocache_headers();
@@ -20,22 +18,9 @@ $is_http_post = ('POST' == $_SERVER['REQUEST_METHOD']);
 
 switch ($action) {
 
-    case 'postpass' :
-        if (empty($password_hasher)) {
-            load::load_file('/view/login', 'password_hash.php');
-            $password_hasher = new PasswordHash(8, true);
-        }
-
-        // 10 days
-        Cookies::set_cookie(LoginViewHelper::HASH_COOKIE_NAME, $password_hasher->HashPassword(Parameters::read_post_input('post_password')), time() + 864000);
-
-        Headers::redirect_to_referer();
-
-        break;
-
     case 'logout' :
-        Session::logout($errors);
-        LoginViewHelper::remove_all_cookies();
+        Session::logout();
+        Cookies::remove_cookie(Session::SSO_ID_COOKIE_NAME);
 
         Headers::redirect_to_root();
 
@@ -46,9 +31,9 @@ switch ($action) {
 
         if ($is_http_post) {
             $email = Parameters::read_post_input('email');
-            LoginViewHelper::send_password_retrieval_email($email, $errors);
+            LoginViewHelper::send_password_retrieval_email($email);
 
-            if (!$errors->has_errors()) {
+            if (!$GLOBALS['errors']->has_errors()) {
                 Headers::set_redirect_header(LoginViewHelper::login_url . "?check_email=retrieve_password");
                 break;
             }
@@ -56,10 +41,10 @@ switch ($action) {
 
         $error = Parameters::read_request_input('error');
         if ($error == 'invalidkey') {
-            $errors->add('invalidkey', 'Sorry, that key does not appear to be valid.', 'error');
+            $GLOBALS['errors']->add('invalidkey', 'Sorry, that key does not appear to be valid.', 'error');
         }
 
-        LoginViewHelper::login_header('Lost Password', '<p class="message">' . 'Please enter your email address. You will receive a link to create a new password via email.' . '</p>', $errors);
+        Page::header('Lost Password', array('/secure/view/global.css'), '<p class="message">' . 'Please enter your email address. You will receive a link to create a new password via email.' . '</p>');
 
         $email = Parameters::read_post_input('email');
 
@@ -87,27 +72,22 @@ switch ($action) {
         $key = rawurldecode(Parameters::read_get_input('key'));
         $email = rawurldecode(Parameters::read_get_input('email'));
 
-        $user = Authentication::check_password_activation_key($key, $email, $errors);
+        $user = Authentication::check_password_activation_key($key, $email);
 
         if (empty($user)) {
             Headers::set_redirect_header(LoginViewHelper::login_url . '?action=retrieve_password&error=invalidkey');
         }
 
         if ($is_http_post) {
-            UserDAO::update_activation_key($email, '', $errors);
-            $password_one = Parameters::read_post_input('password_one');
-            $password_two = Parameters::read_post_input('password_two');
-            if (!empty($password_one) && $password_one != $password_two) {
-                $errors->add('password_reset_mismatch', 'The passwords do not match.');
-            } elseif (!empty($password_one)) {
-                LoginViewHelper::reset_password($email, $password_one, $errors);
-                LoginViewHelper::login_header('Password Reset', '<p class="message reset-pass">' . 'Your password has been reset ' . ' <a href="' . LoginViewHelper::login_url . '">' . 'Log in' . '</a></p>', $errors);
+            LoginViewHelper::reset_password($email, Parameters::read_post_input('password_one'), Parameters::read_post_input('password_two'));
+            if (!$GLOBALS['errors']->has_errors()) {
+                Page::header('Password Reset', array('/secure/view/global.css'), '<p class="message reset-pass">' . 'Your password has been reset ' . ' <a href="' . LoginViewHelper::login_url . '">' . 'Log in' . '</a></p>');
                 LoginViewHelper::login_footer();
                 break;
             }
         }
 
-        LoginViewHelper::login_header('Reset Password', '<p class="message reset-pass">' . 'Enter your new password below.' . '</p>', $errors);
+        Page::header('Reset Password', array('/secure/view/global.css'), '<p class="message reset-pass">' . 'Enter your new password below.' . '</p>');
 
         ?>
         <form name="reset_password_form" id="reset_password_form" action="<?php echo LoginViewHelper::login_url . '?action=reset_password&key=' . rawurlencode($key) . '&email=' . rawurlencode($email); ?>" method="post">
@@ -151,16 +131,17 @@ switch ($action) {
             $human_name = Parameters::read_post_input('human_name');
             $email = Parameters::read_post_input('email');
             $mobile = Parameters::read_post_input('mobile');
-            LoginViewHelper::register_new_user($human_name, $email, $mobile, $errors);
+            LoginViewHelper::register_new_user($human_name, $email, $mobile);
             $redirect_to = LoginViewHelper::login_url . "?check_email=registered";
 
-            if (!$errors->has_errors()) {
+            if (!$GLOBALS['errors']->has_errors()) {
                 Headers::set_redirect_header($redirect_to);
                 break;
             }
         }
 
-        LoginViewHelper::login_header('New User Registration', '<p class="message register">' . 'Please enter your details and a temporary password will be e-mailed to you.' . '</p>', $errors);
+        Page::header('New User Registration', array('/secure/view/global.css'), '<p class="message register">' . 'Please enter your details and a temporary password will be e-mailed to you.' . '</p>');
+
         ?>
 
         <form name="registerform" id="registerform" action="<?php echo LoginViewHelper::login_url . '?action=register'; ?>" method="post">
@@ -196,7 +177,6 @@ switch ($action) {
 
     case 'login' :
     default:
-        $logged_in = false;
 
         // todo handle redirecting back to referer page
         $redirect_to = Parameters::read_request_input('redirect_to', Urls::get_root_url());
@@ -207,16 +187,14 @@ switch ($action) {
         $check_email = Parameters::read_get_input('check_email');
         if (!empty($check_email)) {
             if ($check_email == 'registered') {
-                $errors->add('registered', 'Registration complete - please check your e-mail for your temporary password.', 'message');
+                $GLOBALS['errors']->add('registered', 'Registration complete - please check your e-mail for your temporary password.', 'message');
             } elseif ($check_email == 'retrieve_password') {
-                $errors->add('new_password', 'Please check your e-mail to reset your password', 'message');
+                $GLOBALS['errors']->add('new_password', 'Please check your e-mail to reset your password', 'message');
             }
         } else if (!empty($email) && !empty($password)) {
-            $session = Session::create_session($email, $password, $errors);
-            if(empty($session)) {
-                $errors->add('authentication_failure', 'Username and password combination incorrect.', 'warning');
-            } else {
-                $logged_in = true;
+            $session = Session::create_session($email, $password);
+            if (empty($session)) {
+                $GLOBALS['errors']->add('authentication_failure', 'Username and password combination incorrect.', 'warning');
             }
         }
 
@@ -227,7 +205,7 @@ switch ($action) {
             $test_cookie = Cookies::get_test_cookie();
 
             if (empty($test_cookie)) {
-                $errors->add('test_cookie', "<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use this site.");
+                $GLOBALS['errors']->add('test_cookie', "<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use this site.");
             }
 
             if (!$remember_me) {
@@ -235,7 +213,7 @@ switch ($action) {
             }
         }
 
-        if (!$errors->has_errors() && !empty($session)) {
+        if (!$GLOBALS['errors']->has_errors() && !empty($session)) {
             if ($remember_me) {
                 Cookies::set_cookie(LoginViewHelper::REMEMBER_ME_COOKIE_NAME, $email);
             }
@@ -247,7 +225,8 @@ switch ($action) {
             $email = Cookies::get_cookie_value(LoginViewHelper::REMEMBER_ME_COOKIE_NAME);
         }
 
-        LoginViewHelper::login_header('Log In', '', $errors);
+        Page::header('Log In', array('/secure/view/global.css'), '');
+
         ?>
 
         <form name="loginform" id="loginform" action="<?php echo LoginViewHelper::login_url; ?>" method="post">
@@ -279,7 +258,7 @@ switch ($action) {
         </form>
 
         <?php
-        LoginViewHelper::login_footer('', $logged_in);
+        LoginViewHelper::login_footer();
         break;
 }
 //

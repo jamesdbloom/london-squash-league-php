@@ -11,17 +11,10 @@ class User
 
     function __construct($id, $name, $email, $mobile)
     {
-        register_shutdown_function(array(&$this, '__destruct'));
-
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->mobile = $mobile;
-    }
-
-    function __destruct()
-    {
-        return true;
     }
 
     public function __toString()

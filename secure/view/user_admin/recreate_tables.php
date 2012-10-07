@@ -1,9 +1,9 @@
 <?php
-include '../admin/league_header.php';
+include '../admin/league_imports.php';
 require_once('../admin/user_footer.php');
 
-UserDAO::create_user_schema($errors);
-SessionDAO::create_session_schema($errors);
+UserDAO::create_user_schema();
+SessionDAO::create_session_schema();
 
-Footer::outputFooter($errors);
+Footer::outputFooter();
 ?>

@@ -1,10 +1,12 @@
 <?php
-include '../admin/league_header.php';
-require_once('../admin/league_footer.php');
+include '../admin/league_imports.php';
 
-DivisionDAO::create_division_schema($errors);
-LeagueDAO::create_league_schema($errors);
-ClubDAO::create_club_schema($errors);
+PlayerDAO::create_player_schema();
+MatchDAO::create_match_schema();
+RoundDAO::create_round_schema();
+DivisionDAO::create_division_schema();
+LeagueDAO::create_league_schema();
+ClubDAO::create_club_schema();
 
-Footer::outputFooter($errors);
+Footer::outputFooter();
 ?>

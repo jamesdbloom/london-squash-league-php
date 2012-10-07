@@ -10,41 +10,41 @@ class RoundDAO extends DAO implements Mapper
     const start_column = 'START';
     const end_column = 'END';
 
-    public static function create_round_schema(Error $errors)
+    public static function create_round_schema()
     {
         $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'remove table ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'remove table ');
 
         $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
             self::division_id_column . " INT NOT NULL, " .
             self::start_column . " DATETIME NOT NULL, " .
             self::end_column . " DATETIME NOT NULL, " .
-            "CONSTRAINT foreign_key_" . self::division_id_column . " FOREIGN KEY (" . self::division_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . ") " .
+            "CONSTRAINT foreign_key_" . self::division_id_column . " FOREIGN KEY (" . self::division_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . "), " .
             "CONSTRAINT unique_" . self::division_id_column . "_" . self::start_column . " UNIQUE (" . self::division_id_column . ", " . self::start_column . ") " .
             ")";
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'create table ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'create table ');
     }
 
-    public static function get_all(Error $errors)
+    public static function get_all()
     {
         $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
-        return self::load_all_objects($query, $parameters, new self(), 'load list of rounds ', $errors);
+        return self::load_all_objects($query, $parameters, new self(), 'load list of rounds ');
     }
 
-    public static function get_by_id($id, Error $errors)
+    public static function get_by_id($id)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        return self::load_object($query, $parameters, new self(), 'load round by id ', $errors);
+        return self::load_object($query, $parameters, new self(), 'load round by id ');
     }
 
-    public static function create($division_id, $start, $end, Error $errors)
+    public static function create($division_id, $start, $end)
     {
         $query = "INSERT INTO " . self::table_name . "(" .
             self::division_id_column . "," .
@@ -55,38 +55,30 @@ class RoundDAO extends DAO implements Mapper
             ":" . self::start_column . "," .
             ":" . self::end_column .
             ")";
-        echo 'start - ' . $start;
-        echo 'start - ' . $end;
-        echo 'sanitize_value start - ' . self::sanitize_value($start);
-        echo 'sanitize_value start - ' . self::sanitize_value($end);
-        echo 'strtotime start - ' . strtotime(self::sanitize_value($start));
-        echo 'strtotime start - ' . strtotime(self::sanitize_value($end));
-        echo 'date start - ' . date('Y-m-d H:i:s', strtotime(self::sanitize_value($start)));
-        echo 'date end - ' . date('Y-m-d H:i:s', strtotime(self::sanitize_value($end)));
         $parameters = array(
             ':' . self::division_id_column => self::sanitize_value($division_id),
             ':' . self::start_column => date('Y-m-d H:i:s', strtotime(self::sanitize_value($start))),
             ':' . self::end_column => date('Y-m-d H:i:s', strtotime(self::sanitize_value($end))),
         );
-        self::insert_update_delete_create($query, $parameters, 'save round ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'save round ');
     }
 
-    public static function delete_by_id($id, Error $errors)
+    public static function delete_by_id($id)
     {
         $query = "DELETE FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'delete round by id ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'delete round by id ');
     }
 
-    public function map(array $round_row, Error $errors)
+    public function map(array $round_row)
     {
         return new Round(
             $round_row[self::id_column],
             $round_row[self::division_id_column],
-            $round_row[self::start_column],
-            $round_row[self::end_column]
+            strtotime($round_row[self::start_column]),
+            strtotime($round_row[self::end_column])
         );
     }
 }

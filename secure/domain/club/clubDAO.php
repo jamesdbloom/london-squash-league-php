@@ -8,11 +8,11 @@ class ClubDAO extends DAO implements Mapper
     const name_column = 'NAME';
     const address_column = 'ADDRESS';
 
-    public static function create_club_schema(Error $errors)
+    public static function create_club_schema()
     {
         $query = "DROP TABLE IF EXISTS " . self::table_name;
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'remove table ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'remove table ');
 
         $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
@@ -21,35 +21,35 @@ class ClubDAO extends DAO implements Mapper
             "CONSTRAINT unique_" . self::name_column . " UNIQUE (" . self::name_column . ") " .
             ")";
         $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'create table ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'create table ');
     }
 
-    public static function get_all(Error $errors)
+    public static function get_all()
     {
         $query = "SELECT * FROM " . self::table_name;
         $parameters = array();
-        return self::load_all_objects($query, $parameters, new self(), 'load list of clubs ', $errors);
+        return self::load_all_objects($query, $parameters, new self(), 'load list of clubs ');
     }
 
-    public static function get_by_id($id, Error $errors)
+    public static function get_by_id($id)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        return self::load_object($query, $parameters, new self(), 'load club by id ', $errors);
+        return self::load_object($query, $parameters, new self(), 'load club by id ');
     }
 
-    public static function get_by_name($name, Error $errors)
+    public static function get_by_name($name)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::name_column . " = :" . self::name_column;
         $parameters = array(
             ':' . self::name_column => self::sanitize_value($name),
         );
-        return self::load_object($query, $parameters, new self(), 'load club by name ', $errors);
+        return self::load_object($query, $parameters, new self(), 'load club by name ');
     }
 
-    public static function create($name, $address, Error $errors)
+    public static function create($name, $address)
     {
         $query = "INSERT INTO " . self::table_name . "(" .
             self::name_column . "," .
@@ -62,20 +62,20 @@ class ClubDAO extends DAO implements Mapper
             ':' . self::name_column => self::sanitize_value($name),
             ':' . self::address_column => self::sanitize_value($address),
         );
-        self::insert_update_delete_create($query, $parameters, 'save club ', $errors);
-        return self::get_by_name($name, $errors);
+        self::insert_update_delete_create($query, $parameters, 'save club ');
+        return self::get_by_name($name);
     }
 
-    public static function delete_by_id($id, Error $errors)
+    public static function delete_by_id($id)
     {
         $query = "DELETE FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::id_column => $id,
         );
-        self::insert_update_delete_create($query, $parameters, 'delete club by id ', $errors);
+        self::insert_update_delete_create($query, $parameters, 'delete club by id ');
     }
 
-    public function map(array $club_row, Error $errors)
+    public function map(array $club_row)
     {
         return new Club(
             $club_row[self::id_column],

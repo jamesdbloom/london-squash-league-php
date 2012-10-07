@@ -2,12 +2,12 @@
 
 class Authentication
 {
-    public static function check_password_activation_key($key, $email, Error $errors)
+    public static function check_password_activation_key($key, $email)
     {
-        $user = UserDAO::get_by_email_and_activation_key($email, $key, $errors);
+        $user = UserDAO::get_by_email_and_activation_key($email, $key);
 
         if (empty($user)) {
-            $errors->add('invalidcombo', 'Error during password reset please contact ' . Urls::get_webmaster_email());
+            $GLOBALS['errors']->add('invalidcombo', 'Error during password reset please contact ' . Urls::get_webmaster_email());
         }
 
         return $user;
@@ -61,11 +61,11 @@ class Authentication
         return abs(intval($value));
     }
 
-    public static function allow_password_reset($email, Error $errors)
+    public static function allow_password_reset($email)
     {
         $allow = true;
         if (!$allow) {
-            $errors->add('no_password_reset', '<strong>ERROR</strong>: Password reset is not allowed for this user');
+            $GLOBALS['errors']->add('no_password_reset', '<strong>ERROR</strong>: Password reset is not allowed for this user');
         }
         return $allow;
     }

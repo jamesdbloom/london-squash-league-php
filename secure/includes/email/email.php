@@ -2,7 +2,7 @@
 class Email
 {
 
-    public static function send_email($to, $subject, $message, Error $errors)
+    public static function send_email($to, $subject, $message)
     {
         // To send HTML mail, the Content-type header must be set
         $headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -12,8 +12,10 @@ class Email
         $headers .= 'From: ' . Urls::get_webmaster_email() . "\r\n";
         $headers .= 'Bcc: ' . Urls::get_webmaster_email() . "\r\n";
 
-        if(!mail($to, $subject, $message, $headers)) {
-            $errors->add('email_failure', 'The e-mail could not be sent to address ' . $to);
+        $email_body = "<html><head><title>$subject</title></head><body>$message</body></html>";
+
+        if(!mail($to, $subject, $email_body, $headers)) {
+            $GLOBALS['errors']->add('email_failure', 'The e-mail could not be sent to address ' . $to);
             return false;
         } else {
             return true;

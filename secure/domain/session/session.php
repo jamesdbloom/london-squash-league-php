@@ -12,10 +12,8 @@ class Session
     const uuid_hash_length = 40;
     const SSO_ID_COOKIE_NAME = "secure_cookie";
 
-    function __construct($id, $user_id, $status, $created_date, $last_activity_date, $errors)
+    function __construct($id, $user_id, $status, $created_date, $last_activity_date)
     {
-        register_shutdown_function(array(&$this, '__destruct'));
-
         $this->id = $id;
         $this->user_id = $user_id;
         $this->status = $status;
@@ -23,24 +21,19 @@ class Session
         $this->last_activity_date = $last_activity_date;
     }
 
-    function __destruct()
-    {
-        return true;
-    }
-
     public function __toString()
     {
         return 'Session for user: ' . $this->user_id . ' status: ' . $this->status . ' created: ' . date('Y-m-d H:i:s', $this->created_date) . ' last_activity: ' . date('Y-m-d H:i:s', $this->last_activity_date);
     }
 
-    public static function generate_session_id($user_id, Error $errors)
+    public static function generate_session_id($user_id)
     {
         $uuid = self::generate_uuid();
 
         $uuid_hash = self::generate_uuid_hash($user_id, $uuid);
 
         if (empty($uuid_hash)) {
-            $errors->add('session', 'Error creating session');
+            $GLOBALS['errors']->add('session', 'Error creating session');
         }
 
         return $uuid . $uuid_hash;
@@ -72,7 +65,7 @@ class Session
         return $uuid_hash;
     }
 
-    public static function check_session_id($session_id, $user_id, Error $errors)
+    public static function check_session_id($session_id, $user_id)
     {
         $uuid = substr($session_id, 0, self::uuid_length);
 
@@ -83,39 +76,39 @@ class Session
             return true;
         } else {
             if (DEBUG) {
-                $errors->add('sesssion', 'Invalid session id');
+                $GLOBALS['errors']->add('sesssion', 'Invalid session id');
             }
             return false;
         }
     }
 
-    public static function check_session_freshness($create_date, $status, Error $errors)
+    public static function check_session_freshness($create_date, $status)
     {
         // todo
         // implement session expiry and session logout
 
-        // $errors->add('expired', 'Your session has expired. Please log-in again.', 'message');
+        // $GLOBALS['errors']->add('expired', 'Your session has expired. Please log-in again.', 'message');
 
     }
 
-    public static function create_session($email, $password, Error $errors)
+    public static function create_session($email, $password)
     {
         $session = null;
 
         $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);
         if (!empty($secure_cookie)) {
-            $session = SessionDAO::get_by_id($secure_cookie, $errors);
+            $session = SessionDAO::get_by_id($secure_cookie);
         }
 
         if (!empty($session)) {
-            if (self::validate_session($session, $errors)) {
-                $errors->add('already_authenticated', 'You are already logged in.', 'message');
+            if (self::validate_session($session)) {
+                $GLOBALS['errors']->add('already_authenticated', 'You are already logged in.', 'message');
             }
         } else {
-            $user = UserDAO::get_by_email_and_password($email, $password, $errors);
-            if (!$errors->has_errors() && !empty($user)) {
-                $session = SessionDAO::create(self::generate_session_id($user->id, $errors), $user->id, $errors);
-                if (!$errors->has_errors()) {
+            $user = UserDAO::get_by_email_and_password($email, $password);
+            if (!$GLOBALS['errors']->has_errors() && !empty($user)) {
+                $session = SessionDAO::create(self::generate_session_id($user->id), $user->id);
+                if (!$GLOBALS['errors']->has_errors()) {
                     Cookies::set_cookie(self::SSO_ID_COOKIE_NAME, $session->id);
                 }
             }
@@ -123,36 +116,35 @@ class Session
         return $session;
     }
 
-    public static function get_user(Error $errors)
+    public static function get_user()
     {
         $user = null;
         $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);
         if (!empty($secure_cookie)) {
-            $user = UserDAO::get_by_session_id($secure_cookie, $errors);
+            $user = UserDAO::get_by_session_id($secure_cookie);
         }
         return $user;
     }
 
-    public static function validate_session(Session $session, Error $errors)
+    public static function validate_session(Session $session)
     {
-        self::check_session_id($session->id, $session->user_id, $errors);
-        self::check_session_freshness($session->created_date, $session->status, $errors);
+        self::check_session_id($session->id, $session->user_id);
+        self::check_session_freshness($session->created_date, $session->status);
 
-        return !$errors->has_errors();
+        return !$GLOBALS['errors']->has_errors();
     }
 
-    public static function logout(Error $errors)
+    public static function logout()
     {
         $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);
-        SessionDAO::delete_by_id($secure_cookie, $errors);
+        SessionDAO::delete_by_id($secure_cookie);
     }
 
     public static function print_hello_or_login_button()
     {
-        $errors = new Error();
-        $user = Session::get_user($errors);
-        if ($errors->has_errors()) {
-            Error::print_errors($errors);
+        $user = Session::get_user();
+        if ($GLOBALS['errors']->has_errors()) {
+            Error::print_errors();
         } else {
             if (!empty($user)) {
                 print '<p>Hello ' . $user->name . '</p>';

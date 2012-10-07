@@ -1,4 +1,6 @@
 <?php
+$GLOBALS['errors'] = new Error();
+
 class Error
 {
     /**
@@ -147,8 +149,9 @@ class Error
         return false;
     }
 
-    public static function print_errors(Error $errors)
+    public static function print_errors()
     {
+        $errors = $GLOBALS['errors'];
         if ($errors->get_error_code()) {
             $errors_messages = '';
             $errors_warnings = '';
@@ -170,6 +173,4 @@ class Error
             }
         }
     }
-
-
 }

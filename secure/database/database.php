@@ -2,7 +2,7 @@
 
 interface Mapper
 {
-    public function map(array $user_row, Error $errors);
+    public function map(array $user_row);
 }
 
 class DAO
@@ -18,7 +18,7 @@ class DAO
     protected static $show_errors = DEBUG;
     protected static $show_queries = SHOW_QUERIES;
 
-    protected static function load_value($query, array $parameters, $action, Error $errors)
+    protected static function load_value($query, array $parameters, $action)
     {
         $value = null;
         try {
@@ -30,22 +30,22 @@ class DAO
             if (self::$show_errors) {
                 print $message . '<br/>';
             }
-            $errors->add('dao_error', $message);
+            $GLOBALS['errors']->add('dao_error', $message);
         }
 
         return $value;
     }
 
-    protected static function load_object($query, array $parameters, Mapper $mapper, $action, Error $errors)
+    protected static function load_object($query, array $parameters, Mapper $mapper, $action)
     {
-        $all_results = self::load_all_objects($query, $parameters, $mapper, $action, $errors);
+        $all_results = self::load_all_objects($query, $parameters, $mapper, $action);
         if (count($all_results) > 0) {
             return reset($all_results);
         }
         return null;
     }
 
-    protected static function load_all_objects($query, array $parameters, Mapper $mapper, $action, Error $errors)
+    protected static function load_all_objects($query, array $parameters, Mapper $mapper, $action)
     {
         $all_results = array();
         try {
@@ -53,20 +53,20 @@ class DAO
             $stmt->execute($parameters);
             while ($user_row = $stmt->fetch()) {
                 $all_results[$user_row[self::id_column]] =
-                    $mapper->map($user_row, $errors);
+                    $mapper->map($user_row);
             }
         } catch (PDOException $e) {
             $message = 'Unable to ' . $action . (self::$show_queries ? ' ' . $query . $e->getMessage() : '');
             if (self::$show_errors) {
                 print $message . '<br/>';
             }
-            $errors->add('dao_error', $message);
+            $GLOBALS['errors']->add('dao_error', $message);
         }
 
         return $all_results;
     }
 
-    protected static function insert_update_delete_create($query, array $parameters, $action, Error $errors)
+    protected static function insert_update_delete_create($query, array $parameters, $action)
     {
         try {
             $stmt = self::$db->prepare($query);
@@ -76,7 +76,7 @@ class DAO
             if (self::$show_errors) {
                 print $message . '<br/>';
             }
-            $errors->add('dao_error', $message);
+            $GLOBALS['errors']->add('dao_error', $message);
         }
     }
 

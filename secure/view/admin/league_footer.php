@@ -1,20 +1,10 @@
 <?php
 class Footer
 {
-    static function outputFooter(Error $errors)
+    static function outputFooter()
     {
-        if ($errors->has_errors()) {
-            ?>
-        <html>
-        <head>
-            <title>Recreate Table</title>
-        </head>
-        <body>
-            <?php Error::print_errors($errors); ?>
-        <p><a href="/secure">Home</a></p>
-        </body>
-        </html>
-        <?php
+        if ($GLOBALS['errors']->has_errors()) {
+            page::basic_page('Error', "<a href='/secure'>Home</a>");
         } else {
             Headers::set_redirect_header('/secure/view/league_admin/list_view.php');
         }
