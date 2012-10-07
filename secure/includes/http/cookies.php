@@ -2,6 +2,7 @@
 class Cookies
 {
     const TEST_COOKIE_NAME = 'TEST_COOKIE';
+    const REMEMBER_ME_COOKIE_NAME = 'remember_me';
 
     const DEFAULT_COOKIE_PATH = '/';
 
@@ -36,9 +37,9 @@ class Cookies
         self::set_cookie($name, '', time() - 31536000);
     }
 
-    public static function get_test_cookie()
+    public static function test_cookie_exists()
     {
-        return InputValidation::clean_input($_COOKIE[Cookies::TEST_COOKIE_NAME]);
+        return strlen(InputValidation::clean_input($_COOKIE[Cookies::TEST_COOKIE_NAME])) > 0;
     }
 
     public static function get_cookie_value($cookie_name)

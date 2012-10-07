@@ -20,5 +20,10 @@ class Form {
 
         return $result;
     }
+
+    public static function is_post()
+    {
+        return ('POST' == $_SERVER['REQUEST_METHOD']);
+    }
 }
 ?>
