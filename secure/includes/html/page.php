@@ -15,6 +15,9 @@ class Page
         print "</head>";
         print "<body>";
         print "<h1><p><a href='https://" . $_SERVER["SERVER_NAME"] . "' title='" . PageSearchTerms::site_title . "'>" . PageSearchTerms::site_title . "</a></p></h1>";
+        if (!empty($title)) {
+            print "<h2>$title</h2>";
+        }
         if (!empty($message)) {
             print "<p class='message'>$message</p>";
         }
@@ -26,7 +29,7 @@ class Page
         if (count($links) > 0) {
             print "<p>";
             foreach ($links as $key => $link) {
-                print "<a href='" . $link[0] . "'>" . $link[1] . "</a>" . ($key+1 < count($links) ? "&nbsp;&#124;&nbsp;" : "");
+                print "<a href='" . $link[0] . "'>" . $link[1] . "</a>" . ($key + 1 < count($links) ? "&nbsp;&#124;&nbsp;" : "");
             }
             print "</p>";
         }
@@ -40,4 +43,5 @@ class Page
         self::footer();
     }
 }
+
 ?>

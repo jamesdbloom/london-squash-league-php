@@ -23,8 +23,7 @@ class SessionDAO extends DAO implements Mapper
             self::status_column . " VARCHAR(12), " .
             self::created_date_column . " DATETIME, " .
             self::last_activity_date_column . " DATETIME, " .
-            "CONSTRAINT foreign_key_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . "), " .
-            "CONSTRAINT unique_" . self::user_id_column . " UNIQUE (" . self::user_id_column . ") " .
+            "CONSTRAINT foreign_key_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") " .
             ")";
         $parameters = array();
         self::insert_update_delete_create($query, $parameters, 'create table ');
@@ -126,6 +125,24 @@ class SessionDAO extends DAO implements Mapper
         $query = "DELETE FROM " . self::table_name . " WHERE " . self::user_id_column . " = :" . self::user_id_column;
         $parameters = array(
             ':' . self::user_id_column => $user_id,
+        );
+        self::insert_update_delete_create($query, $parameters, 'delete session by user id ');
+    }
+
+    public static function delete_by_last_activity($date)
+    {
+        $query = "DELETE FROM " . self::table_name . " WHERE " . self::last_activity_date_column . " < :" . self::last_activity_date_column;
+        $parameters = array(
+            ':' . self::last_activity_date_column => date('Y-m-d H:i:s', strtotime(self::sanitize_value($date))),
+        );
+        self::insert_update_delete_create($query, $parameters, 'delete session by user id ');
+    }
+
+    public static function delete_by_created_date($date)
+    {
+        $query = "DELETE FROM " . self::table_name . " WHERE " . self::created_date_column . " < :" . self::created_date_column;
+        $parameters = array(
+            ':' . self::created_date_column => date('Y-m-d H:i:s', strtotime(self::sanitize_value($date))),
         );
         self::insert_update_delete_create($query, $parameters, 'delete session by user id ');
     }

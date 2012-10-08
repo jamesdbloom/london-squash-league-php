@@ -14,9 +14,7 @@ if (Form::is_post()) {
     $email = Parameters::read_post_input('email');
     $password = Parameters::read_post_input('password');
     $session = Session::create_session($email, $password);
-    if (empty($session)) {
-        $GLOBALS['errors']->add('authentication_failure', 'Username and password combination incorrect.', 'warning');
-    } else if (!$GLOBALS['errors']->has_errors()) {
+    if (!$GLOBALS['errors']->has_errors()) {
         // remember user name if successfully logging in
         if (strlen(Parameters::read_post_input('remember_me')) > 0) {
             Cookies::set_cookie(Cookies::REMEMBER_ME_COOKIE_NAME, $email);

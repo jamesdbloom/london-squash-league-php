@@ -3,13 +3,11 @@ require_once('../../load.php');
 load::load_file('view/admin', 'form_output.php');
 load::load_file('view/user_admin', 'user_data.php');
 
-Page::header('Administration', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
-
 //
 // READ DATABASE DATA
 //
 $userData = new UserData();
-Error::print_errors();
+Page::header('Administration', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
 
 //
 // USERS
@@ -20,7 +18,7 @@ foreach ($userData->user_list as $user) {
     print_delete_form('user_id', array('id', 'name', 'email', 'mobile'), array($user->id, $user->name, $user->email, $user->mobile));
 }
 print_create_form_start('user');
-print "<tr><td class='id'>&nbsp;</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='email'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td><td class='mobile'><input name='mobile' type='tel' pattern='\d{5,25}' required='required'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "<tr><td class='id'>&nbsp;</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='email'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td><td class='mobile'><input name='mobile' type='tel' pattern='\d{5,25}'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
 
 //
@@ -42,6 +40,14 @@ if (count($userData->user_list) > 0) {
 }
 print "</td><td class='status'>&nbsp;</td><td class='date'>&nbsp;</td><td class='date'>&nbsp;</td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
+
+print "<h4>delete old sessions:</h4>";
+print "<form method='post' action='delete_controller.php'><div class='date'>";
+print "<label for='session_last_activity_field'>Last Activity Date: <input id='session_last_activity_field' name='session_last_activity' type='date' /></label>";
+print "<label for='session_created_field'>Created Date: <input id='session_created_field' name='session_created' type='date' /></label>";
+print "<input type='submit' name='delete' value='delete'>";
+print "</div></form>";
+
 
 print "<p><a href='recreate_tables.php'>Recreate Table</a></p>";
 print "<p><a href='/secure'>Home</a></p>";

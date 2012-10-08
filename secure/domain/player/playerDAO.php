@@ -41,7 +41,7 @@ class PlayerDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::user_id_column => self::sanitize_value($user_id),
         );
-        return self::load_all_objects($query, $parameters, new self(), 'load list of player by user_id ');
+        return self::load_all_objects($query, $parameters, new self(), 'load list of players by user_id ');
     }
 
     public static function get_by_id($id)

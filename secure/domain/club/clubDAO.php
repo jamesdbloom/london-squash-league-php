@@ -31,6 +31,24 @@ class ClubDAO extends DAO implements Mapper
         return self::load_all_objects($query, $parameters, new self(), 'load list of clubs ');
     }
 
+    public static function get_all_by_user_id($user_id)
+    {
+        $query =
+            "SELECT DISTINCT " . ClubDAO::table_name . ".* " .
+            " FROM " . ClubDAO::table_name .
+            " INNER JOIN (" . LeagueDAO::table_name .
+            "   INNER JOIN (" . DivisionDAO::table_name .
+            "     INNER JOIN " . PlayerDAO::table_name .
+            "     ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column . ")" .
+            "   ON " . LeagueDAO::table_name . "." . LeagueDAO::id_column . " = " . DivisionDAO::table_name . "." . DivisionDAO::league_id_column . ")" .
+            " ON " . ClubDAO::table_name . "." . ClubDAO::id_column . " = " . LeagueDAO::table_name . "." . LeagueDAO::club_id_column .
+            " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+        $parameters = array(
+            ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
+        );
+        return self::load_all_objects($query, $parameters, new self(), 'load list of clubs by user_id ');
+    }
+
     public static function get_by_id($id)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;

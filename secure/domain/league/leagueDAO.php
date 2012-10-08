@@ -35,25 +35,18 @@ class LeagueDAO extends DAO implements Mapper
 
     public static function get_all_by_user_id($user_id)
     {
-        /*
- SELECT LEAGUE.*
- FROM LEAGUE
- LEFT JOIN (
- 	DIVISION
- 	LEFT JOIN PLAYER
- 	ON DIVISION.ID = PLAYER.DIVISION_ID)
- ON LEAGUE.ID = DIVISION.LEAGUE_ID
- WHERE PLAYER.USER_ID =
-         */
-        $query = "SELECT " . self::table_name . "* " .
-            " FROM " . self::table_name .
-            " INNER JOIN " . PlayerDAO::table_name .
-            " ON " . self::table_name . "." . self::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column .
+        $query =
+            "SELECT DISTINCT " . LeagueDAO::table_name . ".* " .
+            " FROM " . LeagueDAO::table_name .
+            " INNER JOIN (" . DivisionDAO::table_name .
+            "   INNER JOIN " . PlayerDAO::table_name .
+            "   ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column . ")" .
+            " ON " . LeagueDAO::table_name . "." . LeagueDAO::id_column . " = " . DivisionDAO::table_name . "." . DivisionDAO::league_id_column .
             " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );
-        return self::load_all_objects($query, $parameters, new self(), 'load list of divisions by user_id ');
+        return self::load_all_objects($query, $parameters, new self(), 'load list of leagues by user_id ');
     }
 
     public static function get_by_id($id)

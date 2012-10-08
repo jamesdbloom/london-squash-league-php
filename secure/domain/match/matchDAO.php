@@ -40,16 +40,17 @@ class MatchDAO extends DAO implements Mapper
 
     public static function get_all_by_user_id($user_id)
     {
-        $query = "SELECT " . self::table_name . "* " .
-            " FROM " . self::table_name .
+        $query =
+            "SELECT DISTINCT " . MatchDAO::table_name . ".* " .
+            " FROM " . MatchDAO::table_name .
             " INNER JOIN " . PlayerDAO::table_name .
-            " ON ((" . self::table_name . "." . self::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
-            " OR  (" . self::table_name . "." . self::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . "))" .
+            " ON ((" . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
+            " OR  (" . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . "))" .
             " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );
-        return self::load_all_objects($query, $parameters, new self(), 'load list of divisions by user_id ');
+        return self::load_all_objects($query, $parameters, new self(), 'load list of matches by user_id ');
     }
 
     public static function get_by_id($id)

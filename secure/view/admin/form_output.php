@@ -7,7 +7,7 @@ function print_table_start($title)
 
 function print_delete_form($id_field_name, $classes, $values)
 {
-    print "<form method='post' action='delete_controller.php'>\n";
+    print "<form method='post' action='delete_controller.php'>";
     print "<input name='$id_field_name' type='hidden' value='" . $values[0] . "'>\n";
     print "<tr>";
     foreach (array_keys($classes) as $key) {

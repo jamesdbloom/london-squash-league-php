@@ -50,10 +50,10 @@ class UserDAO extends DAO implements Mapper
     public static function get_by_session_id($session_id)
     {
         $query =
-            "SELECT * " .
-                " FROM " . self::table_name .
+            "SELECT DISTINCT " . UserDAO::table_name . ".* " .
+                " FROM " . UserDAO::table_name .
                 " INNER JOIN " . SessionDAO::table_name .
-                " ON " . self::table_name . "." . self::id_column . " = " . SessionDAO::table_name . "." . SessionDAO::user_id_column .
+                " ON " . UserDAO::table_name . "." . UserDAO::id_column . " = " . SessionDAO::table_name . "." . SessionDAO::user_id_column .
                 " WHERE " . SessionDAO::table_name . "." . SessionDAO::id_column . " = :" . SessionDAO::id_column;
         $parameters = array(
             ':' . SessionDAO::id_column => $session_id,

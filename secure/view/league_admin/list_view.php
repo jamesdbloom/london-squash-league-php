@@ -3,13 +3,11 @@ require_once('../../load.php');
 load::load_file('view/admin', 'form_output.php');
 load::load_file('view/league_admin', 'league_data.php');
 
-Page::header('Administration', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
-
 //
 // READ DATABASE DATA
 //
 $leagueData = new LeagueData();
-Error::print_errors();
+Page::header('Administration', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
 
 //
 // CLUBS
@@ -99,7 +97,7 @@ foreach ($leagueData->match_list as $match) {
 }
 print_create_form_start('match');
 print "<tr><td class='id'>&nbsp;</td><td class='name'>";
-if (count($leagueData->division_list) > 0) {
+if (count($leagueData->round_list) > 0) {
     print "<select name='round_id'>";
     foreach ($leagueData->round_list as $round) {
         print "<option value='" . $round->id . "''>" . $leagueData->print_round_name($round->id) . "</option>\n";
@@ -138,7 +136,7 @@ print_form_table_end();
 print_table_start('Players');
 print "<tr><th class='id'>Id</th><th class='name'>Division</th><th class='name'>User</th><th class='button'></th></tr>\n";
 foreach ($leagueData->player_list as $player) {
-    print_delete_form('player_id', array('id', 'name', 'name'), array($player->id, $leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id)));
+    print_delete_form('player_id', array('id', 'name', 'name'), array($player->id, $leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false)));
 }
 print_create_form_start('player');
 print "<tr><td class='id'>&nbsp;</td><td class='name'>";

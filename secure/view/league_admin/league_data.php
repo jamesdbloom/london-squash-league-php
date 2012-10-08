@@ -3,7 +3,8 @@ require_once('../../load.php');
 load::load_file('view/admin', 'league_imports.php');
 load::load_file('view/admin', 'abstract_data.php');
 
-class LeagueData extends AbstractData {
+class LeagueData extends AbstractData
+{
     public $club_list;
     public $league_list;
     public $division_list;
@@ -85,16 +86,18 @@ class LeagueData extends AbstractData {
         return $result;
     }
 
-    public function print_user_name($player_id) {
+    public function print_user_name($player_id, $fully_qualified = true)
+    {
         $player = $this->player_map[$player_id];
         $user = $this->user_map[$player->user_id];
         $result = "N/A";
         if (!empty($user)) {
-            $result = $user->name;
+            $result = ($fully_qualified ? $this->print_division_name($player->division_id) . "&nbsp;&rsaquo;&nbsp;" : "") . $user->name;
         } else if (!empty($user_id)) {
             $result = $user_id;
         }
         return $result;
     }
 }
+
 ?>

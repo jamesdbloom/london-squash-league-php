@@ -13,8 +13,9 @@ print '<p><a href="/secure/view/user_admin/list_view.php">Manage Users & Session
 print '<p>Page Flows</p>';
 print '<p><a href="/secure/view/login/login.php">Login</a></p>';
 if(Session::has_active_session()) {
-    print '<p><a href="/secure/view/login/logout.php">Logout</a></p>';
+    print '<p><a href="/secure/view/account/account.php">Account Settings</a></p>';
     print '<p><a href="/secure/view/login/reset_password.php">Update Password</a></p>';
+    print '<p><a href="/secure/view/login/logout.php">Logout</a></p>';
 }
 ?>
 

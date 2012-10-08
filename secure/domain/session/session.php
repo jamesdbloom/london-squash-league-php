@@ -102,7 +102,10 @@ class Session
             }
         } else {
             $user = UserDAO::get_by_email_and_password($email, $password);
-            if (!$GLOBALS['errors']->has_errors() && !empty($user)) {
+            if (empty($user)) {
+                $GLOBALS['errors']->add('authentication_failure', 'Username and password combination incorrect.', 'warning');
+            }
+            if (!$GLOBALS['errors']->has_errors()) {
                 $session = SessionDAO::create(self::generate_session_id($user->id), $user->id);
                 if (!$GLOBALS['errors']->has_errors()) {
                     Cookies::set_cookie(self::SSO_ID_COOKIE_NAME, $session->id);
