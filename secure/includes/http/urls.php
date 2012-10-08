@@ -53,7 +53,12 @@ class Urls
 
     public static function get_current_url()
     {
-        return self::get_root_url() . $_SERVER['REQUEST_URI'] . '/secure/';
+        return self::get_root_url() . self::get_current_path();
+    }
+
+    public static function get_current_path()
+    {
+        return $_SERVER['REQUEST_URI'];
     }
 
     public static function get_root_url()

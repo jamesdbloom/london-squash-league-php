@@ -1,5 +1,6 @@
 <?php
-require_once('login_view_helper.php');
+require_once('../../load.php');
+load::load_file('view/login', 'login_view_helper.php');
 
 LoginViewHelper::set_headers();
 
@@ -14,7 +15,7 @@ if (Form::is_post()) {
     LoginViewHelper::validate_and_create_user($human_name, $email, $mobile);
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Headers::set_redirect_header(LoginViewHelper::login_base_url . "login.php?check_email=registered");
+        Headers::set_redirect_header(LoginViewHelper::login_base_url . "login.php?" . LoginViewHelper::message . "=" . LoginViewHelper::registered);
         exit;
     }
 }

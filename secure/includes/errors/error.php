@@ -3,6 +3,8 @@ $GLOBALS['errors'] = new Error();
 
 class Error
 {
+    const message = 'message';
+
     /**
      * Stores the list of errors.
      */
@@ -158,7 +160,7 @@ class Error
             foreach ($errors->get_error_codes() as $code) {
                 $severity = $errors->get_severity($code);
                 foreach ($errors->get_error_messages($code) as $error) {
-                    if ('message' == $severity) {
+                    if (Error::message == $severity) {
                         $errors_messages .= $error . '<br/>';
                     } else {
                         $errors_warnings .= $error . '<br/>';

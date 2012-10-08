@@ -1,5 +1,5 @@
 <?php
-require_once('login_view_helper.php');
+require_once('../../load.php');
 
 Session::logout();
 Cookies::remove_cookie(Session::SSO_ID_COOKIE_NAME);

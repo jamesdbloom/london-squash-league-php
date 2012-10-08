@@ -1,4 +1,7 @@
 <?php
+require_once('../../load.php');
+load::load_file('view/login', 'login_view_helper.php');
+
 class Page
 {
     public static function header($title = '', $css_urls = array(), $message = '')
@@ -42,6 +45,15 @@ class Page
         self::header($title, array('/secure/view/global.css'), $message);
         self::footer();
     }
-}
 
+    public static function not_authorised()
+    {
+        Headers::redirect_to_login(LoginViewHelper::not_authorised);
+    }
+
+    public static function not_logged_in()
+    {
+        Headers::redirect_to_login(LoginViewHelper::not_logged_in);
+    }
+}
 ?>

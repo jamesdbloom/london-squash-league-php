@@ -78,6 +78,16 @@ class PlayerDAO extends DAO implements Mapper
         self::insert_update_delete_create($query, $parameters, 'delete player by id ');
     }
 
+    public static function delete_by_division_id_and_user_id($division_id, $user_id)
+    {
+        $query = "DELETE FROM " . self::table_name . " WHERE " . self::division_id_column . " = :" . self::division_id_column . " AND " . self::user_id_column . " = :" . self::user_id_column;
+        $parameters = array(
+            ':' . self::division_id_column => $division_id,
+            ':' . self::user_id_column => $user_id,
+        );
+        self::insert_update_delete_create($query, $parameters, 'delete player by division id and user id ');
+    }
+
     public function map(array $player_row)
     {
         return new Player(

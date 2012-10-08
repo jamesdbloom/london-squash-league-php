@@ -5,15 +5,17 @@ function print_table_start($title)
     print "<table>";
 }
 
-function print_delete_form($id_field_name, $classes, $values)
+function print_form($classes, $values, $field_ids = array(), $field_values = array(), $button = 'delete')
 {
     print "<form method='post' action='delete_controller.php'>";
-    print "<input name='$id_field_name' type='hidden' value='" . $values[0] . "'>\n";
+    foreach (array_keys($field_ids) as $key) {
+        print "<input name='$field_ids[$key]' type='hidden' value='" . $field_values[$key] . "'>";
+    }
     print "<tr>";
     foreach (array_keys($classes) as $key) {
         print "<td class='$classes[$key]'>" . (!empty($values[$key]) ? $values[$key] : "&nbsp;") . "</td>";
     }
-    print "<td class='button last'><input type='submit' name='delete' value='delete'></td>";
+    print "<td class='button last'><input type='submit' name='$button' value='$button'></td>";
     print "</tr>";
     print "</form>";
 }

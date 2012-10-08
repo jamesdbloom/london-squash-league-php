@@ -7,6 +7,14 @@ class LoginViewHelper
 {
     const login_base_url = '/secure/view/login/';
 
+    const message = 'message';
+    const not_logged_in = 'not_logged_in';
+    const not_authorised = 'not_authorised';
+    const registered = 'registered';
+    const retrieve_password = 'retrieve_password';
+
+    const redirect_to = 'redirect_to';
+
     public static function set_headers()
     {
         Headers::set_nocache_headers();
@@ -25,7 +33,7 @@ class LoginViewHelper
 
     public static function redirect_url()
     {
-        return Urls::escape_and_sanitize_attribute_value(Parameters::read_request_input('redirect_to', "https://" . $_SERVER["SERVER_NAME"]));
+        return Urls::escape_and_sanitize_attribute_value(Parameters::read_request_input(self::redirect_to, Urls::get_current_path()));
     }
 
     public static function validate_and_create_user($human_name, $email, $mobile)

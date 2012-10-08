@@ -88,7 +88,7 @@ class Session
         // todo
         // implement session expiry and session logout
 
-        // $GLOBALS['errors']->add('expired', 'Your session has expired. Please log-in again.', 'message');
+        // $GLOBALS['errors']->add('expired', 'Your session has expired. Please log-in again.', Error::message);
 
     }
 
@@ -98,7 +98,7 @@ class Session
 
         if (!empty($session)) {
             if (self::validate_session($session)) {
-                $GLOBALS['errors']->add('already_authenticated', 'You are already logged in.', 'message');
+                $GLOBALS['errors']->add('already_authenticated', 'You are already logged in.', Error::message);
             }
         } else {
             $user = UserDAO::get_by_email_and_password($email, $password);
@@ -133,6 +133,14 @@ class Session
         return !empty($session);
     }
 
+    public static function validate_session(Session $session)
+    {
+        self::check_session_id($session->id, $session->user_id);
+        self::check_session_freshness($session->created_date, $session->status);
+
+        return !$GLOBALS['errors']->has_errors();
+    }
+
     public static function get_user()
     {
         $user = null;
@@ -143,12 +151,10 @@ class Session
         return $user;
     }
 
-    public static function validate_session(Session $session)
+    public static function is_administrator()
     {
-        self::check_session_id($session->id, $session->user_id);
-        self::check_session_freshness($session->created_date, $session->status);
-
-        return !$GLOBALS['errors']->has_errors();
+        $user = self::get_user();
+        return $user && $user->is_administrator();
     }
 
     public static function logout()

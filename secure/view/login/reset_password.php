@@ -1,5 +1,6 @@
 <?php
-require_once('login_view_helper.php');
+require_once('../../load.php');
+load::load_file('view/login', 'login_view_helper.php');
 
 LoginViewHelper::set_headers();
 

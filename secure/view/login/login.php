@@ -1,5 +1,6 @@
 <?php
-require_once('login_view_helper.php');
+require_once('../../load.php');
+load::load_file('view/login', 'login_view_helper.php');
 
 LoginViewHelper::set_headers();
 
@@ -21,18 +22,24 @@ if (Form::is_post()) {
         } else {
             Cookies::remove_cookie(Cookies::REMEMBER_ME_COOKIE_NAME);
         }
-        Headers::set_redirect_header(LoginViewHelper::redirect_url());
+        Headers::set_redirect_header(Urls::get_root_url() . LoginViewHelper::redirect_url());
         exit;
     }
 }
 
-$check_email = Parameters::read_get_input('check_email');
-if (!empty($check_email)) {
-    if ($check_email == 'registered') {
-        $GLOBALS['errors']->add('registered', 'Registration complete - please check your e-mail for your temporary password.', 'message');
-    } elseif ($check_email == 'retrieve_password') {
-        $GLOBALS['errors']->add('new_password', 'Please check your e-mail to reset your password', 'message');
-    }
+switch (Parameters::read_get_input(LoginViewHelper::message)) {
+    case LoginViewHelper::not_logged_in:
+        $GLOBALS['errors']->add(LoginViewHelper::not_logged_in, 'Please login to access this page', Error::message);
+        break;
+    case LoginViewHelper::not_authorised:
+        $GLOBALS['errors']->add(LoginViewHelper::not_authorised, 'You are not authorized to view this, please login as administrator', Error::message);
+        break;
+    case LoginViewHelper::registered:
+        $GLOBALS['errors']->add(LoginViewHelper::registered, 'Registration complete - please check your e-mail for your temporary password.', Error::message);
+        break;
+    case LoginViewHelper::retrieve_password:
+        $GLOBALS['errors']->add(LoginViewHelper::retrieve_password, 'Please check your e-mail to reset your password', Error::message);
+        break;
 }
 
 Page::header('Log In', array('/secure/view/global.css'), '');

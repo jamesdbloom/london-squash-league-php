@@ -1,5 +1,6 @@
 <?php
-require_once('login_view_helper.php');
+require_once('../../load.php');
+load::load_file('view/login', 'login_view_helper.php');
 
 LoginViewHelper::set_headers();
 
@@ -34,7 +35,7 @@ if (Form::is_post()) {
     }
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Headers::set_redirect_header(LoginViewHelper::login_base_url . "login.php?check_email=retrieve_password");
+        Headers::set_redirect_header(LoginViewHelper::login_base_url . "login.php?" . LoginViewHelper::message . "=" . LoginViewHelper::retrieve_password);
         exit;
     }
 }

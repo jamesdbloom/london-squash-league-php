@@ -10,6 +10,7 @@ class UserDAO extends DAO implements Mapper
     const password_column = 'PASSWORD';
     const email_column = 'EMAIL';
     const mobile_column = 'MOBILE';
+    const type_column = 'TYPE';
     const activation_key_column = 'USER_ACTIVATION_KEY';
 
     public static function create_user_schema()
@@ -25,6 +26,7 @@ class UserDAO extends DAO implements Mapper
             self::email_column . " VARCHAR(75), " .
             self::mobile_column . " VARCHAR(25), " .
             self::activation_key_column . " VARCHAR(20), " .
+            self::type_column . " VARCHAR(12), " .
             "CONSTRAINT unique_" . self::email_column . " UNIQUE (" . self::email_column . ") " .
             ")";
         $parameters = array();
@@ -96,7 +98,7 @@ class UserDAO extends DAO implements Mapper
         return self::load_object($query, $parameters, new self(), 'load user by email and password ');
     }
 
-    public static function create($name, $password, $email, $mobile, $key)
+    public static function create($name, $password, $email, $mobile, $key, $type = User::player)
     {
         $query = "INSERT INTO " . self::table_name . "(" .
             self::name_column . "," .
@@ -104,12 +106,14 @@ class UserDAO extends DAO implements Mapper
             self::email_column . "," .
             self::mobile_column . "," .
             self::activation_key_column .
+            self::type_column .
             ") VALUES (" .
             ":" . self::name_column . "," .
             ":" . self::password_column . "," .
             ":" . self::email_column . "," .
             ":" . self::mobile_column . "," .
             ":" . self::activation_key_column .
+            ":" . self::type_column .
             ")";
         $parameters = array(
             ':' . self::name_column => self::sanitize_value($name),
@@ -117,6 +121,7 @@ class UserDAO extends DAO implements Mapper
             ':' . self::email_column => self::sanitize_email($email),
             ':' . self::mobile_column => self::sanitize_value($mobile),
             ':' . self::activation_key_column => $key,
+            ':' . self::type_column => $type,
         );
         self::insert_update_delete_create($query, $parameters, 'save user ');
         return self::get_by_email($email);
@@ -167,7 +172,8 @@ class UserDAO extends DAO implements Mapper
             $user_row[self::id_column],
             $user_row[self::name_column],
             $user_row[self::email_column],
-            $user_row[self::mobile_column]
+            $user_row[self::mobile_column],
+            $user_row[self::type_column]
         );
     }
 }
