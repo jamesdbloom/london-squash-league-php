@@ -13,19 +13,19 @@ Page::header('Administration', array('/secure/view/global.css', '/secure/view/ad
 // CLUBS
 //
 print_table_start('Clubs');
-print "<tr><th class='id'>Id</th><th class='name'>Name</th><th class='address'>Address</th><th class='button'></th></tr>\n";
+print "<tr><th class='id'>Id</th><th class='name'>Name</th><th class='address'>Address</th><th class='button last'></th></tr>\n";
 foreach ($leagueData->club_list as $club) {
     print_delete_form('club_id', array('id', 'name', 'address'), array($club->id, $club->name, $club->address));
 }
 print_create_form_start('club');
-print "<tr><td class='id'>&nbsp;</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address'><input name='address' type='text' pattern='.{10,125}'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "<tr><td class='id'>&nbsp;</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address'><input name='address' type='text' pattern='.{10,125}'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
 
 //
 // LEAGUES
 //
 print_table_start('Leagues');
-print "<tr><th class='id'>Id</th><th class='name'>Club</th><th class='name'>League</th><th class='button'></th></tr>\n";
+print "<tr><th class='id'>Id</th><th class='name'>Club</th><th class='name'>League</th><th class='button last'></th></tr>\n";
 foreach ($leagueData->league_list as $league) {
     print_delete_form('league_id', array('id', 'name', 'name'), array($league->id, $leagueData->print_club_name($league->club_id), $league->name));
 }
@@ -40,14 +40,14 @@ if (count($leagueData->club_list) > 0) {
 } else {
     print "&nbsp;";
 }
-print "</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
 
 //
 // DIVISIONS
 //
 print_table_start('Divisions');
-print "<tr><th class='id'>Id</th><th class='name'>League</th><th class='name'>Division</th><th class='button'></th></tr>\n";
+print "<tr><th class='id'>Id</th><th class='name'>League</th><th class='name'>Division</th><th class='button last'></th></tr>\n";
 foreach ($leagueData->division_list as $division) {
     print_delete_form('division_id', array('id', 'name', 'name'), array($division->id, $leagueData->print_league_name($division->league_id), $division->name));
 }
@@ -62,14 +62,14 @@ if (count($leagueData->league_list) > 0) {
 } else {
     print "&nbsp;";
 }
-print "</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "</td><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
 
 //
 // ROUNDS
 //
 print_table_start('Rounds');
-print "<tr><th class='id'>Id</th><th class='name'>Division</th><th class='date'>Start</th><th class='date'>End</th><th class='button'></th></tr>\n";
+print "<tr><th class='id'>Id</th><th class='name'>Division</th><th class='date'>Start</th><th class='date'>End</th><th class='button last'></th></tr>\n";
 foreach ($leagueData->round_list as $round) {
     print_delete_form('round_id', array('id', 'name', 'date', 'date'), array($round->id, $leagueData->print_division_name($round->division_id), date('d-M-Y', $round->start), date('d-M-Y', $round->end)));
 }
@@ -84,19 +84,19 @@ if (count($leagueData->division_list) > 0) {
 } else {
     print "&nbsp;";
 }
-print "</td><td class='date'><input name='start' type='date' required='required'/></td><td class='date'><input name='end' type='date' required='required'/></td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "</td><td class='date'><input name='start' type='date' required='required'/></td><td class='date'><input name='end' type='date' required='required'/></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
 
 //
 // MATCHES
 //
 print_table_start('Matches');
-print "<tr><th class='id'>Id</th><th class='name'>Round</th><th class='name'>Player One</th><th class='name'>Player Two</th><th class='button'></th></tr>\n";
+print "<tr><th class='id'>Id</th><th class='long_name'>Round</th><th class='long_name'>Player One</th><th class='long_name'>Player Two</th><th class='button last'></th></tr>\n";
 foreach ($leagueData->match_list as $match) {
-    print_delete_form('match_id', array('id', 'name', 'name', 'name'), array($match->id, $leagueData->print_round_name($match->round_id), $leagueData->print_user_name($match->player_one_id), $leagueData->print_user_name($match->player_two_id)));
+    print_delete_form('match_id', array('id', 'long_name', 'long_name', 'long_name'), array($match->id, $leagueData->print_round_name($match->round_id), $leagueData->print_user_name($match->player_one_id), $leagueData->print_user_name($match->player_two_id)));
 }
 print_create_form_start('match');
-print "<tr><td class='id'>&nbsp;</td><td class='name'>";
+print "<tr><td class='id'>&nbsp;</td><td class='long_name'>";
 if (count($leagueData->round_list) > 0) {
     print "<select name='round_id'>";
     foreach ($leagueData->round_list as $round) {
@@ -106,7 +106,7 @@ if (count($leagueData->round_list) > 0) {
 } else {
     print "&nbsp;";
 }
-print "</td><td class='name'>";
+print "</td><td class='long_name'>";
 if (count($leagueData->user_list) > 0) {
     print "<select name='player_one_id'>";
     foreach ($leagueData->player_list as $player) {
@@ -116,7 +116,7 @@ if (count($leagueData->user_list) > 0) {
 } else {
     print "&nbsp;";
 }
-print "</td><td class='name'>";
+print "</td><td class='long_name'>";
 //print choose_players($listViewData, 'player_two_id', 'print_user_name');
 if (count($leagueData->user_list) > 0) {
     print "<select name='player_two_id'>";
@@ -127,14 +127,14 @@ if (count($leagueData->user_list) > 0) {
 } else {
     print "&nbsp;";
 }
-print "</td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
 
 //
 // PLAYERS
 //
 print_table_start('Players');
-print "<tr><th class='id'>Id</th><th class='name'>Division</th><th class='name'>User</th><th class='button'></th></tr>\n";
+print "<tr><th class='id'>Id</th><th class='name'>Division</th><th class='name'>User</th><th class='button last'></th></tr>\n";
 foreach ($leagueData->player_list as $player) {
     print_delete_form('player_id', array('id', 'name', 'name'), array($player->id, $leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false)));
 }
@@ -159,7 +159,7 @@ if (count($leagueData->user_list) > 0) {
 } else {
     print "&nbsp;";
 }
-print "</td><td class='button'><input type='submit' name='create' value='create'></td></tr>\n";
+print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
 print_form_table_end();
 
 print "<p><a href='recreate_tables.php'>Recreate Table</a></p>";

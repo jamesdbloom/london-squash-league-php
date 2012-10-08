@@ -13,9 +13,18 @@ function print_delete_form($id_field_name, $classes, $values)
     foreach (array_keys($classes) as $key) {
         print "<td class='$classes[$key]'>" . (!empty($values[$key]) ? $values[$key] : "&nbsp;") . "</td>";
     }
-    print "<td class='button'><input type='submit' name='delete' value='delete'></td>";
+    print "<td class='button last'><input type='submit' name='delete' value='delete'></td>";
     print "</tr>";
     print "</form>";
+}
+
+function print_table_row($classes, $values)
+{
+    print "<tr>";
+    foreach (array_keys($classes) as $key) {
+        print "<td class='$classes[$key]'>" . (!empty($values[$key]) ? $values[$key] : "&nbsp;") . "</td>";
+    }
+    print "</tr>";
 }
 
 function print_create_form_start($type)

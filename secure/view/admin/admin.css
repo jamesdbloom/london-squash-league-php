@@ -8,6 +8,9 @@ table {
 .name {
     width: 15em;
 }
+.long_name {
+    width: 30em;
+}
 .email {
     width: 15em;
 }
@@ -25,11 +28,15 @@ table {
 }
 .button {
     width: 5em;
+}
+.last {
     border-right: 0px;
 }
 td {
     text-align: center;
     border-top: 1px dashed;
+}
+td:not(.last) {
     border-right: 1px dashed;
 }
 input {
