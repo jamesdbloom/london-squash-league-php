@@ -4,12 +4,12 @@ load::load_file('view/login', 'login_view_helper.php');
 
 class Page
 {
-    public static function header($title = '', $css_urls = array(), $message = '')
+    public static function header($title = '', $css_urls = array(), $message = '', $links = array())
     {
         print "<!DOCTYPE>";
         print "<html xmlns='http://www.w3.org/1999/xhtml' lang='en'>";
         print "<head>";
-        print "<title>PageSearchTerms::site_title &rsaquo; $title</title>";
+        print "<title>" . PageSearchTerms::site_title . " &rsaquo; $title</title>";
         foreach ($css_urls as $css_url) {
             print "<link rel='stylesheet' type='text/css' href='$css_url'>";
         }
@@ -17,7 +17,8 @@ class Page
         print "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
         print "</head>";
         print "<body>";
-        print "<h1><p><a href='https://" . $_SERVER["SERVER_NAME"] . "' title='" . PageSearchTerms::site_title . "'>" . PageSearchTerms::site_title . "</a></p></h1>";
+        $links = self::default_navigation($links);
+        self::print_navigation($links);
         if (!empty($title)) {
             print "<h2>$title</h2>";
         }
@@ -29,15 +30,38 @@ class Page
 
     public static function footer($links = array())
     {
+        $links = self::default_navigation($links);
+        self::print_navigation($links);
+        print "</body>";
+        print "</html>";
+    }
+
+    private static function default_navigation($links)
+    {
+        array_unshift($links, new Link(Urls::get_root_url() . '/secure/', 'Home'));
+        if (Session::has_active_session()) {
+            if (Session::is_administrator()) {
+                $links[] = new Link('/secure/view/league/view.php', 'Leagues');
+                $links[] = new Link('/secure/view/authentication/view.php', 'Users & Sessions');
+            }
+            $links[] = new Link('/secure/view/account/view.php', 'Account Settings');
+            $links[] = new Link('/secure/view/login/reset_password.php', 'Update Password');
+            $links[] = new Link('/secure/view/login/logout.php', 'Logout');
+        } else {
+            $links[] = new Link('/secure/view/login/login.php', 'Login');
+        }
+        return $links;
+    }
+
+    public static function print_navigation($links)
+    {
         if (count($links) > 0) {
             print "<p>";
             foreach ($links as $key => $link) {
-                print "<a href='" . $link[0] . "'>" . $link[1] . "</a>" . ($key + 1 < count($links) ? "&nbsp;&#124;&nbsp;" : "");
+                print $link . ($key + 1 < count($links) ? "&nbsp;&#124;&nbsp;" : "");
             }
             print "</p>";
         }
-        print "</body>";
-        print "</html>";
     }
 
     public static function basic_page($title = '', $message = '')
@@ -56,4 +80,5 @@ class Page
         Headers::redirect_to_login(LoginViewHelper::not_logged_in);
     }
 }
+
 ?>

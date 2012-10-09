@@ -25,6 +25,7 @@ load::load_file('includes/errors', 'error.php');
 // load HTML utilities
 load::load_file('includes/html', 'form.php');
 load::load_file('includes/html', 'page.php');
+load::load_file('includes/html', 'link.php');
 
 // load HTTP utilities
 load::load_file('includes/http', 'cookies.php');

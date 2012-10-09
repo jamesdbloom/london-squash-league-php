@@ -49,11 +49,7 @@ if (Session::is_administrator()) {
     print "<input type='submit' name='delete' value='delete'>";
     print "</div></form>";
 
-
-    print "<p><a href='recreate_schema_controller.php'>Recreate Table</a></p>";
-    print "<p><a href='/secure'>Home</a></p>";
-
-    Page::footer();
+    Page::footer(array(new Link('recreate_schema_controller.php', 'Recreate Table')));
 
 } else {
 

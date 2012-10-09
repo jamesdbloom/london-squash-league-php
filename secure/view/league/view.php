@@ -168,9 +168,6 @@ if (Session::is_administrator()) {
     print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
     print_form_table_end();
 
-    print "<p><a href='recreate_schema_controller.php'>Recreate Table</a></p>";
-    print "<p><a href='/secure'>Home</a></p>";
-
 
 //function choose_players(LeagueData $leagueData, $field_id, $callback)
 //{
@@ -185,7 +182,7 @@ if (Session::is_administrator()) {
 //    }
 //}
 
-    Page::footer();
+    Page::footer(array(new Link('recreate_schema_controller.php', 'Recreate Table')));
 
 } else {
 

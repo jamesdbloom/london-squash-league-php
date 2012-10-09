@@ -19,10 +19,11 @@ if (!empty($user)) {
 
     // DIVISIONS
     print_table_start('Divisions');
-    print "<tr><th class='name'>Club > League</th><th class='name last'>Division</th><th class='button last'></th></tr>";
+    print "<tr><th class='name'>Club</th><th class='name'>League</th><th class='name last'>Division</th><th class='button last'></th></tr>";
     foreach ($accountData->user_division_list as $division) {
+        $league = $accountData->league_map[$division->league_id];
         print_form(
-            array('name', 'name'), array($accountData->print_league_name($division->league_id), $division->name),
+            array('name', 'name', 'name'), array($accountData->print_club_name($league->club_id), $league->name, $division->name),
             array('division_id', 'user_id'), array($division->id, $user->id),
             'unregister'
         );
@@ -31,7 +32,7 @@ if (!empty($user)) {
     print "<input name='user_id' type='hidden' value='" . $user->id . "'>";
     $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();
     if (count($unregistered_divisions) > 0) {
-        print "<tr><td colspan='2' class='name'>";
+        print "<tr><td colspan='3' class='name'>";
         print "<select name='division_id'>";
         foreach ($unregistered_divisions as $division) {
             print "<option value='" . $division->id . "''>" . $accountData->print_division_name($division->id) . "</option>";
@@ -51,9 +52,10 @@ if (!empty($user)) {
 
     // MATCHES
     print_table_start('Matches');
-    print "<tr><th class='name'>Round</th><th class='name'>Player One</th><th class='name last'>Player Two</th></tr>";
+    print "<tr><th class='name'>Division</th><th class='name'>Round</th><th class='name'>Player One</th><th class='name last'>Player Two</th></tr>";
     foreach ($accountData->user_match_list as $match) {
-        print_table_row(array('long_name', 'name', 'name last'), array($accountData->print_round_name($match->round_id), $accountData->print_user_name($match->player_one_id, false), $accountData->print_user_name($match->player_two_id, false)));
+        $round = $accountData->round_map[$match->round_id];
+        print_table_row(array('name', 'name', 'name', 'name last'), array($accountData->print_division_name($round->division_id), $round->name, $accountData->print_user_name($match->player_one_id, false), $accountData->print_user_name($match->player_two_id, false)));
     }
     print_form_table_end();
 
@@ -72,8 +74,6 @@ if (!empty($user)) {
 //        print_table_row(array('name last'), array($league->id, $accountData->print_league_name($league->id)));
 //    }
 //    print_form_table_end();
-
-    print "<p><a href='/secure'>Home</a></p>";
 
     Page::footer();
 
