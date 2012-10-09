@@ -7,7 +7,7 @@ if (Session::is_administrator()) {
     load::load_file('view/league', 'league_data.php');
 
     $leagueData = new LeagueData();
-    Page::header('League Administration', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
+    Page::header('League Administration', array('/secure/view/admin/admin.css'));
 
     // CLUBS
     print_table_start('Clubs');

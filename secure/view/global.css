@@ -4,6 +4,10 @@ body {
     line-height: 1.125em;
 }
 
+table {
+    font-size: 1em;
+}
+
 th, td {
     padding: 0.5em 0.35em 0.35em;
 }
@@ -18,10 +22,12 @@ th, td {
 
 .header-navigation {
     margin-bottom: 1.5em;
+    float: right;
 }
 
 .footer-navigation {
     margin-top: 1.5em;
+    float: left;
 }
 
 input:not([type="date"]):required:valid {

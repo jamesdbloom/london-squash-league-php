@@ -9,7 +9,7 @@ if (!empty($user)) {
     load::load_file('view/account', 'account_data.php');
 
     $accountData = new AccountData();
-    Page::header('Account Settings - ' . $accountData->user->name, array('/secure/view/global.css', '/secure/view/admin/admin.css'));
+    Page::header('Account Settings - ' . $accountData->user->name, array('/secure/view/admin/admin.css'));
 
     // USERS
     print_table_start('User');

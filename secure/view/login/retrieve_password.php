@@ -44,7 +44,7 @@ if (Parameters::read_request_input('error') == 'invalidkey') {
     $GLOBALS['errors']->add('invalidkey', 'Sorry, that key does not appear to be valid.', 'error');
 }
 
-Page::header('Lost Password', array('/secure/view/global.css'), '<p class="message">' . 'Please enter your email address. You will receive a link to create a new password via email.' . '</p>');
+Page::header('Lost Password', array(), '<p class="message">' . 'Please enter your email address. You will receive a link to create a new password via email.' . '</p>');
 ?>
 
 <form name="retrieve_password_form" id="retrieve_password_form" action="<?php echo LoginViewHelper::login_base_url . 'retrieve_password.php'; ?>" method="post">

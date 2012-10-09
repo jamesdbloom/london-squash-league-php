@@ -6,7 +6,7 @@ load::load_file('view/authentication', 'user_data.php');
 if (Session::is_administrator()) {
 
     $userData = new UserData();
-    Page::header('Users & Sessions Administration', array('/secure/view/global.css', '/secure/view/admin/admin.css'));
+    Page::header('Users & Sessions Administration', array('/secure/view/admin/admin.css'));
 
     // USERS
     print_table_start('Users');

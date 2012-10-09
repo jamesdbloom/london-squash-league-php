@@ -20,6 +20,8 @@ class LeagueData extends AbstractData
     public $player_map;
     public $user_map;
 
+    const name_spacer = " &rsaquo; ";
+
     public function __construct()
     {
         $this->club_list = ClubDAO::get_all();
@@ -55,7 +57,7 @@ class LeagueData extends AbstractData
         $league = $this->league_map[$league_id];
         $result = "&nbsp;";
         if (!empty($league)) {
-            $result = $this->print_club_name($league->club_id) . "&nbsp;&rsaquo;&nbsp;" . $league->name;
+            $result = $this->print_club_name($league->club_id) . self::name_spacer . $league->name;
         } else if (!empty($league_id)) {
             $result = $league_id;
         }
@@ -67,7 +69,7 @@ class LeagueData extends AbstractData
         $division = $this->division_map[$division_id];
         $result = "&nbsp;";
         if (!empty($division)) {
-            $result = $this->print_league_name($division->league_id) . "&nbsp;&rsaquo;&nbsp;" . $division->name;
+            $result = $this->print_league_name($division->league_id) . self::name_spacer . $division->name;
         } else if (!empty($division_id)) {
             $result = $division_id;
         }
@@ -79,7 +81,7 @@ class LeagueData extends AbstractData
         $round = $this->round_map[$round_id];
         $result = "&nbsp;";
         if (!empty($round)) {
-            $result = $this->print_division_name($round->division_id) . "&nbsp;&rsaquo;&nbsp;" . $round->name;
+            $result = $this->print_division_name($round->division_id) . self::name_spacer . $round->name;
         } else if (!empty($round_id)) {
             $result = $round_id;
         }
@@ -92,7 +94,7 @@ class LeagueData extends AbstractData
         $user = $this->user_map[$player->user_id];
         $result = "N/A";
         if (!empty($user)) {
-            $result = ($fully_qualified ? $this->print_division_name($player->division_id) . "&nbsp;&rsaquo;&nbsp;" : "") . $user->name;
+            $result = ($fully_qualified ? $this->print_division_name($player->division_id) . self::name_spacer : "") . $user->name;
         } else if (!empty($user_id)) {
             $result = $user_id;
         }

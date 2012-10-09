@@ -42,7 +42,7 @@ switch (Parameters::read_get_input(LoginViewHelper::message)) {
         break;
 }
 
-Page::header('Log In', array('/secure/view/global.css'), '');
+Page::header('Log In');
 ?>
 
 <form name="loginform" id="loginform" action="<?php echo LoginViewHelper::login_base_url . 'login.php'; ?>" method="post">

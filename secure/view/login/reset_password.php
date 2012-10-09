@@ -26,13 +26,13 @@ if (Form::is_post()) {
     }
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Page::header('Password Reset', array('/secure/view/global.css'), "<p class='message reset-pass'>Your password has been reset <a href='" . LoginViewHelper::login_base_url . "login.php'>Log in</a></p>");
+        Page::header('Password Reset', array(), "<p class='message reset-pass'>Your password has been reset <a href='" . LoginViewHelper::login_base_url . "login.php'>Log in</a></p>");
         LoginViewHelper::login_footer();
         exit;
     }
 }
 
-Page::header('Reset Password', array('/secure/view/global.css'), '<p class="message reset-pass">' . 'Enter your new password below.' . '</p>');
+Page::header('Reset Password', array(), '<p class="message reset-pass">' . 'Enter your new password below.' . '</p>');
 ?>
 
 <form name="reset_password_form" id="reset_password_form" action="<?php echo LoginViewHelper::login_base_url . 'reset_password.php?key=' . rawurlencode($key) . '&email=' . rawurlencode($email); ?>" method="post">

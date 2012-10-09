@@ -10,6 +10,8 @@ class Page
         print "<html xmlns='http://www.w3.org/1999/xhtml' lang='en'>";
         print "<head>";
         print "<title>" . PageSearchTerms::site_title . " &rsaquo; $title</title>";
+        array_unshift($css_urls, '/secure/view/global.css');
+        // array_unshift($css_urls, '/secure/view/reset.css');
         foreach ($css_urls as $css_url) {
             print "<link rel='stylesheet' type='text/css' href='$css_url'>";
         }
@@ -66,7 +68,7 @@ class Page
 
     public static function basic_page($title = '', $message = '')
     {
-        self::header($title, array('/secure/view/global.css'), $message);
+        self::header($title, array(), $message);
         self::footer();
     }
 

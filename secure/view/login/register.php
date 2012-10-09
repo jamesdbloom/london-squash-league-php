@@ -20,7 +20,7 @@ if (Form::is_post()) {
     }
 }
 
-Page::header('New User Registration', array('/secure/view/global.css'), '<p class="message register">' . 'Please enter your details and a temporary password will be e-mailed to you.' . '</p>');
+Page::header('New User Registration', array(), '<p class="message register">' . 'Please enter your details and a temporary password will be e-mailed to you.' . '</p>');
 ?>
 
 <form name="registerform" id="registerform" action="<?php echo LoginViewHelper::login_base_url . 'register.php'; ?>" method="post">
