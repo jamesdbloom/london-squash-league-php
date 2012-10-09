@@ -18,7 +18,7 @@ class Page
         print "</head>";
         print "<body>";
         $links = self::default_navigation($links);
-        self::print_navigation($links);
+        self::print_navigation($links, 'header-navigation');
         if (!empty($title)) {
             print "<h2>$title</h2>";
         }
@@ -31,7 +31,7 @@ class Page
     public static function footer($links = array())
     {
         $links = self::default_navigation($links);
-        self::print_navigation($links);
+        self::print_navigation($links, 'footer-navigation');
         print "</body>";
         print "</html>";
     }
@@ -53,10 +53,10 @@ class Page
         return $links;
     }
 
-    public static function print_navigation($links)
+    public static function print_navigation($links, $class)
     {
         if (count($links) > 0) {
-            print "<p>";
+            print "<p class='$class'>";
             foreach ($links as $key => $link) {
                 print $link . ($key + 1 < count($links) ? "&nbsp;&#124;&nbsp;" : "");
             }
