@@ -62,5 +62,5 @@ Page::header('Lost Password', array(), '<p class="message">' . 'Please enter you
 </form>
 
 <?php
-LoginViewHelper::login_footer();
+Page::footer();
 ?>

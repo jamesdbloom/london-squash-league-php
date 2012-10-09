@@ -51,5 +51,5 @@ Page::header('New User Registration', array(), '<p class="message register">' . 
 </form>
 
 <?php
-LoginViewHelper::login_footer();
+Page::footer();
 ?>

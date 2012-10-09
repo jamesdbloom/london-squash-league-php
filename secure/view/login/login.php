@@ -74,5 +74,5 @@ Page::header('Log In');
 </form>
 
 <?php
-LoginViewHelper::login_footer();
+Page::footer();
 ?>

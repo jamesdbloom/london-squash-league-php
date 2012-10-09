@@ -22,18 +22,13 @@ class LoginViewHelper
         Cookies::set_test_cookie();
     }
 
-    public static function login_footer()
-    {
-        Page::footer(array(
-            array(self::login_base_url . 'login.php', 'Login'),
-            array(self::login_base_url . 'register.php', 'Register'),
-            array(self::login_base_url . 'retrieve_password.php', 'Lost password?')
-        ));
-    }
-
     public static function redirect_url()
     {
-        return Urls::escape_and_sanitize_attribute_value(Parameters::read_request_input(self::redirect_to, Urls::get_current_path()));
+        $current_path = Urls::get_current_path();
+        if (strstr($current_path, "login")) {
+            $current_path = "/";
+        }
+        return Urls::escape_and_sanitize_attribute_value(Parameters::read_request_input(self::redirect_to, $current_path));
     }
 
     public static function validate_and_create_user($human_name, $email, $mobile)

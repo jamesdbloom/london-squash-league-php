@@ -51,6 +51,8 @@ class Page
             $links[] = new Link('/secure/view/login/logout.php', 'Logout');
         } else {
             $links[] = new Link('/secure/view/login/login.php', 'Login');
+            $links[] = new Link(LoginViewHelper::login_base_url . 'register.php', 'Register');
+            $links[] = new Link(LoginViewHelper::login_base_url . 'retrieve_password.php', 'Lost password?');
         }
         return $links;
     }

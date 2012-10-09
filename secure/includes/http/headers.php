@@ -126,6 +126,11 @@ class Headers
         self::set_redirect_header(self::get_referer());
     }
 
+    public static function redirect_to_landing_page()
+    {
+        self::set_redirect_header(Urls::get_landing_page());
+    }
+
     public static function redirect_to_root()
     {
         self::set_redirect_header(Urls::get_root_url());

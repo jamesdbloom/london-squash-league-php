@@ -105,14 +105,14 @@ class UserDAO extends DAO implements Mapper
             self::password_column . "," .
             self::email_column . "," .
             self::mobile_column . "," .
-            self::activation_key_column .
+            self::activation_key_column . "," .
             self::type_column .
             ") VALUES (" .
             ":" . self::name_column . "," .
             ":" . self::password_column . "," .
             ":" . self::email_column . "," .
             ":" . self::mobile_column . "," .
-            ":" . self::activation_key_column .
+            ":" . self::activation_key_column . "," .
             ":" . self::type_column .
             ")";
         $parameters = array(

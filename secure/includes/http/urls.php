@@ -51,6 +51,11 @@ class Urls
         return $result;
     }
 
+    public static function get_landing_page()
+    {
+        return self::get_root_url() . "/secure/view/landing/index.php";
+    }
+
     public static function get_current_url()
     {
         return self::get_root_url() . self::get_current_path();

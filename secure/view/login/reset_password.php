@@ -27,7 +27,7 @@ if (Form::is_post()) {
 
     if (!$GLOBALS['errors']->has_errors()) {
         Page::header('Password Reset', array(), "<p class='message reset-pass'>Your password has been reset <a href='" . LoginViewHelper::login_base_url . "login.php'>Log in</a></p>");
-        LoginViewHelper::login_footer();
+        Page::footer();
         exit;
     }
 }
@@ -63,5 +63,5 @@ Page::header('Reset Password', array(), '<p class="message reset-pass">' . 'Ente
 </form>
 
 <?php
-LoginViewHelper::login_footer();
+Page::footer();
 ?>
