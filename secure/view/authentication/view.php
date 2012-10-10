@@ -43,11 +43,11 @@ if (Session::is_administrator()) {
     print_form_table_end();
 
     print "<h4>delete old sessions:</h4>";
-    print "<form method='post' action='delete_controller.php'><div class='date'>";
-    print "<label for='session_last_activity_field'>Last Activity Date: <input id='session_last_activity_field' name='session_last_activity' type='date' /></label><br/>";
-    print "<label for='session_created_field'>Created Date: <input id='session_created_field' name='session_created' type='date' /></label><br/>";
-    print "<input type='submit' name='delete' value='delete'>";
-    print "</div></form>";
+    print "<form method='post' action='delete_controller.php'><div class='session_delete'>";
+    print "<div class='form_input'><label for='session_last_activity_field'>Last Activity Date: <input id='session_last_activity_field' name='session_last_activity' type='date' /></label></div>";
+    print "<div class='form_input'><label for='session_created_field'>Created Date: <input id='session_created_field' name='session_created' type='date' /></label></div>";
+    print "<div class='form_button'><input type='submit' name='delete' value='delete'></div>";
+    print "</div></form><br/>";
 
     Page::footer(array(new Link('recreate_schema_controller.php', 'Recreate Table')));
 

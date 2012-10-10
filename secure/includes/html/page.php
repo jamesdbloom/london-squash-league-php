@@ -47,7 +47,7 @@ class Page
                 $links[] = new Link('/secure/view/authentication/view.php', 'Users & Sessions');
             }
             $links[] = new Link('/secure/view/account/view.php', 'Account Settings');
-            $links[] = new Link('/secure/view/login/reset_password.php', 'Update Password');
+            $links[] = new Link('/secure/view/login/retrieve_password.php', 'Update Password');
             $links[] = new Link('/secure/view/login/logout.php', 'Logout');
         } else {
             $links[] = new Link('/secure/view/login/login.php', 'Login');

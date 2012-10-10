@@ -17,6 +17,8 @@ if (!empty($user)) {
     print_table_row(array('name', 'email', 'mobile last'), array($user->name, $user->email, $user->mobile));
     print_form_table_end();
 
+    print '<p><a href="/secure/view/login/retrieve_password.php">Update Password</a></p>';
+
     // DIVISIONS
     print_table_start('Divisions');
     print "<tr><th class='name'>Club</th><th class='name'>League</th><th class='name last'>Division</th><th class='button last'></th></tr>";

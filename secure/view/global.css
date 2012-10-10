@@ -28,6 +28,7 @@ th, td {
 .footer-navigation {
     margin-top: 1.5em;
     float: left;
+    width: 100%;
 }
 
 input:not([type="date"]):required:valid {
@@ -60,6 +61,9 @@ input:required.password-no-match {
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 320px) {
     /* Styles */
+    body {
+        font-size: 11px;
+    }
 }
 
 /* iPads (portrait and landscape) ----------- */
@@ -94,3 +98,24 @@ input:required.password-no-match {
         font-size: 11px;
     }
 }
+
+/*
+ * General XHTML styles
+ -----------------------*/
+/*html            {text-align:center;}*/
+/*body            {font:1em/1.4 Verdana, Arial, Helvetica, sans-serif;margin:1em auto;width:40em;text-align:left;padding:0;}*/
+
+/*
+ * Form elements
+ -----------------------*/
+/*fieldset        {padding:10px 30px;margin:0;border:1px solid #ccc;-moz-border-radius:1em;-webkit-border-radius:1em;border-radius:1em;border-bottom-width:10px;}*/
+/*legend          {color:#333;padding:0 10px;margin:0;font-size:1.5em;font-weight:400;}*/
+/*input           {width:250px;}*/
+/*input,*/
+/*textarea        {border:1px solid #ccc;padding:5px;margin:10px 0 0 0;}*/
+/*input:focus,*/
+/*textarea:focus  {background:#ffc;}*/
+/*textarea        {font:.9em Verdana, Arial, Helvetica, sans-serif;}*/
+/*label           {display:block;margin:12px 0 0;font-weight:700;font-size:.9em;float:left;clear:left;width:90px;}*/
+/*label:after     {content:": ";}*/
+/*button          {display:block;float:left;clear:both;margin:1em 0 1em 90px;}*/

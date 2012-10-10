@@ -19,6 +19,7 @@ table {
 }
 .session {
     width: 40em;
+    font-size: 0.75em;
 }
 .status {
     width: 10em;
@@ -39,8 +40,16 @@ td {
 td:not(.last) {
     border-right: 1px dashed;
 }
-input {
+td>input {
     width: 90%;
+}
+div.session_delete {
+    width: 60em;
+}
+
+div.session_delete label, div.session_delete input[type='submit'] {
+    width: 20em;
+    float: left;
 }
 
 /* Smartphones (portrait and landscape) ----------- */
@@ -56,6 +65,33 @@ input {
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 320px) {
     /* Styles */
+    .id {
+        width: 8em;
+    }
+    .name {
+        width: 10em;
+    }
+    .long_name {
+        width: 20em;
+    }
+    .email {
+        width: 10em;
+    }
+    .address {
+        width: 30em;
+    }
+    .session {
+        width: 20em;
+    }
+    .status {
+        width: 8em;
+    }
+    .date {
+        width: 8em;
+    }
+    .button {
+        width: 3em;
+    }
 }
 
 /* iPads (portrait and landscape) ----------- */

@@ -17,7 +17,7 @@
 require_once('../../load.php');
 if (Session::has_active_session()) {
     print '<p><a href="/secure/view/account/view.php">Account Settings</a></p>';
-    print '<p><a href="/secure/view/login/reset_password.php">Update Password</a></p>';
+    print '<p><a href="/secure/view/login/retrieve_password.php">Update Password</a></p>';
     print '<p><a href="/secure/view/login/logout.php">Logout</a></p>';
 } else {
     print '<p><a href="/secure/view/login/login.php">Login</a></p>';
