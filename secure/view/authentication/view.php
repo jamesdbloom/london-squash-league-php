@@ -13,7 +13,7 @@ if (Session::is_administrator()) {
     print "<tr><th class='id'>Id</th><th class='name'>Name</th><th class='email'>Email</th><th class='mobile'>Mobile</th><th class='button last'></th></tr>\n";
     foreach ($userData->user_list as $user) {
         print_form(
-            array('id', 'name', 'email', 'mobile'), array($user->id, $user->name, $user->email, $user->mobile),
+            array('id', 'name', 'email', 'mobile'), array($user->id, $user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>"),
             array('user_id'), array($user->id)
         );
     }
@@ -26,7 +26,7 @@ if (Session::is_administrator()) {
     print "<tr><th class='session'>Id</th><th class='name'>User</th><th class='status'>Status</th><th class='date'>Created</th><th class='date'>Last Activity</th><th class='button last'></th></tr>\n";
     foreach ($userData->session_list as $session) {
         print_form(
-            array('session', 'name', 'status', 'date', 'date'), array($session->id, $userData->print_user_name($session->user_id), $session->status, $session->created_date, $session->last_activity_date),
+            array('session', 'name', 'status', 'date', 'date'), array(implode(' ', str_split($session->id, strlen($session->id)/5)), $userData->print_user_name($session->user_id), $session->status, $session->created_date, $session->last_activity_date),
             array('session_id'), array($session->id)
         );
     }
@@ -44,10 +44,10 @@ if (Session::is_administrator()) {
 
     print "<h4>delete old sessions:</h4>";
     print "<form method='post' action='delete_controller.php'><div class='session_delete'>";
-    print "<div class='form_input'><label for='session_last_activity_field'>Last Activity Date: <input id='session_last_activity_field' name='session_last_activity' type='date' /></label></div>";
-    print "<div class='form_input'><label for='session_created_field'>Created Date: <input id='session_created_field' name='session_created' type='date' /></label></div>";
+    print "<div class='form_input'><label for='session_last_activity_field'>Last Activity Date:&nbsp;<input id='session_last_activity_field' name='session_last_activity' type='date' /></label></div>";
+    print "<div class='form_input'><label for='session_created_field'>Created Date:&nbsp;<input id='session_created_field' name='session_created' type='date' /></label></div>";
     print "<div class='form_button'><input type='submit' name='delete' value='delete'></div>";
-    print "</div></form><br/>";
+    print "&nbsp;</div></form><br/>";
 
     Page::footer(array(new Link('recreate_schema_controller.php', 'Recreate Table')));
 

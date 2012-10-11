@@ -4,6 +4,7 @@ table {
 }
 .id {
     width: 10em;
+    text-decoration: none;
 }
 .name {
     width: 15em;
@@ -30,8 +31,9 @@ table {
 .button {
     width: 5em;
 }
-.last {
-    border-right: 0px;
+.button input {
+    text-align: center;
+    /*-webkit-appearance: none;*/
 }
 td {
     text-align: center;
@@ -44,11 +46,11 @@ td>input {
     width: 90%;
 }
 div.session_delete {
-    width: 60em;
+    width: 100%;
 }
 
 div.session_delete label, div.session_delete input[type='submit'] {
-    width: 20em;
+    margin-right: 1em;
     float: left;
 }
 
@@ -65,33 +67,6 @@ div.session_delete label, div.session_delete input[type='submit'] {
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 320px) {
     /* Styles */
-    .id {
-        width: 8em;
-    }
-    .name {
-        width: 10em;
-    }
-    .long_name {
-        width: 20em;
-    }
-    .email {
-        width: 10em;
-    }
-    .address {
-        width: 30em;
-    }
-    .session {
-        width: 20em;
-    }
-    .status {
-        width: 8em;
-    }
-    .date {
-        width: 8em;
-    }
-    .button {
-        width: 3em;
-    }
 }
 
 /* iPads (portrait and landscape) ----------- */
@@ -124,6 +99,7 @@ div.session_delete label, div.session_delete input[type='submit'] {
     /* Styles */
     .id {
         width: 8em;
+        text-decoration: none;
     }
     .name {
         width: 10em;

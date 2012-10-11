@@ -22,13 +22,27 @@ th, td {
 
 .header-navigation {
     margin-bottom: 1.5em;
+    width: 100%;
+}
+
+.header-navigation {
+    margin-bottom: 2em;
+    margin-right: 5em;
+    width: 100%;
+}
+
+.header-navigation div {
     float: right;
 }
 
 .footer-navigation {
     margin-top: 1.5em;
-    float: left;
+    margin-bottom: 3em;
     width: 100%;
+}
+
+.footer-navigation div {
+    float: left;
 }
 
 input:not([type="date"]):required:valid {
@@ -61,9 +75,6 @@ input:required.password-no-match {
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 320px) {
     /* Styles */
-    body {
-        font-size: 11px;
-    }
 }
 
 /* iPads (portrait and landscape) ----------- */
@@ -96,6 +107,20 @@ input:required.password-no-match {
     /* Styles */
     body {
         font-size: 11px;
+    }
+    .header-navigation div, .footer-navigation div {
+        font-size: 1.2em;
+        margin: 0.2em;
+    }
+    .header-navigation {
+        margin-bottom: 3em;
+        margin-right: 5em;
+        width: 100%
+    }
+    .footer-navigation {
+        margin-top: 2em;
+        margin-bottom: 5em;
+        width: 100%
     }
 }
 

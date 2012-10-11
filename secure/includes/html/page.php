@@ -16,11 +16,12 @@ class Page
             print "<link rel='stylesheet' type='text/css' href='$css_url'>";
         }
         print "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>";
+        print "<meta name='format-detection' content='telephone=no'>";
         print "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
         print "</head>";
         print "<body>";
         $links = self::default_navigation($links);
-        self::print_navigation($links, 'header-navigation');
+        self::print_navigation($links, 'header-navigation', 'right');
         if (!empty($title)) {
             print "<h2>$title</h2>";
         }
@@ -33,7 +34,7 @@ class Page
     public static function footer($links = array())
     {
         $links = self::default_navigation($links);
-        self::print_navigation($links, 'footer-navigation');
+        self::print_navigation($links, 'footer-navigation', 'left');
         print "</body>";
         print "</html>";
     }
@@ -57,14 +58,20 @@ class Page
         return $links;
     }
 
-    public static function print_navigation($links, $class)
+    public static function print_navigation($links, $class, $float_direction = 'right')
     {
         if (count($links) > 0) {
-            print "<p class='$class'>";
-            foreach ($links as $key => $link) {
-                print $link . ($key + 1 < count($links) ? "&nbsp;&#124;&nbsp;" : "");
+            print "<div class='$class'>&nbsp;";
+            if ($float_direction == 'right') {
+                foreach (array_reverse($links) as $key => $link) {
+                    print "<div>" . $link . ($key > 0 ? "&nbsp;&#124;&nbsp;" : "") . "</div>";
+                }
+            } else {
+                foreach ($links as $key => $link) {
+                    print "<div>" . $link . ($key + 1 < count($links) ? "&nbsp;&#124;&nbsp;" : "") . "</div>";
+                }
             }
-            print "</p>";
+            print "</div>";
         }
     }
 

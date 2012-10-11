@@ -14,7 +14,7 @@ if (!empty($user)) {
     // USERS
     print_table_start('User');
     print "<tr><th class='name'>Name</th><th class='email'>Email</th><th class='mobile last'>Mobile</th></tr>";
-    print_table_row(array('name', 'email', 'mobile last'), array($user->name, $user->email, $user->mobile));
+    print_table_row(array('name', 'email', 'mobile last'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>"));
     print_form_table_end();
 
     print '<p><a href="/secure/view/login/retrieve_password.php">Update Password</a></p>';
