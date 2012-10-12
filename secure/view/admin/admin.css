@@ -32,8 +32,20 @@ table {
 }
 .button input {
     text-align: center;
+    overflow: hidden;
     /*-webkit-appearance: none;*/
 }
+/*input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {*/
+    /*-webkit-box-align: center;*/
+    /*text-align: center;*/
+    /*cursor: default;*/
+    /*color: buttontext;*/
+    /*padding: 2px 6px 3px;*/
+    /*border: 2px outset buttonface;*/
+    /*border-image: initial;*/
+    /*background-color: buttonface;*/
+    /*box-sizing: border-box;*/
+/*}*/
 td {
     text-align: center;
     border-top: 1px dashed;

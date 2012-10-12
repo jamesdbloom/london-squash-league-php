@@ -64,11 +64,11 @@ class Page
             print "<div class='$class'>&nbsp;";
             if ($float_direction == 'right') {
                 foreach (array_reverse($links) as $key => $link) {
-                    print "<div>" . $link . ($key > 0 ? "&nbsp;&#124;&nbsp;" : "") . "</div>";
+                    print "<div>" . $link . ($key > 0 ? " &#124; " : "&nbsp;&nbsp;") . "</div>";
                 }
             } else {
                 foreach ($links as $key => $link) {
-                    print "<div>" . $link . ($key + 1 < count($links) ? "&nbsp;&#124;&nbsp;" : "") . "</div>";
+                    print "<div>" . $link . ($key + 1 < count($links) ? " &#124; " : "&nbsp;&nbsp;") . "</div>";
                 }
             }
             print "</div>";

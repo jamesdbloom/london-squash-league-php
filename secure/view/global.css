@@ -23,26 +23,35 @@ th, td {
 .header-navigation {
     margin-bottom: 1.5em;
     width: 100%;
+    overflow: hidden;
 }
 
 .header-navigation {
     margin-bottom: 2em;
     margin-right: 5em;
     width: 100%;
+    overflow: hidden;
 }
 
 .header-navigation div {
     float: right;
+    margin-left: .2em;
+    margin-right: .2em;
+    overflow: hidden;
 }
 
 .footer-navigation {
     margin-top: 1.5em;
     margin-bottom: 3em;
     width: 100%;
+    overflow: hidden;
 }
 
 .footer-navigation div {
     float: left;
+    margin-left: .2em;
+    margin-right: .2em;
+    overflow: hidden;
 }
 
 input:not([type="date"]):required:valid {
@@ -110,17 +119,22 @@ input:required.password-no-match {
     }
     .header-navigation div, .footer-navigation div {
         font-size: 1.2em;
-        margin: 0.2em;
+        margin-left: .2em;
+        margin-right: .2em;
+        margin-bottom: 0.4em;
+        overflow: hidden;
     }
     .header-navigation {
         margin-bottom: 3em;
         margin-right: 5em;
-        width: 100%
+        width: 100%;
+        overflow: hidden;
     }
     .footer-navigation {
         margin-top: 2em;
         margin-bottom: 5em;
-        width: 100%
+        width: 100%;
+        overflow: hidden;
     }
 }
 
