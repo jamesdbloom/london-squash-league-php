@@ -53,7 +53,7 @@ class Urls
 
     public static function get_landing_page()
     {
-        return self::get_root_url() . "/secure/view/landing/index.php";
+        return self::get_root_url() . Link::Landing_Url;
     }
 
     public static function get_current_url()

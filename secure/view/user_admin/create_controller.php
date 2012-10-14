@@ -1,6 +1,6 @@
 <?php
 require_once('../../load.php');
-load::load_file('view/admin', 'user_imports.php');
+load::load_file('view/user_admin', 'user_imports.php');
 load::load_file('view/login', 'login_view_helper.php');
 
 $type = Parameters::read_post_input('type');

@@ -5,17 +5,25 @@ load::load_file('view/login', 'login_view_helper.php');
 LoginViewHelper::set_headers();
 
 $key = rawurldecode(Parameters::read_get_input('key'));
-$email = rawurldecode(Parameters::read_get_input('email'));
-$user = Authentication::check_password_activation_key($key, $email);
-
-if (empty($user)) {
-    Headers::set_redirect_header(LoginViewHelper::login_base_url . 'retrieve_password.php?error=invalidkey');
+if (!empty($key)) {
+    $email = rawurldecode(Parameters::read_get_input('email'));
+    $user = Authentication::check_password_activation_key($key, $email);
+    if (empty($user)) {
+        Headers::set_redirect_header(Link::Retrieve_Password_Url . '?error=invalidkey');
+    }
+} else {
+    $user = Session::get_user();
+    if (empty($user)) {
+        Headers::redirect_to_login(LoginViewHelper::not_logged_in);
+    }
 }
 
 if (Form::is_post()) {
     $password_one = Parameters::read_post_input('password_one');
     $password_two = Parameters::read_post_input('password_two');
-    UserDAO::update_activation_key($email, '');
+    if (!empty($email)) {
+        UserDAO::update_activation_key($email, '');
+    }
     if (!empty($password_one) && $password_one != $password_two) {
         $GLOBALS['errors']->add('password_reset_mismatch', 'The passwords do not match.');
     } else {
@@ -26,40 +34,38 @@ if (Form::is_post()) {
     }
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Page::header('Password Reset', array(), "<p class='message reset-pass'>Your password has been reset <a href='" . LoginViewHelper::login_base_url . "login.php'>Log in</a></p>");
+        Page::header(Link::Update_Password, array(), '', "<p class='message reset-pass'>Your password has been reset " . Link::get_link(Link::Login) . "</p>");
         Page::footer();
         exit;
     }
 }
 
-Page::header('Reset Password', array(), '<p class="message reset-pass">' . 'Enter your new password below.' . '</p>');
+Page::header(Link::Update_Password, '', '<p>' . 'Enter your new password below.' . '</p>');
 ?>
 
-<form name="reset_password_form" id="reset_password_form" action="<?php echo LoginViewHelper::login_base_url . 'reset_password.php?key=' . rawurlencode($key) . '&email=' . rawurlencode($email); ?>" method="post">
-    <input type="hidden" name="email" value="<?php echo Urls::escape_and_sanitize_attribute_value(Parameters::read_post_input('email')); ?>" autocomplete="off"/>
+<form action='<?php echo Link::Reset_Password_Url . '?key=' . rawurlencode($key) . '&email=' . rawurlencode($email); ?>' method='post'>
+    <input type="hidden" name="email" value="<?php echo Urls::escape_and_sanitize_attribute_value(Parameters::read_post_input('email')); ?>"/>
 
-    <p>
-        <label for="password_one">New password<br/>
-            <input type="password" name="password_one" id="password_one" class="input" size="35" required="required" pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" autocomplete="off"
-                   tabindex="10"/>
-        </label>
-    </p>
+    <div class="reset_password_form">
+        <p>
+            <label class='password' for="password_one">Password:</label>
+            <input class='show_validation' type="password" name="password_one" class="input" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+                   pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="10"/>
+        </p>
 
-    <p>
-        <label for="password_two">Confirm new password<br/>
-            <input type="password" name="password_two" id="password_two" class="input" size="35" required="required" pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" autocomplete="off"
-                   tabindex="20"
+        <p>
+            <label class='password' for="password_two">Confirm:</label>
+            <input class='show_validation' type="password" name="password_two" class="input" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+                   pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="20"
                    onkeyup="if(this.value == document.getElementById('password_one').value) { this.setAttribute('class', 'input'); } else { this.setAttribute('class', 'password-no-match input'); }"/>
-        </label>
-    </p>
+        </p>
 
-    <p class="description indicator-hint">Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp;</p>
+        <p>Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp;</p>
 
-    <br class="clear"/>
-
-    <p class="submit">
-        <input type="submit" name="submit" class="button-primary" value="Reset Password" tabindex="100"/>
-    </p>
+        <p>
+            <input class='submit' type="submit" name="submit" value="Reset Password" tabindex="100"/>
+        </p>
+    </div>
 </form>
 
 <?php

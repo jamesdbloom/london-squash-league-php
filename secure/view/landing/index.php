@@ -1,27 +1,19 @@
-<html>
-<head>
-    <title>PHP Test</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-<p>League Administration</p>
-
-<p><a href="/secure/view/league/view.php">Manage Leagues</a></p>
-
-<p>User Administration</p>
-
-<p><a href="/secure/view/authentication/view.php">Manage Users & Sessions</a></p>
-
-<p>Page Flows</p>
 <?php
 require_once('../../load.php');
+
+Page::header('London Squash League');
 if (Session::has_active_session()) {
-    print '<p><a href="/secure/view/account/view.php">Account Settings</a></p>';
-    print '<p><a href="/secure/view/login/retrieve_password.php">Update Password</a></p>';
-    print '<p><a href="/secure/view/login/logout.php">Logout</a></p>';
+    print "<ol class='landing loggedin'>";
+    print "<li>" . Link::get_link(Link::View_League) . "</li>";
+    print "<li>" . Link::get_link(Link::Enter_Score) . "</li>";
+    print "<li>" . Link::get_link(Link::Account_Settings) . "</li>";
+    print "</ol>";
 } else {
-    print '<p><a href="/secure/view/login/login.php">Login</a></p>';
+    print "<ol class='landing login'>";
+    print "<li>1. " . Link::get_link(Link::Register) . "</li>";
+    print "<li>2. " . Link::get_link(Link::Join_A_League) . "</li>";
+    print "</ol>";
+    load::include_file('view/login', 'login_form.php');
 }
+Page::footer();
 ?>
-</body>
-</html>

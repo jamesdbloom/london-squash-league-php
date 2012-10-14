@@ -5,8 +5,6 @@ load::load_file('domain/session', 'sessionDAO.php');
 
 class LoginViewHelper
 {
-    const login_base_url = '/secure/view/login/';
-
     const message = 'message';
     const not_logged_in = 'not_logged_in';
     const not_authorised = 'not_authorised';
@@ -66,11 +64,10 @@ class LoginViewHelper
     public static function send_new_user_notification(User $user, $password)
     {
         $title = PageSearchTerms::site_title . ' User Registration';
-        $login_page_url = Urls::get_root_url() . self::login_base_url;
         $message = '
             <p>Someone registered an account associated to this email address.</p>
             <p>If this was a mistake, just ignore this email and nothing will happen.</p>
-            <p>To login to you account using the details below on the login page: <a href="' . $login_page_url . '">' . $login_page_url . '</a></p>
+            <p>To login to you account using the details below on the login page: ' . Link::get_link(Link::Login) . '</p>
             <p>Username: ' . $user->email . '</p>
             <p>Password: ' . $password . '</p>
         ';

@@ -30,7 +30,7 @@ class User
 
     public function is_administrator()
     {
-        return ($this->type == User::administrator || $this->email == 'jamesdbloom@gmail.com');
+        return ($this->type == User::administrator || $this->email == 'jamesdbloom@gmail.com' || $this->email == 'andrea.caldera@gmail.com');
     }
 }
 

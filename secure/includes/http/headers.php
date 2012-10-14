@@ -139,7 +139,7 @@ class Headers
     public static function redirect_to_login($message = '')
     {
         self::set_redirect_header(
-            LoginViewHelper::login_base_url . 'login.php' .
+            Link::Login_Url .
                 ($message ? '?' . LoginViewHelper::message . '=' . $message . '&' : '?') .
                 LoginViewHelper::redirect_to . '=' . Urls::get_current_path());
     }

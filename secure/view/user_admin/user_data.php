@@ -1,6 +1,6 @@
 <?php
 require_once('../../load.php');
-load::load_file('view/admin', 'user_imports.php');
+load::load_file('view/user_admin', 'user_imports.php');
 load::load_file('view/admin', 'abstract_data.php');
 
 class UserData extends AbstractData {

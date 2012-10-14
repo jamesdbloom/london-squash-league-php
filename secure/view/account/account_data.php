@@ -1,7 +1,7 @@
 <?php
 require_once('../../load.php');
-load::load_file('view/admin', 'league_imports.php');
-load::load_file('view/league', 'league_data.php');
+load::load_file('view/league_admin', 'league_imports.php');
+load::load_file('view/league_admin', 'league_data.php');
 
 class AccountData extends LeagueData
 {

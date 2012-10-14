@@ -1,6 +1,6 @@
 <?php
 require_once('../../load.php');
-load::load_file('view/admin', 'league_imports.php');
+load::load_file('view/league_admin', 'league_imports.php');
 load::load_file('view/admin', 'abstract_data.php');
 
 class LeagueData extends AbstractData

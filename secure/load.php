@@ -61,5 +61,15 @@ class load
             die (get_message('NO_FILE', 'config') . ' ' . $file_path);
         }
     }
+
+    public static function include_file($dir, $file)
+    {
+        $file_path = ROOT_PATH . $dir . '/' . $file;
+        if (file_exists($file_path)) {
+            include $file_path;
+        } else {
+            die (get_message('NO_FILE', 'config') . ' ' . $file_path);
+        }
+    }
 }
 ?>

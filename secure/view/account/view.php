@@ -9,7 +9,7 @@ if (!empty($user)) {
     load::load_file('view/account', 'account_data.php');
 
     $accountData = new AccountData();
-    Page::header('Account Settings - ' . $accountData->user->name, array('/secure/view/admin/admin.css'));
+    Page::header(Link::Account_Settings, array(), $accountData->user->name, '', array(Link::get_link(Link::Update_Password)));
 
     // USERS
     print_table_start('User');
@@ -17,15 +17,15 @@ if (!empty($user)) {
     print_table_row(array('name', 'email', 'mobile last'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>"));
     print_form_table_end();
 
-    print '<p><a href="/secure/view/login/retrieve_password.php">Update Password</a></p>';
+    print "<p class='page_link'>" . Link::get_link(Link::Account_Settings) . "</p>";
 
     // DIVISIONS
-    print_table_start('Divisions');
-    print "<tr><th class='name'>Club</th><th class='name'>League</th><th class='name last'>Division</th><th class='button last'></th></tr>";
+    print_table_start('Divisions', 'action_table');
+    print "<tr><th class='club'>Club</th><th class='league'>League</th><th class='division last'>Division</th><th class='button last'></th></tr>";
     foreach ($accountData->user_division_list as $division) {
         $league = $accountData->league_map[$division->league_id];
         print_form(
-            array('name', 'name', 'name'), array($accountData->print_club_name($league->club_id), $league->name, $division->name),
+            array('club', 'league', 'division'), array($accountData->print_club_name($league->club_id), $league->name, $division->name),
             array('division_id', 'user_id'), array($division->id, $user->id),
             'unregister'
         );
@@ -46,18 +46,18 @@ if (!empty($user)) {
 
     // ROUNDS
     print_table_start('Rounds');
-    print "<tr><th class='name'>Division</th><th class='date last'>Start</th><th class='date'>End</th></tr>";
+    print "<tr><th class='division'>Division</th><th class='date last'>Start</th><th class='date'>End</th></tr>";
     foreach ($accountData->user_round_list as $round) {
-        print_table_row(array('name', 'date', 'date last'), array($accountData->print_division_name($round->division_id), date('d-M-Y', $round->start), date('d-M-Y', $round->end)));
+        print_table_row(array('division', 'date', 'date last'), array($accountData->print_division_name($round->division_id), date('d-M-Y', $round->start), date('d-M-Y', $round->end)));
     }
     print_form_table_end();
 
     // MATCHES
     print_table_start('Matches');
-    print "<tr><th class='name'>Division</th><th class='name'>Round</th><th class='name'>Player One</th><th class='name last'>Player Two</th></tr>";
+    print "<tr><th class='division'>Division</th><th class='round'>Round</th><th class='player'>Player One</th><th class='player last'>Player Two</th></tr>";
     foreach ($accountData->user_match_list as $match) {
         $round = $accountData->round_map[$match->round_id];
-        print_table_row(array('name', 'name', 'name', 'name last'), array($accountData->print_division_name($round->division_id), $round->name, $accountData->print_user_name($match->player_one_id, false), $accountData->print_user_name($match->player_two_id, false)));
+        print_table_row(array('division', 'round', 'player', 'player last'), array($accountData->print_division_name($round->division_id), $round->name, $accountData->print_user_name($match->player_one_id, false), $accountData->print_user_name($match->player_two_id, false)));
     }
     print_form_table_end();
 

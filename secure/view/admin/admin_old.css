@@ -1,0 +1,139 @@
+/*table {*/
+    /*border: 1px dashed;*/
+    /*margin-bottom: 20px;*/
+/*}*/
+.id {
+    min-width: 11em;
+}
+.name {
+    min-width: 17em;
+}
+.long_name {
+    min-width: 33em;
+}
+.email {
+    min-width: 17em;
+}
+.address {
+    min-width: 55em;
+}
+.session {
+    min-width: 45em;
+    font-size: 0.75em;
+}
+.status {
+    min-width: 11em;
+}
+.date {
+    min-width: 11em;
+}
+.button {
+    min-width: 5em;
+}
+/*.button input {*/
+    /*text-align: center;*/
+    /*overflow: hidden;*/
+    /*-webkit-appearance: none;*/
+/*}*/
+/*input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {*/
+    /*-webkit-box-align: center;*/
+    /*text-align: center;*/
+    /*cursor: default;*/
+    /*color: buttontext;*/
+    /*padding: 2px 6px 3px;*/
+    /*border: 2px outset buttonface;*/
+    /*border-image: initial;*/
+    /*background-color: buttonface;*/
+    /*box-sizing: border-box;*/
+/*}*/
+td {
+    text-align: center;
+    /*border-top: 1px dashed;*/
+}
+/*td:not(.last) {*/
+    /*border-right: 1px dashed;*/
+/*}*/
+/*td>input {*/
+    /*width: 90%;*/
+/*}*/
+/*div.session_delete {*/
+    /*width: 100%;*/
+/*}*/
+
+/*div.session_delete label, div.session_delete input[type='submit'] {*/
+    /*margin-right: 1em;*/
+    /*float: left;*/
+/*}*/
+
+/* Smartphones (portrait and landscape) ----------- */
+/*@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {*/
+    /* Styles */
+/*}*/
+
+/* Smartphones (landscape) ----------- */
+/*@media only screen and (min-width : 321px) {*/
+    /* Styles */
+/*}*/
+
+/* Smartphones (portrait) ----------- */
+/*@media only screen and (max-width : 320px) {*/
+    /* Styles */
+/*}*/
+
+/* iPads (portrait and landscape) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {*/
+    /* Styles */
+/*}*/
+
+/* iPads (landscape) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {*/
+    /* Styles */
+/*}*/
+
+/* iPads (portrait) ----------- */
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {*/
+    /* Styles */
+/*}*/
+
+/* Desktops and laptops ----------- */
+/*@media only screen and (min-width : 1224px) {*/
+    /* Styles */
+/*}*/
+
+/* Large screens ----------- */
+/*@media only screen and (min-width : 1824px) {*/
+    /* Styles */
+/*}*/
+
+/* iPhone 4 ----------- */
+/*@media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {*/
+    /* Styles */
+    /*.id {*/
+        /*width: 8em;*/
+        /*text-decoration: none;*/
+    /*}*/
+    /*.name {*/
+        /*width: 10em;*/
+    /*}*/
+    /*.long_name {*/
+        /*width: 10em;*/
+    /*}*/
+    /*.email {*/
+        /*width: 10em;*/
+    /*}*/
+    /*.address {*/
+        /*width: 30em;*/
+    /*}*/
+    /*.session {*/
+        /*width: 20em;*/
+    /*}*/
+    /*.status {*/
+        /*width: 8em;*/
+    /*}*/
+    /*.date {*/
+        /*width: 8em;*/
+    /*}*/
+    /*.button {*/
+        /*width: 3em;*/
+    /*}*/
+/*}*/

@@ -162,20 +162,6 @@ class Session
         $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);
         SessionDAO::delete_by_id($secure_cookie);
     }
-
-    public static function print_hello_or_login_button()
-    {
-        $user = Session::get_user();
-        if ($GLOBALS['errors']->has_errors()) {
-            Error::print_errors();
-        } else {
-            if (!empty($user)) {
-                print '<p>Hello ' . $user->name . '</p>';
-            } else {
-                print '<p><a href="/secure/view/login/login.php">Login</a></p>';
-            }
-        }
-    }
 }
 
 ?>

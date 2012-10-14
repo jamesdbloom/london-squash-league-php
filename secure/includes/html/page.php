@@ -4,58 +4,72 @@ load::load_file('view/login', 'login_view_helper.php');
 
 class Page
 {
-    public static function header($title = '', $css_urls = array(), $message = '', $links = array())
+    public static function header($title = '', $css_urls = array(), $title_suffix = '', $message = '', $links = array())
     {
         print "<!DOCTYPE>";
         print "<html xmlns='http://www.w3.org/1999/xhtml' lang='en'>";
         print "<head>";
-        print "<title>" . PageSearchTerms::site_title . " &rsaquo; $title</title>";
+        array_unshift($css_urls, '/secure/view/font_face/chaloops_regular_macroman/stylesheet.css');
+        array_unshift($css_urls, '/secure/view/font_face/EarwigFactoryRegular/web fonts/earwigfactory_regular_macroman/stylesheet.css');
         array_unshift($css_urls, '/secure/view/global.css');
-        // array_unshift($css_urls, '/secure/view/reset.css');
-        foreach ($css_urls as $css_url) {
-            print "<link rel='stylesheet' type='text/css' href='$css_url'>";
-        }
         print "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>";
         print "<meta name='format-detection' content='telephone=no'>";
         print "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+        foreach ($css_urls as $css_url) {
+            print "<link rel='stylesheet' type='text/css' href='$css_url'>";
+        }
+        print "<title>" . PageSearchTerms::site_title . " &rsaquo; $title</title>";
         print "</head>";
         print "<body>";
-        $links = self::default_navigation($links);
-        self::print_navigation($links, 'header-navigation', 'right');
+        print "<div id='container'>";
         if (!empty($title)) {
-            print "<h2>$title</h2>";
+            print "<div id='header'>$title</div>";
         }
+        $links = self::default_navigation($links);
+        self::print_tab_navigation($links, $title);
+        print "<div id='main_content'><div class='section'>";
+        Error::print_errors();
         if (!empty($message)) {
             print "<p class='message'>$message</p>";
         }
-        Error::print_errors();
     }
 
     public static function footer($links = array())
     {
-        $links = self::default_navigation($links);
-        self::print_navigation($links, 'footer-navigation', 'left');
+        print "</div>"; // section
+        print "</div>"; // main_content
+        print "<div id='footer'><p>© 2012 James D Bloom</p></div>";
+        print "</div>"; // container
         print "</body>";
         print "</html>";
     }
 
-    private static function default_navigation($links)
+    private static function default_navigation($links = array())
     {
-        array_unshift($links, new Link(Urls::get_root_url() . '/secure/', 'Home'));
+        if (Session::is_administrator()) {
+            array_unshift($links, Link::get_link(Link::Administration));
+        }
+        array_unshift($links, Link::get_link(Link::Home));
         if (Session::has_active_session()) {
-            if (Session::is_administrator()) {
-                $links[] = new Link('/secure/view/league/view.php', 'Leagues');
-                $links[] = new Link('/secure/view/authentication/view.php', 'Users & Sessions');
-            }
-            $links[] = new Link('/secure/view/account/view.php', 'Account Settings');
-            $links[] = new Link('/secure/view/login/retrieve_password.php', 'Update Password');
-            $links[] = new Link('/secure/view/login/logout.php', 'Logout');
+            $links[] = Link::get_link(Link::Account_Settings);
+            $links[] = Link::get_link(Link::Logout);
         } else {
-            $links[] = new Link('/secure/view/login/login.php', 'Login');
-            $links[] = new Link(LoginViewHelper::login_base_url . 'register.php', 'Register');
-            $links[] = new Link(LoginViewHelper::login_base_url . 'retrieve_password.php', 'Lost password?');
+            $links[] = Link::get_link(Link::Login);
+            $links[] = Link::get_link(Link::Register);
+            $links[] = Link::get_link(Link::Lost_password);
         }
         return $links;
+    }
+
+    public static function print_tab_navigation($links, $active)
+    {
+        if (count($links) > 0) {
+            print "<ul class='tabs'>";
+            foreach ($links as $key => $link) {
+                print "<li " . ($link->text == $active ? "class='active'" : "" ). ">$link</li>";
+            }
+            print "</ul>";
+        }
     }
 
     public static function print_navigation($links, $class, $float_direction = 'right')

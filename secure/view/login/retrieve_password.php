@@ -23,7 +23,7 @@ if (Form::is_post()) {
             }
 
             $title = PageSearchTerms::site_title . ' Password Reset';
-            $reset_url = Urls::get_root_url() . LoginViewHelper::login_base_url . "reset_password.php?key=" . rawurlencode($key) . "&email=" . rawurlencode($user->email);
+            $reset_url = Urls::get_root_url() . Link::Reset_Password_Url . "?key=" . rawurlencode($key) . "&email=" . rawurlencode($user->email);
             $message = '
                     <p>Someone requested that the password be reset for the account associated to this email address.</p>
                     <p>If this was a mistake, just ignore this email and nothing will happen.</p>
@@ -35,7 +35,7 @@ if (Form::is_post()) {
     }
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Headers::set_redirect_header(LoginViewHelper::login_base_url . "login.php?" . LoginViewHelper::message . "=" . LoginViewHelper::retrieve_password);
+        Headers::set_redirect_header(Link::Login_Url . "?" . LoginViewHelper::message . "=" . LoginViewHelper::retrieve_password);
         exit;
     }
 }
@@ -44,21 +44,25 @@ if (Parameters::read_request_input('error') == 'invalidkey') {
     $GLOBALS['errors']->add('invalidkey', 'Sorry, that key does not appear to be valid.', 'error');
 }
 
-Page::header('Lost Password', array(), '<p class="message">' . 'Please enter your email address. You will receive a link to create a new password via email.' . '</p>');
+Page::header(Link::Lost_password);
 ?>
 
-<form name="retrieve_password_form" id="retrieve_password_form" action="<?php echo LoginViewHelper::login_base_url . 'retrieve_password.php'; ?>" method="post">
-    <p>
-        <label for="email">E-mail:<br/>
-            <input type="email" name="email" id="email" class="input" value="<?php echo Urls::escape_and_sanitize_attribute_value($email); ?>" size="35" required="required"
-                   pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" tabindex="10"/>
-        </label>
-    </p>
-    <input type="hidden" name="redirect_to" value="<?php echo LoginViewHelper::redirect_url(); ?>"/>
+<form action='<?php echo Link::Retrieve_Password_Url; ?>' method='post'>
+    <input type='hidden' name='redirect_to' value='<?php echo LoginViewHelper::redirect_url(); ?>'/>
 
-    <p class="submit">
-        <input type="submit" name="submit" class="button-primary" value="Get New Password" tabindex="100"/>
-    </p>
+    <p class='message'>To receive a password reset link please enter your email.</p>
+
+    <div class='retrieve_password_form'>
+        <p>
+            <label class='email' for="email">E-mail:</label>
+            <input class='show_validation' type="email" name="email" class="input" value="<?php echo Urls::escape_and_sanitize_attribute_value($email); ?>" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+                   pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" tabindex="10"/>
+        </p>
+
+        <p class='submit'>
+            <input class='submit' type="submit" name="submit" value="Get New Password" tabindex="100"/>
+        </p>
+    </div>
 </form>
 
 <?php
