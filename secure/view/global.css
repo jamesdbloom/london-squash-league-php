@@ -487,9 +487,9 @@ h2.form_title {
 p.page_link {
     font-size: 1.25em;
     font-weight: bolder;
-    text-decoration: underline;
-    margin-top: 2em;
-    margin-bottom: 2em;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    margin-left: 1.5em;
 }
 
 /* Smartphones (portrait) ----------- */

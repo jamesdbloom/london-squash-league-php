@@ -17,7 +17,7 @@ if (!empty($user)) {
     print_table_row(array('name', 'email', 'mobile last'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>"));
     print_form_table_end();
 
-    print "<p class='page_link'>" . Link::get_link(Link::Account_Settings) . "</p>";
+//    print "<p class='page_link'>" . Link::get_link(Link::Account_Settings) . "</p>";
 
     // DIVISIONS
     print_table_start('Divisions', 'action_table');

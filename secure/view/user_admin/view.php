@@ -6,7 +6,7 @@ load::load_file('view/user_admin', 'user_data.php');
 if (Session::is_administrator()) {
 
     $userData = new UserData();
-    Page::header(Link::Users_Sessions);
+    Page::header(Link::Users_Sessions, array(), '', '', array(new Link('recreate_schema_controller.php', 'Recreate Table')));
 
     // USERS
     print_table_start('Users', 'action_table');

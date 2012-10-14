@@ -7,7 +7,7 @@ if (Session::is_administrator()) {
     load::load_file('view/league_admin', 'league_data.php');
 
     $leagueData = new LeagueData();
-    Page::header(Link::Leagues);
+    Page::header(Link::Leagues, array(), '', '', array(new Link('recreate_schema_controller.php', 'Recreate Table')));
 
     // CLUBS
     print_table_start('Clubs', 'action_table');
@@ -182,7 +182,7 @@ if (Session::is_administrator()) {
 //    }
 //}
 
-    Page::footer(array(new Link('recreate_schema_controller.php', 'Recreate Table')));
+    Page::footer();
 
 } else {
 
