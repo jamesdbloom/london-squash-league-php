@@ -385,7 +385,6 @@ ol.landing>li {
 
 ol.landing>li a {
     line-height: 3em;
-    display: block;
     -webkit-border-radius: .35em;
     border-radius: .35em;
     width: 15em;
