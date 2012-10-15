@@ -695,6 +695,7 @@ h2.table_subtitle {
     font-size: 1.125em;
     font-weight: bolder;
     margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 h2.form_title {
