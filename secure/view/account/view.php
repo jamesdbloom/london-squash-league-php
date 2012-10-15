@@ -20,7 +20,8 @@ if (!empty($user)) {
 //    print "<p class='page_link'>" . Link::get_link(Link::Account_Settings) . "</p>";
 
     // DIVISIONS
-    print_table_start('Divisions', 'action_table');
+    $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();
+    print_table_start('Divisions', (count($unregistered_divisions) > 0 ? 'action_table' : ''));
     print "<tr><th class='club'>Club</th><th class='league'>League</th><th class='division last'>Division</th><th class='button last'></th></tr>";
     foreach ($accountData->user_division_list as $division) {
         $league = $accountData->league_map[$division->league_id];
@@ -32,7 +33,6 @@ if (!empty($user)) {
     }
     print_create_form_start('player');
     print "<input name='user_id' type='hidden' value='" . $user->id . "'>";
-    $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();
     if (count($unregistered_divisions) > 0) {
         print "<tr><td colspan='3' class='name'>";
         print "<select name='division_id'>";
