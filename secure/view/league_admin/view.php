@@ -19,7 +19,7 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('club');
-    print "<tr><td class='club'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address'><input name='address' type='text' pattern='.{10,125}'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "<tr class='create_row'><td class='club'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address'><input name='address' type='text' pattern='.{10,125}'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
     print_form_table_end();
 
     // LEAGUES
@@ -32,7 +32,7 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('league');
-    print "<tr><td class='club'>";
+    print "<tr class='create_row'><td class='club'>";
     if (count($leagueData->club_list) > 0) {
         print "<select name='club_id'>";
         foreach ($leagueData->club_list as $club) {
@@ -55,7 +55,7 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('division');
-    print "<tr><td class='league'>";
+    print "<tr class='create_row'><td class='league'>";
     if (count($leagueData->league_list) > 0) {
         print "<select name='league_id'>";
         foreach ($leagueData->league_list as $league) {
@@ -78,7 +78,7 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('round');
-    print "<tr><td class='division'>";
+    print "<tr class='create_row'><td class='division'>";
     if (count($leagueData->division_list) > 0) {
         print "<select name='division_id'>";
         foreach ($leagueData->division_list as $division) {
@@ -101,7 +101,7 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('player');
-    print "<tr><td class='division'>";
+    print "<tr class='create_row'><td class='division'>";
     if (count($leagueData->division_list) > 0) {
         print "<select name='division_id'>";
         foreach ($leagueData->division_list as $division) {

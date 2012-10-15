@@ -18,7 +18,7 @@ class Link
 
     private static $links = array();
 
-    const Account_Settings = "Account Settings";
+    const Account_Settings = "Account";
     const Administration = "Administration";
     const Enter_Score = "Enter Score";
     const Join_A_League = "Join A League";

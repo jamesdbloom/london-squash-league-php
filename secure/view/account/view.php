@@ -9,7 +9,7 @@ if (!empty($user)) {
     load::load_file('view/account', 'account_data.php');
 
     $accountData = new AccountData();
-    Page::header(Link::Account_Settings, array(), $accountData->user->name, '', array(Link::get_link(Link::Update_Password)));
+    Page::header(Link::Account_Settings, array(), $accountData->user->name);
 
     // USERS
     print_table_start('User');
@@ -17,16 +17,18 @@ if (!empty($user)) {
     print_table_row(array('name', 'email', 'mobile last'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>"));
     print_form_table_end();
 
-//    print "<p class='page_link'>" . Link::get_link(Link::Account_Settings) . "</p>";
+    print "<ol class='landing login'>";
+    print "<li>" . Link::get_link(Link::Update_Password) . "</li>";
+    print "</ol>";
 
     // DIVISIONS
     $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();
-    print_table_start('Divisions', (count($unregistered_divisions) > 0 ? 'action_table' : ''));
-    print "<tr><th class='club'>Club</th><th class='league'>League</th><th class='division last'>Division</th><th class='button last'></th></tr>";
+    print_table_start('Divisions', 'action_table');
+    print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='division_unqualified last'>Division</th><th class='button last'></th></tr>";
     foreach ($accountData->user_division_list as $division) {
         $league = $accountData->league_map[$division->league_id];
         print_form(
-            array('club', 'league', 'division'), array($accountData->print_club_name($league->club_id), $league->name, $division->name),
+            array('club', 'league_unqualified', 'division_unqualified'), array($accountData->print_club_name($league->club_id), $league->name, $division->name),
             array('division_id', 'user_id'), array($division->id, $user->id),
             'unregister'
         );
@@ -34,7 +36,7 @@ if (!empty($user)) {
     print_create_form_start('player');
     print "<input name='user_id' type='hidden' value='" . $user->id . "'>";
     if (count($unregistered_divisions) > 0) {
-        print "<tr><td colspan='3' class='name'>";
+        print "<tr class='create_row'><td colspan='3' class='name'>";
         print "<select name='division_id'>";
         foreach ($unregistered_divisions as $division) {
             print "<option value='" . $division->id . "''>" . $accountData->print_division_name($division->id) . "</option>";
@@ -54,10 +56,10 @@ if (!empty($user)) {
 
     // MATCHES
     print_table_start('Matches');
-    print "<tr><th class='division'>Division</th><th class='round'>Round</th><th class='player'>Player One</th><th class='player last'>Player Two</th></tr>";
+    print "<tr><th class='division'>Division</th><th class='round_nowrap'>Round</th><th class='player'>Player One</th><th class='player last'>Player Two</th></tr>";
     foreach ($accountData->user_match_list as $match) {
         $round = $accountData->round_map[$match->round_id];
-        print_table_row(array('division', 'round', 'player', 'player last'), array($accountData->print_division_name($round->division_id), $round->name, $accountData->print_user_name($match->player_one_id, false), $accountData->print_user_name($match->player_two_id, false)));
+        print_table_row(array('division', 'round_nowrap', 'player', 'player last'), array($accountData->print_division_name($round->division_id), $round->name, $accountData->print_user_name($match->player_one_id, false), $accountData->print_user_name($match->player_two_id, false)));
     }
     print_form_table_end();
 

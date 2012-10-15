@@ -4,6 +4,9 @@ require_once('../../load.php');
 Page::header('London Squash League');
 if (Session::has_active_session()) {
     print "<ol class='landing loggedin'>";
+    if (Session::is_administrator()) {
+        print "<li>" . Link::get_link(Link::Administration) . "</li>";
+    }
     print "<li>" . Link::get_link(Link::View_League) . "</li>";
     print "<li>" . Link::get_link(Link::Enter_Score) . "</li>";
     print "<li>" . Link::get_link(Link::Account_Settings) . "</li>";

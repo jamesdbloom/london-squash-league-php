@@ -46,9 +46,6 @@ class Page
 
     private static function default_navigation($links = array())
     {
-        if (Session::is_administrator()) {
-            array_unshift($links, Link::get_link(Link::Administration));
-        }
         array_unshift($links, Link::get_link(Link::Home));
         if (Session::has_active_session()) {
             $links[] = Link::get_link(Link::Account_Settings);
