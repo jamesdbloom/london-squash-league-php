@@ -76,12 +76,12 @@ class LeagueData extends AbstractData
         return $result;
     }
 
-    public function print_round_name($round_id)
+    public function print_round_name($round_id, $fully_qualified = true)
     {
         $round = $this->round_map[$round_id];
         $result = "&nbsp;";
         if (!empty($round)) {
-            $result = $this->print_division_name($round->division_id) . self::name_spacer . $round->name;
+            $result = ($fully_qualified ? $this->print_division_name($round->division_id) . self::name_spacer : "") . $round->name;
         } else if (!empty($round_id)) {
             $result = $round_id;
         }

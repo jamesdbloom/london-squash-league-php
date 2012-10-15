@@ -224,8 +224,7 @@ h2 {
 }
 
 .delete_sessions_form label.last_activity_date,
-.delete_sessions_form label.created_date
-{
+.delete_sessions_form label.created_date {
     display: block;
     float: left;
     width: 12em;
@@ -264,8 +263,7 @@ h2 {
 .register_form label.mobile_privacy,
 .register_form label.league,
 .retrieve_password_form label.email,
-.reset_password_form label.password
-{
+.reset_password_form label.password {
     display: block;
     float: left;
     width: 8em;
@@ -385,6 +383,15 @@ ol.landing>li {
     height: 3em;
 }
 
+ol.landing>li a {
+    line-height: 3em;
+    display: block;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    width: 15em;
+    height: 3em;
+}
+
 ol.landing.login {
     margin-bottom: 2em;
     margin-left: 3em;
@@ -397,57 +404,75 @@ ol.landing.loggedin {
 
 /* account settings */
 
-td.id {
+td.id,
+th.id {
     min-width: 5em;
 }
 
-td.name {
-    min-width: 11em;
+td.name,
+th.name {
+    min-width: 9em;
 }
 
-td.round {
+td.player,
+th.player {
+    min-width: 9em;
+}
+
+td.round,
+th.round {
+    min-width: 8em;
+}
+
+td.division,
+th.division {
     min-width: 15em;
 }
 
-td.division {
-    min-width: 15em;
-}
-
-td.league {
+td.league,
+th.league {
     min-width: 12em;
 }
 
-td.club {
+td.club,
+th.club {
     min-width: 10em;
 }
 
-td.email {
+td.email,
+th.email {
     min-width: 13em;
 }
 
-td.address {
-    min-width: 30em;
+td.address,
+th.address {
+    min-width: 25em;
 }
 
-td.session {
+td.session,
+th.session {
     min-width: 10em;
     font-size: 0.75em;
 }
 
-td.status {
-    min-width: 11em;
-}
-
-td.date {
-    min-width: 11em;
-}
-
-td.button {
+td.status,
+th.status {
     min-width: 5em;
+}
+
+td.date,
+th.date {
+    min-width: 7em;
+}
+
+td.button,
+th.button {
+    min-width: 3em;
 }
 
 td {
     text-align: center;
+    vertical-align: middle;
     padding: 0.3em 0.5em;
 }
 
@@ -464,7 +489,7 @@ tbody tr:nth-of-type(1) {
     color: #fff;
 }
 
-table.action_table tbody th:last-of-type, table.action_table tr td:last-of-type  {
+table.action_table tbody th:last-of-type, table.action_table tr td:last-of-type {
     background-color: #fff;
 }
 
@@ -476,6 +501,13 @@ table {
 h2.table_title {
     font-size: 1.75em;
     font-weight: bolder;
+    margin-bottom: 1em;
+}
+
+h2.table_subtitle {
+    font-size: 1.125em;
+    font-weight: bolder;
+    margin-top: 1em;
 }
 
 h2.form_title {

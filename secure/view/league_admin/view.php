@@ -71,10 +71,10 @@ if (Session::is_administrator()) {
     // ROUNDS
     print_table_start('Rounds', 'action_table');
     print "<tr><th class='division'>Division</th><th class='date'>Start</th><th class='date'>End</th><th class='button last'></th></tr>\n";
-    foreach ($leagueData->round_list as $round) {
+    foreach ($leagueData->round_list as $round_table) {
         print_form(
-            array('division', 'date', 'date'), array($leagueData->print_division_name($round->division_id), date('d-M-Y', $round->start), date('d-M-Y', $round->end)),
-            array('round_id'), array($round->id)
+            array('division', 'date', 'date'), array($leagueData->print_division_name($round_table->division_id), date('d-M-Y', $round_table->start), date('d-M-Y', $round_table->end)),
+            array('round_id'), array($round_table->id)
         );
     }
     print_create_form_start('round');
@@ -89,50 +89,6 @@ if (Session::is_administrator()) {
         print "&nbsp;";
     }
     print "</td><td class='date'><input name='start' type='date' required='required'/></td><td class='date'><input name='end' type='date' required='required'/></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
-    print_form_table_end();
-
-    // MATCHES
-    print_table_start('Matches', 'action_table');
-    print "<tr><th class='round'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='button last'></th></tr>\n";
-    foreach ($leagueData->match_list as $match) {
-        print_form(
-            array('round', 'player', 'player'), array($leagueData->print_round_name($match->round_id), $leagueData->print_user_name($match->player_one_id), $leagueData->print_user_name($match->player_two_id)),
-            array('match_id'), array($match->id)
-        );
-    }
-    print_create_form_start('match');
-    print "<tr><td class='round'>";
-    if (count($leagueData->round_list) > 0) {
-        print "<select name='round_id'>";
-        foreach ($leagueData->round_list as $round) {
-            print "<option value='" . $round->id . "''>" . $leagueData->print_round_name($round->id) . "</option>\n";
-        }
-        print "</select>";
-    } else {
-        print "&nbsp;";
-    }
-    print "</td><td class='player'>";
-    if (count($leagueData->user_list) > 0) {
-        print "<select name='player_one_id'>";
-        foreach ($leagueData->player_list as $player) {
-            print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id) . "</option>\n";
-        }
-        print "</select>";
-    } else {
-        print "&nbsp;";
-    }
-    print "</td><td class='player'>";
-//print choose_players($listViewData, 'player_two_id', 'print_user_name');
-    if (count($leagueData->user_list) > 0) {
-        print "<select name='player_two_id'>";
-        foreach ($leagueData->player_list as $player) {
-            print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id) . "</option>\n";
-        }
-        print "</select>";
-    } else {
-        print "&nbsp;";
-    }
-    print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
     print_form_table_end();
 
     // PLAYERS
@@ -168,6 +124,63 @@ if (Session::is_administrator()) {
     print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
     print_form_table_end();
 
+
+    // MATCHES
+    print "<h2 class='table_title'>Matches</h2>";
+    foreach ($leagueData->round_list as $round_table) {
+        print_table_start($leagueData->print_division_name($round_table->division_id), 'action_table', 'table_subtitle');
+        print "<tr><th class='round'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='button last'></th></tr>\n";
+        foreach ($leagueData->match_list as $match) {
+            if ($match->round_id == $round_table->id) {
+                print_form(
+                    array('round', 'player', 'player'), array($leagueData->print_round_name($match->round_id, false), $leagueData->print_user_name($match->player_one_id, false), $leagueData->print_user_name($match->player_two_id, false)),
+                    array('match_id'), array($match->id)
+                );
+            }
+        }
+        print_create_form_start('match');
+        print "<tr><td class='round'>";
+        if (count($leagueData->round_list) > 0) {
+            print "<select name='round_id'>";
+            foreach ($leagueData->round_list as $round) {
+                if ($round->id == $round_table->id) {
+                    print "<option value='" . $round->id . "''>" . $leagueData->print_round_name($round->id, false) . "</option>\n";
+                }
+            }
+            print "</select>";
+        } else {
+            print "&nbsp;";
+        }
+        print "</td><td class='player'>";
+        if (count($leagueData->user_list) > 0) {
+            print "<select name='player_one_id'>";
+            foreach ($leagueData->player_list as $player) {
+                if ($player->division_id == $round_table->division_id) {
+                    print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>\n";
+                }
+            }
+            print "</select>";
+        } else {
+            print "&nbsp;";
+        }
+        print "</td><td class='player'>";
+        if (count($leagueData->user_list) > 0) {
+            print "<select name='player_two_id'>";
+            foreach ($leagueData->player_list as $player) {
+                if ($player->division_id == $round_table->division_id) {
+                    print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>\n";
+                }
+            }
+            print "</select>";
+        } else {
+            print "&nbsp;";
+        }
+        print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+        print_form_table_end();
+    }
+
+
+//print choose_players($listViewData, 'player_two_id', 'print_user_name');
 
 //function choose_players(LeagueData $leagueData, $field_id, $callback)
 //{

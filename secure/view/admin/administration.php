@@ -6,8 +6,10 @@ $user = Session::get_user();
 if (!empty($user)) {
 
     Page::header(Link::Administration);
-    print "<p class='page_link'>" . Link::get_link(Link::Leagues) . "</p>";
-    print "<p class='page_link'>" . Link::get_link(Link::Users_Sessions) . "</p>";
+    print "<ol class='landing loggedin'>";
+    print "<li>" . Link::get_link(Link::Leagues) . "</li>";
+    print "<li>" . Link::get_link(Link::Users_Sessions) . "</li>";
+    print "</ol>";
     Page::footer();
     exit;
 

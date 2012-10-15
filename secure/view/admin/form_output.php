@@ -1,7 +1,7 @@
 <?php
-function print_table_start($title, $class = '')
+function print_table_start($title, $class = '', $title_class = 'table_title')
 {
-    print "<h2 class='table_title'>$title</h2>";
+    print "<h2 class='$title_class'>$title</h2>";
     print "<table class='$class'>";
 }
 
