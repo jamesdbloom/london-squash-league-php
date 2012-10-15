@@ -9,7 +9,7 @@ $password = '';
 
 if (Session::has_active_session()) {
     Page::header(Link::Login);
-    print "<p>You are already logged in if you want to login as another user please " . Link::get_link(Link::Logout) . " first</p>";
+    print "<p class='message'>You are already logged in if you want to login as another user please " . Link::get_link(Link::Logout) . " first</p>";
     Page::footer();
     exit;
 }

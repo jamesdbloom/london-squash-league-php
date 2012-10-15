@@ -18,7 +18,7 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('user');
-    print "<tr class='create_row'><td class='name'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='email'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td><td class='mobile'><input name='mobile' type='tel' pattern='\d{5,25}'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "<tr class='create_row'><td class='name last'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='email last'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td><td class='mobile last'><input name='mobile' type='tel' pattern='\d{5,25}'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
     print_form_table_end();
 
     // SESSIONS
@@ -31,7 +31,7 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('session');
-    print "<tr class='create_row'><td class='session'>&nbsp;</td><td class='name'>";
+    print "<tr class='create_row'><td class='session last'>&nbsp;</td><td class='name'>";
     if (count($userData->user_list) > 0) {
         print "<select name='user_id'>";
         foreach ($userData->user_list as $user) {
@@ -39,7 +39,7 @@ if (Session::is_administrator()) {
         }
         print "</select>";
     }
-    print "</td><td class='status'>&nbsp;</td><td class='date'>&nbsp;</td><td class='date'>&nbsp;</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "</td><td class='status last'>&nbsp;</td><td class='date last'>&nbsp;</td><td class='date last'>&nbsp;</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
     print_form_table_end();
 
     print "<h2 class='form_title'>Delete Old Sessions</h2>";

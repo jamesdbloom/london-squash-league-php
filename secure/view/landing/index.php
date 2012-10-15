@@ -3,7 +3,7 @@ require_once('../../load.php');
 
 Page::header('London Squash League');
 if (Session::has_active_session()) {
-    print "<ol class='landing loggedin'>";
+    print "<ol class='link_list'>";
     if (Session::is_administrator()) {
         print "<li>" . Link::get_link(Link::Administration) . "</li>";
     }
@@ -12,7 +12,7 @@ if (Session::has_active_session()) {
     print "<li>" . Link::get_link(Link::Account_Settings) . "</li>";
     print "</ol>";
 } else {
-    print "<ol class='landing login'>";
+    print "<ol class='link_list'>";
     print "<li>1. " . Link::get_link(Link::Register) . "</li>";
     print "<li>2. " . Link::get_link(Link::Join_A_League) . "</li>";
     print "</ol>";
