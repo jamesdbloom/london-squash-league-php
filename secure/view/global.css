@@ -366,41 +366,14 @@ ol.link_list {
 
 /* login, register, retrieve password, reset password, delete sessions */
 
-.delete_sessions_form {
-    width: 25em;
-}
-
-.delete_sessions_form label.last_activity_date,
-.delete_sessions_form label.created_date {
-    display: block;
-    float: left;
-    width: 12em;
-    text-align: right;
-    margin: 0.1em 0.8em 0 0.5em;
-    overflow: hidden;
-}
-
-.delete_sessions_form input:not([type="submit"]) {
-    width: 17em;
-    height: 2em;
-}
-
-.delete_sessions_form p {
-    margin-top: 0.5em;
-}
-
-.delete_sessions_form p.submit {
-    display: block;
-    float: right;
-}
-
 .login_form,
 .register_form,
 .retrieve_password_form,
-.reset_password_form {
+.reset_password_form,
+.delete_sessions_form {
     width: 80%;
     margin-top: 2em;
-    margin-bottom: 2em;
+    margin-bottom: 2.75em;
 }
 
 .login_form label.email,
@@ -412,31 +385,34 @@ ol.link_list {
 .register_form label.mobile_privacy,
 .register_form label.league,
 .retrieve_password_form label.email,
-.reset_password_form label.password {
+.reset_password_form label.password,
+.delete_sessions_form label.last_activity_date,
+.delete_sessions_form label.created_date {
     display: block;
     float: left;
     width: 35%;
     text-align: right;
-    margin-top: 0.1em;
-    margin-right: 8%;
-    margin-left: 0.5em;
+    padding-top: 2px;
+    margin-right: 7%;
+    margin-left: 1.75%;
     margin-bottom: 0;
     overflow: hidden;
+    line-height: 1.3em;
 }
 
 .login_form input:not([type="submit"]),
 .register_form input:not([type="submit"]),
 .retrieve_password_form input:not([type="submit"]),
-.reset_password_form input:not([type="submit"]) {
+.reset_password_form input:not([type="submit"]),
+.delete_sessions_form input:not([type="submit"]) {
     width: 50%;
     height: 2em;
+    line-height: 2em;
+    text-overflow: ellipsis;
 }
 
 .register_form select {
-    background: transparent;
-    width: 17em;
-    padding: 0.3125em;
-    border: 1px solid #ccc;
+    width: 50%;
     height: 2em;
 }
 
@@ -450,14 +426,18 @@ ol.link_list {
 .login_form p,
 .register_form p,
 .retrieve_password_form p,
-.reset_password_form p {
-    margin-top: 0.5em;
+.reset_password_form p,
+.delete_sessions_form p {
+    margin-top: 1.25em;
+    vertical-align: middle;
 }
 
 .login_form p.submit,
 .register_form p.submit,
 .retrieve_password_form p.submit,
-.reset_password_form p.submit {
+.reset_password_form p.submit,
+.delete_sessions_form p.submit {
+    margin-bottom: 1em;
     display: block;
     margin-right: 6%;
     float: right;
@@ -709,6 +689,7 @@ h2.form_title {
     font-size: 1.75em;
     font-weight: bolder;
     margin-bottom: 1.5em;
+    margin-top: 1em;
 }
 
 p.page_link {
