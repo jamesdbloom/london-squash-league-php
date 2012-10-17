@@ -34,13 +34,13 @@ if (Form::is_post()) {
     }
 
     if (!$GLOBALS['errors']->has_errors()) {
-        Page::header(Link::Update_Password, array(), '', "<p class='message reset-pass'>Your password has been reset " . Link::get_link(Link::Login) . "</p>");
+        Page::header(Link::Update_Password, array(), '', "Your password has been reset " . Link::get_link(Link::Login));
         Page::footer();
         exit;
     }
 }
 
-Page::header(Link::Update_Password, '', '<p>' . 'Enter your new password below.' . '</p>');
+Page::header(Link::Update_Password, array(), '', "Enter your new password below.");
 ?>
 
 <form action='<?php echo Link::Reset_Password_Url . '?key=' . rawurlencode($key) . '&email=' . rawurlencode($email); ?>' method='post'>
@@ -49,20 +49,20 @@ Page::header(Link::Update_Password, '', '<p>' . 'Enter your new password below.'
     <div class="reset_password_form">
         <p>
             <label class='password' for="password_one">Password:</label>
-            <input class='show_validation' type="password" name="password_one" class="input" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+            <input class='show_validation' type="password" name="password_one" id="password_one" class="input" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
                    pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="10"/>
         </p>
 
         <p>
             <label class='password' for="password_two">Confirm:</label>
-            <input class='show_validation' type="password" name="password_two" class="input" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+            <input class='password-no-match' type="password" name="password_two" id="password_two" class="input" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
                    pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="20"
-                   onkeyup="if(this.value == document.getElementById('password_one').value) { this.setAttribute('class', 'input'); } else { this.setAttribute('class', 'password-no-match input'); }"/>
+                   onkeyup="if(this.value == document.getElementById('password_one').value) { this.setAttribute('class', 'password-match'); } else { this.setAttribute('class', 'password-no-match'); }"/>
         </p>
 
-        <p>Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp;</p>
+        <p class="form_message">Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp;</p>
 
-        <p>
+        <p class='submit'>
             <input class='submit' type="submit" name="submit" value="Reset Password" tabindex="100"/>
         </p>
     </div>

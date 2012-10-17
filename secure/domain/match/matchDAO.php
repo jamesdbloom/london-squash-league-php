@@ -31,6 +31,37 @@ class MatchDAO extends DAO implements Mapper
         self::insert_update_delete_create($query, $parameters, 'create table ');
     }
 
+
+    public static function create_stored_procedure()
+    {
+        $procedure_name = self::table_name . "_CREATE_MATCH";
+        $query = "DELIMITER // DROP PROCEDURE IF EXISTS " . $procedure_name . " " .
+            "CREATE PROCEDURE " . $procedure_name . " (" .
+            "IN " . strtolower(self::player_one_id_column) . " INT NOT NULL, " .
+            "IN " . strtolower(self::player_two_id_column) . " INT NOT NULL, " .
+            "IN " . strtolower(self::round_id_column) . " VARCHAR(25)" . ") " .
+            "BEGIN " .
+                "IF " . strtolower(self::player_one_id_column) . " IS NOT " . strtolower(self::player_two_id_column) . " THEN " .
+                    "BEGIN " .
+                        "INSERT INTO " . self::table_name . "(" .
+                        self::player_one_id_column . ", " .
+                        self::player_two_id_column . ", " .
+                        self::round_id_column .
+                        ") VALUES (" .
+                        ":" . self::player_one_id_column . ", " .
+                        ":" . self::player_two_id_column . ", " .
+                        ":" . self::round_id_column .
+                        "); " .
+                    "END; " .
+                "ELSE " .
+                    "BEGIN " .
+                    "END " .
+                "END IF;" .
+            "END // DELIMITER ;";
+        $parameters = array();
+        self::insert_update_delete_create($query, $parameters, 'create stored procedure ');
+    }
+
     public static function get_all()
     {
         $query = "SELECT * FROM " . self::table_name;
@@ -42,11 +73,11 @@ class MatchDAO extends DAO implements Mapper
     {
         $query =
             "SELECT DISTINCT " . MatchDAO::table_name . ".* " .
-            " FROM " . MatchDAO::table_name .
-            " INNER JOIN " . PlayerDAO::table_name .
-            " ON ((" . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
-            " OR  (" . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . "))" .
-            " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+                " FROM " . MatchDAO::table_name .
+                " INNER JOIN " . PlayerDAO::table_name .
+                " ON ((" . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
+                " OR  (" . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . "))" .
+                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );
