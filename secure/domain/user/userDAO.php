@@ -6,6 +6,7 @@ load::load_file('domain/session', 'sessionDAO.php');
 class UserDAO extends DAO implements Mapper
 {
     const table_name = 'USER';
+    const id_column = 'USER_ID';
     const name_column = 'NAME';
     const password_column = 'PASSWORD';
     const email_column = 'EMAIL';
@@ -35,7 +36,7 @@ class UserDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_name;
+        $query = "SELECT * FROM " . self::table_name . " ORDER BY " . self::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of users ');
     }

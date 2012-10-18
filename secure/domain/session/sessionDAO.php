@@ -6,6 +6,7 @@ load::load_file('domain/user', 'userDAO.php');
 class SessionDAO extends DAO implements Mapper
 {
     const table_name = 'SESSION';
+    const id_column = 'SESSION_ID';
     const user_id_column = 'USER_ID';
     const status_column = 'STATUS';
     const created_date_column = 'CREATED';
@@ -31,7 +32,7 @@ class SessionDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_name;
+        $query = "SELECT * FROM " . self::table_name . " ORDER BY " . self::created_date_column . ", " . self::last_activity_date_column . ", " . self::status_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of sessions ');
     }

@@ -2,8 +2,6 @@
 require_once('../../load.php');
 load::load_file('view/login', 'login_view_helper.php');
 
-LoginViewHelper::set_headers();
-
 $email = '';
 
 if (Form::is_post()) {
@@ -23,7 +21,7 @@ if (Form::is_post()) {
             }
 
             $title = PageSearchTerms::site_title . ' Password Reset';
-            $reset_url = Urls::get_root_url() . Link::Reset_Password_Url . "?key=" . rawurlencode($key) . "&email=" . rawurlencode($user->email);
+            $reset_url = Link::get_link(Link::Reset_Password_Url, true) . "?key=" . rawurlencode($key) . "&email=" . rawurlencode($user->email);
             $message = '
                     <p>Someone requested that the password be reset for the account associated to this email address.</p>
                     <p>If this was a mistake, just ignore this email and nothing will happen.</p>

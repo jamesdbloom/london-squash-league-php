@@ -6,6 +6,7 @@ load::load_file('domain/league', 'leagueDAO.php');
 class DivisionDAO extends DAO implements Mapper
 {
     const table_name = 'DIVISION';
+    const id_column = 'DIVISION_ID';
     const league_id_column = 'LEAGUE_ID';
     const name_column = 'NAME';
 
@@ -28,7 +29,11 @@ class DivisionDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_name;
+        $query =
+            "SELECT DISTINCT " . self::table_name . ".* FROM " . self::table_name . " " .
+            "JOIN " . LeagueDAO::table_name . " USING (" . self::league_id_column . ") " .
+            "JOIN " . ClubDAO::table_name . " USING (" . LeagueDAO::club_id_column . ") " .
+            "ORDER BY " . ClubDAO::table_name . "." . ClubDAO::name_column . ", " . LeagueDAO::table_name . "." . LeagueDAO::name_column . ", " . self::table_name . "." . self::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of divisions ');
     }
@@ -37,10 +42,10 @@ class DivisionDAO extends DAO implements Mapper
     {
         $query =
             "SELECT DISTINCT " . DivisionDAO::table_name . ".* " .
-            " FROM " . DivisionDAO::table_name .
-            " INNER JOIN " . PlayerDAO::table_name .
-            " ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column .
-            " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+                " FROM " . DivisionDAO::table_name .
+                " INNER JOIN " . PlayerDAO::table_name .
+                " ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column .
+                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );

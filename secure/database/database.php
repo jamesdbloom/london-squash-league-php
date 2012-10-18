@@ -8,7 +8,6 @@ interface Mapper
 class DAO
 {
     protected static $db;
-    const id_column = 'ID';
 
     public static function init(PDO $db)
     {
@@ -52,8 +51,7 @@ class DAO
             $stmt = self::$db->prepare($query);
             $stmt->execute($parameters);
             while ($user_row = $stmt->fetch()) {
-                $all_results[$user_row[self::id_column]] =
-                    $mapper->map($user_row);
+                $all_results[] = $mapper->map($user_row);
             }
         } catch (PDOException $e) {
             $message = 'Unable to ' . $action . (self::$show_queries ? ' ' . $query . $e->getMessage() : '');
@@ -64,6 +62,19 @@ class DAO
         }
 
         return $all_results;
+    }
+
+    protected static function execute($query, $action)
+    {
+        try {
+            self::$db->exec($query);
+        } catch (PDOException $e) {
+            $message = 'Unable to ' . $action . (self::$show_queries ? ' ' . $query . $e->getMessage() : '');
+            if (self::$show_errors) {
+                print $message . '<br/>';
+            }
+            $GLOBALS['errors']->add('dao_error', $message);
+        }
     }
 
     protected static function insert_update_delete_create($query, array $parameters, $action)

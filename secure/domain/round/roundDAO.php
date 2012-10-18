@@ -6,6 +6,7 @@ load::load_file('domain/division', 'divisionDAO.php');
 class RoundDAO extends DAO implements Mapper
 {
     const table_name = 'ROUND';
+    const id_column = 'ROUND_ID';
     const division_id_column = 'DIVISION_ID';
     const start_column = 'START';
     const end_column = 'END';
@@ -30,7 +31,15 @@ class RoundDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_name;
+        $query = "SELECT DISTINCT " . self::table_name . ".* FROM " . self::table_name . " " .
+            "JOIN " . DivisionDAO::table_name . " USING (" . self::division_id_column . ") " .
+            "JOIN " . LeagueDAO::table_name . " USING (" . DivisionDAO::league_id_column . ") " .
+            "JOIN " . ClubDAO::table_name . " USING (" . LeagueDAO::club_id_column . ") " .
+            "ORDER BY " .
+            ClubDAO::table_name . "." . ClubDAO::name_column . ", " .
+            LeagueDAO::table_name . "." . LeagueDAO::name_column . ", " .
+            DivisionDAO::table_name . "." . DivisionDAO::name_column . ", " .
+            self::start_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of rounds ');
     }
@@ -39,13 +48,13 @@ class RoundDAO extends DAO implements Mapper
     {
         $query =
             "SELECT DISTINCT " . RoundDAO::table_name . ".* " .
-            " FROM " . RoundDAO::table_name .
-            " INNER JOIN (" . MatchDAO::table_name .
-            "   INNER JOIN " . PlayerDAO::table_name .
-            "   ON ((" . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
-            "   OR  (" . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ")))" .
-            " ON " . RoundDAO::table_name . "." . RoundDAO::id_column . " = " . MatchDAO::table_name . "." . MatchDAO::round_id_column .
-            " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+                " FROM " . RoundDAO::table_name .
+                " INNER JOIN (" . MatchDAO::table_name .
+                "   INNER JOIN " . PlayerDAO::table_name .
+                "   ON ((" . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
+                "   OR  (" . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ")))" .
+                " ON " . RoundDAO::table_name . "." . RoundDAO::id_column . " = " . MatchDAO::table_name . "." . MatchDAO::round_id_column .
+                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );

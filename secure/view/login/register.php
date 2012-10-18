@@ -2,8 +2,6 @@
 require_once('../../load.php');
 load::load_file('view/login', 'login_view_helper.php');
 
-LoginViewHelper::set_headers();
-
 $human_name = '';
 $email = '';
 $mobile = '';

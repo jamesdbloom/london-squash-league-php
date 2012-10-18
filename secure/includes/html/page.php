@@ -6,6 +6,9 @@ class Page
 {
     public static function header($title = '', $css_urls = array(), $title_suffix = '', $message = '', $links = array())
     {
+        Headers::set_nocache_headers();
+        Headers::set_content_type_header();
+        Cookies::set_test_cookie();
         print "<!DOCTYPE>";
         print "<html xmlns='http://www.w3.org/1999/xhtml' lang='en'>";
         print "<head>";

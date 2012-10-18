@@ -17,7 +17,7 @@ class Round
         $this->division_id = $division_id;
         $this->start = $start;
         $this->end = $end;
-        $this->name = "&#40;" . date('d-M-Y', $this->start) . "&nbsp;&ndash;&nbsp;" . date('d-M-Y', $this->end) . "&#41;";
+        $this->name = "&#40;" . date('d-M-Y', $this->start) . " &ndash; " . date('d-M-Y', $this->end) . "&#41;";
     }
 
     public function __toString()

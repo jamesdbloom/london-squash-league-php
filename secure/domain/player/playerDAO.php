@@ -7,6 +7,7 @@ load::load_file('domain/division', 'divisionDAO.php');
 class PlayerDAO extends DAO implements Mapper
 {
     const table_name = 'PLAYER';
+    const id_column = 'PLAYER_ID';
     const user_id_column = 'USER_ID';
     const division_id_column = 'DIVISION_ID';
 
@@ -30,7 +31,16 @@ class PlayerDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_name;
+        $query = "SELECT DISTINCT " . self::table_name . ".* FROM " . self::table_name . " " .
+            "JOIN " . UserDAO::table_name . " USING (" . self::user_id_column . ") " .
+            "JOIN " . DivisionDAO::table_name . " USING (" . self::division_id_column . ") " .
+            "JOIN " . LeagueDAO::table_name . " USING (" . DivisionDAO::league_id_column . ") " .
+            "JOIN " . ClubDAO::table_name . " USING (" . LeagueDAO::club_id_column . ") " .
+            "ORDER BY " .
+            ClubDAO::table_name . "." . ClubDAO::name_column . ", " .
+            LeagueDAO::table_name . "." . LeagueDAO::name_column . ", " .
+            DivisionDAO::table_name . "." . DivisionDAO::name_column . ", " .
+            UserDAO::table_name . "." . UserDAO::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of players ');
     }

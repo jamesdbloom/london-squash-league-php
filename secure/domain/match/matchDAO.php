@@ -7,6 +7,7 @@ load::load_file('domain/round', 'roundDAO.php');
 class MatchDAO extends DAO implements Mapper
 {
     const table_name = 'MATCHES';
+    const id_column = 'MATCH_ID';
     const player_one_id_column = 'PLAYER_ONE_ID';
     const player_two_id_column = 'PLAYER_TWO_ID';
     const round_id_column = 'ROUND_ID';
@@ -31,40 +32,20 @@ class MatchDAO extends DAO implements Mapper
         self::insert_update_delete_create($query, $parameters, 'create table ');
     }
 
-
-    public static function create_stored_procedure()
-    {
-        $procedure_name = self::table_name . "_CREATE_MATCH";
-        $query = "DELIMITER // DROP PROCEDURE IF EXISTS " . $procedure_name . " " .
-            "CREATE PROCEDURE " . $procedure_name . " (" .
-            "IN " . strtolower(self::player_one_id_column) . " INT NOT NULL, " .
-            "IN " . strtolower(self::player_two_id_column) . " INT NOT NULL, " .
-            "IN " . strtolower(self::round_id_column) . " VARCHAR(25)" . ") " .
-            "BEGIN " .
-                "IF " . strtolower(self::player_one_id_column) . " IS NOT " . strtolower(self::player_two_id_column) . " THEN " .
-                    "BEGIN " .
-                        "INSERT INTO " . self::table_name . "(" .
-                        self::player_one_id_column . ", " .
-                        self::player_two_id_column . ", " .
-                        self::round_id_column .
-                        ") VALUES (" .
-                        ":" . self::player_one_id_column . ", " .
-                        ":" . self::player_two_id_column . ", " .
-                        ":" . self::round_id_column .
-                        "); " .
-                    "END; " .
-                "ELSE " .
-                    "BEGIN " .
-                    "END " .
-                "END IF;" .
-            "END // DELIMITER ;";
-        $parameters = array();
-        self::insert_update_delete_create($query, $parameters, 'create stored procedure ');
-    }
-
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_name;
+        $query = "SELECT DISTINCT " . self::table_name . ".* FROM " . self::table_name . " " .
+            "JOIN " . PlayerDAO::table_name . " AS " . PlayerDAO::table_name . "_ONE" .
+            " ON " . self::table_name . "." . self::player_one_id_column . " = " . PlayerDAO::table_name . "_ONE" . "." . PlayerDAO::id_column . " " .
+            "JOIN " . PlayerDAO::table_name . " AS " . PlayerDAO::table_name . "_TWO" .
+            " ON " . self::table_name . "." . self::player_one_id_column . " = " . PlayerDAO::table_name . "_TWO" . "." . PlayerDAO::id_column . " " .
+            "JOIN " . UserDAO::table_name . " AS " . UserDAO::table_name . "_ONE" .
+            " ON " . PlayerDAO::table_name . "_ONE." . PlayerDAO::user_id_column . " = " . UserDAO::table_name . "_ONE." . UserDAO::id_column . " " .
+            "JOIN " . UserDAO::table_name . " AS " . UserDAO::table_name . "_TWO" .
+            " ON " . PlayerDAO::table_name . "_TWO." . PlayerDAO::user_id_column . " = " . UserDAO::table_name . "_TWO." . UserDAO::id_column . " " .
+            "ORDER BY " .
+            UserDAO::table_name . "_ONE" . "." . UserDAO::name_column . ", " .
+            UserDAO::table_name . "_TWO" . "." . UserDAO::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of matches ');
     }
@@ -106,22 +87,26 @@ class MatchDAO extends DAO implements Mapper
 
     public static function create($player_one_id, $player_two_id, $round_id)
     {
-        $query = "INSERT INTO " . self::table_name . "(" .
-            self::player_one_id_column . "," .
-            self::player_two_id_column . "," .
-            self::round_id_column .
-            ") VALUES (" .
-            ":" . self::player_one_id_column . "," .
-            ":" . self::player_two_id_column . "," .
-            ":" . self::round_id_column .
-            ")";
-        $parameters = array(
-            ':' . self::player_one_id_column => self::sanitize_value($player_one_id),
-            ':' . self::player_two_id_column => self::sanitize_value($player_two_id),
-            ':' . self::round_id_column => self::sanitize_value($round_id),
-        );
-        self::insert_update_delete_create($query, $parameters, 'save match ');
-        return self::get_by_player_id_and_round_id($player_one_id, $player_two_id, $round_id);
+        if ($player_one_id != $player_two_id) {
+            $query = "INSERT INTO " . self::table_name . "(" .
+                self::player_one_id_column . "," .
+                self::player_two_id_column . "," .
+                self::round_id_column .
+                ") VALUES (" .
+                ":" . self::player_one_id_column . "," .
+                ":" . self::player_two_id_column . "," .
+                ":" . self::round_id_column .
+                ")";
+            $parameters = array(
+                ':' . self::player_one_id_column => self::sanitize_value($player_one_id),
+                ':' . self::player_two_id_column => self::sanitize_value($player_two_id),
+                ':' . self::round_id_column => self::sanitize_value($round_id),
+            );
+            self::insert_update_delete_create($query, $parameters, 'save match ');
+            return self::get_by_player_id_and_round_id($player_one_id, $player_two_id, $round_id);
+        } else {
+            $GLOBALS['errors']->add('validation_error', "A match can only be created between two different players");
+        }
     }
 
     public static function delete_by_id($id)

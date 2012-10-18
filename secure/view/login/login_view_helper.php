@@ -13,13 +13,6 @@ class LoginViewHelper
 
     const redirect_to = 'redirect_to';
 
-    public static function set_headers()
-    {
-        Headers::set_nocache_headers();
-        Headers::set_content_type_header();
-        Cookies::set_test_cookie();
-    }
-
     public static function redirect_url()
     {
         $current_path = Urls::get_current_path();
@@ -67,7 +60,7 @@ class LoginViewHelper
         $message = '
             <p>Someone registered an account associated to this email address.</p>
             <p>If this was a mistake, just ignore this email and nothing will happen.</p>
-            <p>To login to you account using the details below on the login page: ' . Link::get_link(Link::Login) . '</p>
+            <p>To login to you account using the details below on the login page: ' . Link::get_link(Link::Login, true) . '</p>
             <p>Username: ' . $user->email . '</p>
             <p>Password: ' . $password . '</p>
         ';

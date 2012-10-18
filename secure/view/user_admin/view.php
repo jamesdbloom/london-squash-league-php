@@ -31,7 +31,7 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('session');
-    print "<tr class='create_row'><td class='session last'>&nbsp;</td><td class='name'>";
+    print "<tr class='create_row'><td class='session last'>&nbsp;</td><td class='name last'>";
     if (count($userData->user_list) > 0) {
         print "<select name='user_id'>";
         foreach ($userData->user_list as $user) {

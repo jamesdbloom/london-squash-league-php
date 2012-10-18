@@ -5,6 +5,7 @@ load::load_file('domain/club', 'club.php');
 class ClubDAO extends DAO implements Mapper
 {
     const table_name = 'CLUB';
+    const id_column = 'CLUB_ID';
     const name_column = 'NAME';
     const address_column = 'ADDRESS';
 
@@ -26,7 +27,7 @@ class ClubDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_name;
+        $query = "SELECT * FROM " . self::table_name . " ORDER BY " . self::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of clubs ');
     }

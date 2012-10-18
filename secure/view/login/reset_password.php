@@ -2,8 +2,6 @@
 require_once('../../load.php');
 load::load_file('view/login', 'login_view_helper.php');
 
-LoginViewHelper::set_headers();
-
 $key = rawurldecode(Parameters::read_get_input('key'));
 if (!empty($key)) {
     $email = rawurldecode(Parameters::read_get_input('email'));

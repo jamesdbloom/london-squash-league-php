@@ -6,6 +6,7 @@ load::load_file('domain/club', 'clubDAO.php');
 class LeagueDAO extends DAO implements Mapper
 {
     const table_name = 'LEAGUE';
+    const id_column = 'LEAGUE_ID';
     const club_id_column = 'CLUB_ID';
     const name_column = 'NAME';
 
@@ -28,7 +29,11 @@ class LeagueDAO extends DAO implements Mapper
 
     public static function get_all()
     {
-        $query = "SELECT * FROM " . self::table_name;
+        $query =
+            "SELECT DISTINCT " . LeagueDAO::table_name . ".* " .
+                "FROM " . self::table_name . " JOIN " . ClubDAO::table_name . " " .
+                "USING (" . self::club_id_column . ") " .
+                "ORDER BY " . ClubDAO::table_name . "." . ClubDAO::name_column . ", " . self::table_name . "." . self::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of leagues ');
     }
@@ -37,12 +42,12 @@ class LeagueDAO extends DAO implements Mapper
     {
         $query =
             "SELECT DISTINCT " . LeagueDAO::table_name . ".* " .
-            " FROM " . LeagueDAO::table_name .
-            " INNER JOIN (" . DivisionDAO::table_name .
-            "   INNER JOIN " . PlayerDAO::table_name .
-            "   ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column . ")" .
-            " ON " . LeagueDAO::table_name . "." . LeagueDAO::id_column . " = " . DivisionDAO::table_name . "." . DivisionDAO::league_id_column .
-            " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+                " FROM " . LeagueDAO::table_name .
+                " INNER JOIN (" . DivisionDAO::table_name .
+                "   INNER JOIN " . PlayerDAO::table_name .
+                "   ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column . ")" .
+                " ON " . LeagueDAO::table_name . "." . LeagueDAO::id_column . " = " . DivisionDAO::table_name . "." . DivisionDAO::league_id_column .
+                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );

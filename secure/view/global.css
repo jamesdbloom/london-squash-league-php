@@ -182,11 +182,14 @@ ol.link_list>li {
 }
 
 ol.link_list>li a {
-    line-height: 3em;
+    line-height: 1em;
+    display: block;
+    padding-top: 1em;
+    padding-bottom: 1em;
     -webkit-border-radius: .35em;
     border-radius: .35em;
-    max-width: 100%;
-    height: 3em;
+    width: 100%;
+    height: 1em;
 }
 
 ol.link_list,

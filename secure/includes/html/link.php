@@ -41,7 +41,7 @@ class Link
     const Retrieve_Password_Url = '/secure/view/login/retrieve_password.php';
     const User_Admin_Url =  '/secure/view/user_admin/view.php';
 
-    public static function get_link($link_name)
+    public static function get_link($link_name, $fully_qualified = false, $text = '')
     {
         if (count(self::$links) <= 0) {
             self::$links[self::Account_Settings] = new Link(self::Account_Url, self::Account_Settings);
@@ -58,7 +58,14 @@ class Link
             self::$links[self::Users_Sessions] = new Link(self::User_Admin_Url, self::Users_Sessions);
             self::$links[self::View_League] = new Link("/secure/view/league/view.php", self::View_League);
         }
-        return self::$links[$link_name];
+        $link = self::$links[$link_name];
+        if (!empty($text)) {
+           $link->text = $text;
+        }
+        if ($fully_qualified) {
+            $link->url = Urls::get_root_url() . $link->url;
+        }
+        return $link;
     }
 }
 

@@ -2,11 +2,6 @@
 require_once('../../load.php');
 load::load_file('view/login', 'login_view_helper.php');
 
-LoginViewHelper::set_headers();
-
-$email = Cookies::get_cookie_value(Cookies::REMEMBER_ME_COOKIE_NAME);
-$password = '';
-
 if (Session::has_active_session()) {
     Page::header(Link::Login);
     print "<p class='message'>You are already logged in if you want to login as another user please " . Link::get_link(Link::Logout) . " first</p>";
