@@ -10,15 +10,26 @@ if (Session::is_administrator()) {
 
     // USERS
     print_table_start('Users', 'action_table');
-    print "<tr><th class='name'>Name</th><th class='email'>Email</th><th class='mobile'>Mobile</th><th class='button last'></th></tr>\n";
+    print "<tr><th class='name'>Name</th><th class='email'>Email</th><th class='mobile'>Mobile</th><th class='mobile_privacy'>Mobile Privacy</th><th class='button last'></th></tr>\n";
     foreach ($userData->user_list as $user) {
         print_form(
-            array('name', 'email', 'mobile'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>"),
+            array('name', 'email', 'mobile', 'mobile_privacy'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>", User::get_mobile_privacy_text($user->mobile_privacy)),
             array('user_id'), array($user->id)
         );
     }
     print_create_form_start('user');
-    print "<tr class='create_row'><td class='name last'><input name='name' type='text' pattern='.{3,25}' required='required'></td><td class='email last'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td><td class='mobile last'><input name='mobile' type='tel' pattern='\d{5,25}'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "<tr class='create_row'>";
+    print "<td class='name last'><input name='name' type='text' pattern='.{3,25}' required='required'></td>";
+    print "<td class='email last'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td>";
+    print "<td class='mobile last'><input name='mobile' type='tel' pattern='\d{5,25}'></td>";
+    print "<td class='mobile_privacy last'><select name='mobile_privacy'>";
+    print "<option value='''>Please select...</option>";
+    print "<option value='secret''>" . User::get_mobile_privacy_text('secret') . "</option>";
+    print "<option value='division''>" . User::get_mobile_privacy_text('division') . "</option>";
+    print "<option value='league''>" . User::get_mobile_privacy_text('league') . "</option>";
+    print "<option value='everyone''>" . User::get_mobile_privacy_text('everyone') . "</option>";
+    print "</select></td>";
+    print "<td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
     // SESSIONS

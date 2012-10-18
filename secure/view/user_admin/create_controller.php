@@ -11,7 +11,8 @@ if ($type == 'user') {
         $password,
         Parameters::read_post_input('email'),
         Parameters::read_post_input('mobile'),
-        Authentication::generate_password(20, true)
+        Authentication::generate_password(20, true),
+        Parameters::read_post_input('mobile_privacy')
     );
     if (!$GLOBALS['errors']->has_errors()) {
         LoginViewHelper::send_new_user_notification($user, $password);

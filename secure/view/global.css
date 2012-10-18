@@ -54,7 +54,7 @@ table {
     border-spacing: 0;
 }
 
-input {
+input:not([type="submit"]) {
     margin: 0;
     padding: 0;
     outline: 0;
@@ -225,6 +225,18 @@ ol.link_list {
     #footer p {
         font: 1.125em 'EarwigFactoryRegular', sans-serif;
     }
+
+    input:not([type="submit"]) {
+        width: 80%
+    }
+
+    select {
+        width: 80%
+    }
+
+    .email, .status {
+        display: none;
+    }
 }
 
 /* Smartphones (landscape) ----------- */
@@ -250,6 +262,14 @@ ol.link_list {
 
     #footer p {
         font: 1.5em 'EarwigFactoryRegular', sans-serif;
+    }
+
+    input:not([type="submit"]) {
+        width: 80%
+    }
+
+    select {
+        width: 80%
     }
 }
 

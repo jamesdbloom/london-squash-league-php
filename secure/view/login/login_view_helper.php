@@ -22,7 +22,7 @@ class LoginViewHelper
         return Urls::escape_and_sanitize_attribute_value(Parameters::read_request_input(self::redirect_to, $current_path));
     }
 
-    public static function validate_and_create_user($human_name, $email, $mobile)
+    public static function validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $league_id)
     {
         // Check the human_name
         if ($human_name == '') {
@@ -43,9 +43,9 @@ class LoginViewHelper
 
         if (!$GLOBALS['errors']->has_errors()) {
             $password = Authentication::generate_password(12, true);
-            $user = UserDAO::create($human_name, $password, $email, $mobile, Authentication::generate_password(20, true));
+            $user = UserDAO::create($human_name, $password, $email, $mobile, Authentication::generate_password(20, true), $mobile_privacy);
             if (empty($user)) {
-                $GLOBALS['errors']->add('registerfail', sprintf('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact <a href="mailto:%s">%s</a>', Urls::get_webmaster_email(), Urls::get_webmaster_email()));
+                $GLOBALS['errors']->add('registration_failure', sprintf('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact <a href="mailto:%s">%s</a>', Urls::get_webmaster_email(), Urls::get_webmaster_email()));
             } else {
                 self::send_new_user_notification($user, $password);
                 return $user;

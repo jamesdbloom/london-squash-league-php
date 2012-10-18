@@ -10,7 +10,9 @@ if (Form::is_post()) {
     $human_name = Parameters::read_post_input('human_name');
     $email = Parameters::read_post_input('email');
     $mobile = Parameters::read_post_input('mobile');
-    LoginViewHelper::validate_and_create_user($human_name, $email, $mobile);
+    $mobile_privacy = Parameters::read_post_input('mobile_privacy');
+    $league_id = Parameters::read_post_input('mobile_privacy');
+    LoginViewHelper::validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $league_id);
 
     if (!$GLOBALS['errors']->has_errors()) {
         Headers::set_redirect_header(Link::Login_Url . "?" . LoginViewHelper::message . "=" . LoginViewHelper::registered);
@@ -49,10 +51,10 @@ Page::header(Link::Register);
             <label class='mobile_privacy' for="mobile_privacy">Mobile Privacy:</label>
             <select name='mobile_privacy'>
                 <option value='''>Please select...</option>
-                <option value='secret''>Keep secret</option>
-                <option value='division''>Players in division</option>
-                <option value='league''>Players in league</option>
-                <option value='everyone''>Show everyone</option>
+                <option value='secret''><?php echo User::get_mobile_privacy_text('secret'); ?></option>
+                <option value='division''><?php echo User::get_mobile_privacy_text('division'); ?></option>
+                <option value='league''><?php echo User::get_mobile_privacy_text('league'); ?></option>
+                <option value='everyone''><?php echo User::get_mobile_privacy_text('everyone'); ?></option>
             </select>
         </p>
 
