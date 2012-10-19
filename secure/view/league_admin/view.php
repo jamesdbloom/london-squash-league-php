@@ -152,24 +152,21 @@ if (Session::is_administrator()) {
             print "&nbsp;";
         }
         print "</td><td class='player last'>";
-        if (count($leagueData->user_list) > 0) {
+        $players_in_division = $leagueData->players_in_division($round_table);
+        if (count($players_in_division) > 0) {
             print "<select name='player_one_id'>";
-            foreach ($leagueData->player_list as $player) {
-                if ($player->division_id == $round_table->division_id) {
-                    print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>\n";
-                }
+            foreach ($players_in_division as $player) {
+                print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>\n";
             }
             print "</select>";
         } else {
             print "&nbsp;";
         }
         print "</td><td class='player last'>";
-        if (count($leagueData->user_list) > 0) {
+        if (count($players_in_division) > 0) {
             print "<select name='player_two_id'>";
-            foreach ($leagueData->player_list as $player) {
-                if ($player->division_id == $round_table->division_id) {
-                    print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>\n";
-                }
+            foreach ($players_in_division as $player) {
+                print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>\n";
             }
             print "</select>";
         } else {
@@ -178,6 +175,11 @@ if (Session::is_administrator()) {
         print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
         print_form_table_end();
     }
+
+    print "<h2 class='form_title'>Create All Matches</h2>";
+    print_create_form_start('create_all_matches');
+    print "<p class='submit'><input class='submit' type='submit' name='create' value='create'></p>";
+    print "</div></form><br/>";
 
 
 //print choose_players($listViewData, 'player_two_id', 'print_user_name');

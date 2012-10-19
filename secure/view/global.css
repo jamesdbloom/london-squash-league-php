@@ -237,6 +237,10 @@ ol.link_list {
     .email, .status {
         display: none;
     }
+
+    .hidden_link {
+        display: none;
+    }
 }
 
 /* Smartphones (landscape) ----------- */

@@ -1,6 +1,7 @@
 <?php
 require_once('../../load.php');
 load::load_file('view/league_admin', 'league_imports.php');
+load::load_file('view/league_admin', 'league_data.php');
 
 $type = Parameters::read_post_input('type');
 if ($type == 'club') {
@@ -34,6 +35,10 @@ if ($type == 'match') {
         Parameters::read_post_input('player_two_id'),
         Parameters::read_post_input('round_id')
     );
+}
+if ($type == 'create_all_matches') {
+    $leagueData = new LeagueData();
+    $leagueData->create_matches();
 }
 if ($type == 'player') {
     PlayerDAO::create(
