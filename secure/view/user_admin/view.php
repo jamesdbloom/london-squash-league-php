@@ -6,11 +6,11 @@ load::load_file('view/user_admin', 'user_data.php');
 if (Session::is_administrator()) {
 
     $userData = new UserData();
-    Page::header(Link::Users_Sessions, array(), '', '', array(new Link('recreate_schema_controller.php', 'Recreate Table')));
+    Page::header(Link::Users_Sessions, array(), '', '', array(Link::get_link(Link::Recreate_Table)));
 
     // USERS
     print_table_start('Users', 'action_table');
-    print "<tr><th class='name'>Name</th><th class='email'>Email</th><th class='mobile'>Mobile</th><th class='mobile_privacy'>Mobile Privacy</th><th class='button last'></th></tr>\n";
+    print "<tr><th class='name'>Name</th><th class='email'>Email</th><th class='mobile'>Mobile</th><th class='mobile_privacy'>Mobile Privacy</th><th class='button last'></th></tr>";
     foreach ($userData->user_list as $user) {
         print_form(
             array('name', 'email', 'mobile', 'mobile_privacy'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>", User::get_mobile_privacy_text($user->mobile_privacy)),
@@ -34,7 +34,7 @@ if (Session::is_administrator()) {
 
     // SESSIONS
     print_table_start('Sessions', 'action_table');
-    print "<tr><th class='session'>Id</th><th class='name'>User</th><th class='status'>Status</th><th class='date'>Created</th><th class='date'>Last Activity</th><th class='button last'></th></tr>\n";
+    print "<tr><th class='session'>Id</th><th class='name'>User</th><th class='status'>Status</th><th class='date'>Created</th><th class='date'>Last Activity</th><th class='button last'></th></tr>";
     foreach ($userData->session_list as $session) {
         print_form(
             array('session', 'name', 'status', 'date', 'date'), array(implode(' ', str_split($session->id, strlen($session->id) / 5)), $userData->print_user_name($session->user_id), $session->status, $session->created_date, $session->last_activity_date),
@@ -50,7 +50,7 @@ if (Session::is_administrator()) {
         }
         print "</select>";
     }
-    print "</td><td class='status last'>&nbsp;</td><td class='date last'>&nbsp;</td><td class='date last'>&nbsp;</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "</td><td class='status last'>&nbsp;</td><td class='date last'>&nbsp;</td><td class='date last'>&nbsp;</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
     print "<h2 class='form_title'>Delete Old Sessions</h2>";

@@ -159,45 +159,6 @@ h2 {
     font: 2em 'EarwigFactoryRegular', sans-serif;
 }
 
-/* link list page */
-
-ol.link_list>li {
-    cursor: pointer;
-    background: transparent;
-    border: 2px;
-    border-style: outset;
-    color: #273A47;
-    font-size: 1.2em;
-    font-weight: bolder;
-    text-shadow: 0 .5px 0 white;
-    text-align: center;
-    line-height: 3em;
-    display: block;
-    -webkit-border-radius: .35em;
-    border-radius: .35em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    max-width: 100%;
-    height: 3em;
-}
-
-ol.link_list>li a {
-    line-height: 1em;
-    display: block;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    -webkit-border-radius: .35em;
-    border-radius: .35em;
-    width: 100%;
-    height: 1em;
-}
-
-ol.link_list,
-ol.link_list {
-    margin-left: 5%;
-    margin-right: 5%;
-}
-
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 400px) {
     body {
@@ -226,19 +187,29 @@ ol.link_list {
         font: 1.125em 'EarwigFactoryRegular', sans-serif;
     }
 
-    input:not([type="submit"]) {
+    .login_form input:not([type="submit"]),
+    .register_form input:not([type="submit"]),
+    .retrieve_password_form input:not([type="submit"]),
+    .reset_password_form input:not([type="submit"]),
+    .delete_sessions_form input:not([type="submit"]) {
         width: 80%
     }
 
-    select {
+    .login_form select,
+    .register_form select,
+    .retrieve_password_form select,
+    .reset_password_form select,
+    .delete_sessions_form select {
         width: 80%
     }
 
     .email, .status {
         display: none;
     }
+}
 
-    .hidden_link {
+@media only screen and (max-width : 480px) {
+    .hide_on_small_screen {
         display: none;
     }
 }
@@ -268,11 +239,27 @@ ol.link_list {
         font: 1.5em 'EarwigFactoryRegular', sans-serif;
     }
 
-    input:not([type="submit"]) {
+    .login_form input:not([type="submit"]),
+    .register_form input:not([type="submit"]),
+    .retrieve_password_form input:not([type="submit"]),
+    .reset_password_form input:not([type="submit"]),
+    .delete_sessions_form input:not([type="submit"]) {
         width: 80%
     }
 
-    select {
+    td[colspan='3'] select {
+        width: 60%
+    }
+
+    td[colspan='4'] select {
+        width: 50%
+    }
+
+    .login_form select,
+    .register_form select,
+    .retrieve_password_form select,
+    .reset_password_form select,
+    .delete_sessions_form select {
         width: 80%
     }
 }
@@ -329,6 +316,8 @@ ol.link_list {
     }
 }
 
+/* links */
+
 .tabs {
     width: 100%;
     height: 1.4em;
@@ -364,31 +353,79 @@ ol.link_list {
     background-color: #fff;
 }
 
-.white_blend {
-    width: 100%;
-    height: 3.8125em;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVkAAAA9CAYAAAAH4BojAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAO1JREFUeNrs3TsKgFAMRUE/eer+NxztxMYuEWQG3ECKwwUF58ycAKixOAGAyAKILAAiCyCyACILgMgCiCyAyAIgsgAiCyCyAIgsgMgCiCwAIgsgsgAiC4DIAogsACIL0CWuZ3UGgLrIhjMA1EV2OAOAJQtgyQLwjOzmDAAiCyCyAIgsQFtkd2cAEFkAkQVAZAHaIns4A4AlC2DJAiCyACILILIAiCzAV5H1dQGAJQsgsgCILIDIAvwisl58AViyAJYsACILILIAIgvAe2T9EhxAZAFEFgCRBeiL7HAGgLrIhjMAWLIAliwAt1OAAQDwygTBulLIlQAAAABJRU5ErkJggg==);
-    position: absolute;
-    bottom: 0;
+.standalone_link {
+    cursor: pointer;
+    background: transparent;
+    border: 2px;
+    border-style: outset;
+    color: #273A47;
+    font-size: 1.2em;
+    font-weight: bolder;
+    text-shadow: 0 .5px 0 white;
+    text-align: center;
+    line-height: 3em;
+    display: block;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    margin: 1em 10% 1.5em;
+    width: 80%;
+    height: 3em;
 }
 
-.black_blend {
+.standalone_link a {
+    line-height: 1em;
+    display: block;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
     width: 100%;
-    height: 3.8125em;
-    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAVkAAAA9CAYAAAAH4BojAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAPJJREFUeNrs3TEKhTAQRVGjibr/9QoxhY2N3Ywo50A28IrLwP9g6b1PAMSYTQAgsgAiC4DIAogsgMgCILIAIgsgsgCILIDIAogsACILILIAIguAyAKILIDIAiCyACILgMgCZCnjLWYAiFGvB0BQZJsZAFyyAC5ZAO6RXc0AILIAIguAyAKkRXYzA4DIAogsACILkBbZ3QwALlkAlywAIgsgsgAiC4DIArwVWf8uAHDJAogsACILILIAv4isH74AXLIALlkARBZAZAFEFoDnyPokOIDIAogsACILkBfZZgaAuMhWMwC4ZAE+p4x3mAEgxinAAJ+XBbPWGkwAAAAAAElFTkSuQmCC);
-    position: absolute;
-    bottom: 0;
+    height: 1em;
 }
 
-.fullreverse {
-    background: #000 !important;
-    color: #fff !important;
-    margin-left: -1.25em;
-    padding-left: 1.25em;
-    margin-right: -1.25em;
-    padding-right: 1.25em;
-    padding: 1.25em;
-    margin-bottom: 0;
+.league_internal_page_link {
+    display: block;
+    width: 100%;
+    height: 100%
+}
+
+/* link list page */
+
+ol.link_list>li {
+    cursor: pointer;
+    background: transparent;
+    border: 2px;
+    border-style: outset;
+    color: #273A47;
+    font-size: 1.2em;
+    font-weight: bolder;
+    text-shadow: 0 .5px 0 white;
+    text-align: center;
+    line-height: 3em;
+    display: block;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    max-width: 100%;
+    height: 3em;
+}
+
+ol.link_list>li a {
+    line-height: 1em;
+    display: block;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    width: 100%;
+    height: 1em;
+}
+
+ol.link_list,
+ol.link_list {
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 /* login, register, retrieve password, reset password, delete sessions */
@@ -408,18 +445,11 @@ ol.link_list {
     color: #206f92;
 }
 
-.login_form label.email,
-.login_form label.password,
-.login_form label.remember_me,
-.register_form label.human_name,
-.register_form label.email,
-.register_form label.mobile,
-.register_form label.mobile_privacy,
-.register_form label.league,
-.retrieve_password_form label.email,
-.reset_password_form label.password,
-.delete_sessions_form label.last_activity_date,
-.delete_sessions_form label.created_date {
+.login_form label,
+.register_form label,
+.retrieve_password_form label,
+.reset_password_form label,
+.delete_sessions_form label {
     display: block;
     float: left;
     width: 35%;
@@ -472,7 +502,19 @@ ol.link_list {
     margin-bottom: 1em;
     display: block;
     margin-right: 6%;
+    margin-left: 80%;
     float: right;
+}
+
+.select_league_form {
+    display: block;
+    padding-top: 0.25em;
+    padding-bottom: 2em;
+}
+
+.select_league_form div {
+    float: left;
+    margin-right: 1em;
 }
 
 /* field validation */
@@ -501,6 +543,28 @@ input.password-no-match {
     background-position: right bottom;
     background-repeat: no-repeat;
     -moz-box-shadow: none;
+}
+
+/* table messages */
+
+.table_message {
+    font-size: 0.8em;
+    margin-bottom: 0.35em;
+}
+
+h2.table_title + .table_message {
+    margin-top: -1.25em;
+    margin-left: 0.1em;
+}
+
+.table_subtitle + .table_message,
+table + .table_message {
+    margin-top: 1em;
+    margin-left: 0.1em;
+}
+
+table + .table_subtitle {
+    margin-top: 2em;
 }
 
 /* message */
@@ -532,93 +596,7 @@ p.errors_warnings {
     width: 90%;
 }
 
-/* account settings */
-
-/*td.id,*/
-/*th.id {*/
-/*min-width: 5em;*/
-/*}*/
-
-/*td.name,*/
-/*th.name {*/
-/*min-width: 9em;*/
-/*}*/
-
-/*td.email,*/
-/*th.email {*/
-/*min-width: 13em;*/
-/*}*/
-
-/*td.mobile,*/
-/*th.mobile {*/
-/*min-width: 9em;*/
-/*}*/
-
-/*td.player,*/
-/*th.player {*/
-/*min-width: 9em;*/
-/*}*/
-
-/*td.round,*/
-/*th.round {*/
-/*min-width: 8em;*/
-/*}*/
-
-/*td.round_nowrap,*/
-/*th.round_nowrap {*/
-/*min-width: 16em;*/
-/*}*/
-
-/*td.division,*/
-/*th.division {*/
-/*min-width: 16em;*/
-/*}*/
-
-/*td.division_unqualified,*/
-/*th.division_unqualified {*/
-/*min-width: 11em;*/
-/*}*/
-
-/*td.league,*/
-/*th.league {*/
-/*min-width: 12em;*/
-/*}*/
-
-/*td.league_unqualified,*/
-/*th.league_unqualified {*/
-/*min-width: 11em;*/
-/*}*/
-
-/*td.club,*/
-/*th.club {*/
-/*min-width: 9em;*/
-/*}*/
-
-/*td.address,*/
-/*th.address {*/
-/*min-width: 25em;*/
-/*}*/
-
-/*td.session,*/
-/*th.session {*/
-/*min-width: 10em;*/
-/*font-size: 0.75em;*/
-/*}*/
-
-/*td.status,*/
-/*th.status {*/
-/*min-width: 5em;*/
-/*}*/
-
-/*td.date,*/
-/*th.date {*/
-/*min-width: 7.5em;*/
-/*}*/
-
-/*td.button,*/
-/*th.button {*/
-/*min-width: 3em;*/
-/*}*/
+/* table / row colors */
 
 td.status,
 th.status {
@@ -650,6 +628,8 @@ tbody tr:nth-of-type(odd) td:first-child {
 tbody tr:nth-of-type(1) th:not(.last) {
     background-color: #206f92;
     color: #fff;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 tbody tr:nth-of-type(1) th:last-child {
@@ -686,28 +666,6 @@ td {
     line-height: 1.5em;
 }
 
-/*th:first-child,*/
-/*td:first-child {*/
-/*-moz-border-radius: 6px 0 0 0;*/
-/*-webkit-border-radius: 6px 0 0 0;*/
-/*border-radius: 6px 0 0 0;*/
-/*}*/
-
-/*th:last-child,*/
-/*td:last-child,*/
-/*table.action_table tbody th:nth-last-of-type(2) {*/
-/*-moz-border-radius: 0 6px 0 0;*/
-/*-webkit-border-radius: 0 6px 0 0;*/
-/*border-radius: 0 6px 0 0;*/
-/*}*/
-
-/*th:only-child,*/
-/*td:only-child {*/
-/*-moz-border-radius: 6px 6px 0 0;*/
-/*-webkit-border-radius: 6px 6px 0 0;*/
-/*border-radius: 6px 6px 0 0;*/
-/*}*/
-
 h2.table_title {
     font-size: 1.75em;
     font-weight: bolder;
@@ -740,84 +698,3 @@ p.page_link {
     margin-bottom: 1.5em;
     margin-left: 1.5em;
 }
-
-/* Smartphones (portrait) ----------- */
-/*@media only screen and (max-width : 320px) {*/
-/*#container {*/
-/*width: 315px;*/
-/*margin: 0px auto;*/
-/*}*/
-/*p.message {*/
-/*width: 15em;*/
-/*}*/
-/*#container table {*/
-/*width: 300px;*/
-/*margin-left: 7px;*/
-/*margin-right: 7px;*/
-/*}*/
-/*}*/
-
-/* Smartphones (landscape) ----------- */
-/*@media only screen and (min-width : 321px) and (max-width: 767px) {*/
-/*#container {*/
-/*width: 365px;*/
-/*margin: 0px auto;*/
-/*}*/
-/*#container table {*/
-/*width: 325px;*/
-/*margin-left: 20px;*/
-/*margin-right: 20px;*/
-/*}*/
-/*}*/
-
-/* iPads (portrait) ----------- */
-/*@media only screen and (min-width : 768px) and (max-width : 1023px) {*/
-/*#container {*/
-/*width: 765px;*/
-/*margin: 0px auto;*/
-/*}*/
-/*#container table {*/
-/*width: 695px;*/
-/*margin-left: 35px;*/
-/*margin-right: 35px;*/
-/*}*/
-/*}*/
-
-/* iPads (landscape) ----------- */
-/*@media only screen and (min-width : 1024px) and (max-width : 1223px) {*/
-/*#container {*/
-/*width: 965px;*/
-/*margin: 0px auto;*/
-/*}*/
-/*#container table {*/
-/*width: 860px;*/
-/*margin-left: 50px;*/
-/*margin-right: 50px;*/
-/*}*/
-/*}*/
-
-/* Desktops and laptops ----------- */
-/*@media only screen and (min-width : 1224px) and (max-width : 1823px) {*/
-/*#container {*/
-/*width: 1065px;*/
-/*margin: 0px auto;*/
-/*}*/
-/*#container table {*/
-/*width: 865px;*/
-/*margin-left: 100px;*/
-/*margin-right: 100px;*/
-/*}*/
-/*}*/
-
-/* Large screens ----------- */
-/*@media only screen and (min-width : 1824px) {*/
-/*#container {*/
-/*width: 1265px;*/
-/*margin: 0px auto;*/
-/*}*/
-/*#container table {*/
-/*width: 965px;*/
-/*margin-left: 150px;*/
-/*margin-right: 150px;*/
-/*}*/
-/*}*/

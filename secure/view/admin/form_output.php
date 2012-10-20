@@ -1,7 +1,7 @@
 <?php
-function print_table_start($title, $class = '', $title_class = 'table_title')
+function print_table_start($title, $class = '', $title_class = 'table_title', $title_id = '')
 {
-    print "<h2 class='$title_class'>$title</h2>";
+    print "<h2 class='$title_class' " . (!empty($title_id) ? " id=$title_id " : "") . ">$title</h2>";
     print "<table class='$class'>";
 }
 
@@ -20,11 +20,11 @@ function print_form($classes, $values, $field_ids = array(), $field_values = arr
     print "</form>";
 }
 
-function print_table_row($classes, $values)
+function print_table_row($classes, $values, $cell_type = 'td')
 {
     print "<tr>";
     foreach (array_keys($classes) as $key) {
-        print "<td class='$classes[$key]'>" . (!empty($values[$key]) ? $values[$key] : "&nbsp;") . "</td>";
+        print "<" . $cell_type . " class='$classes[$key]'>" . (!empty($values[$key]) ? $values[$key] : "&nbsp;") . "</" . $cell_type . ">";
     }
     print "</tr>";
 }

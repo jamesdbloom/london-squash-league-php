@@ -17,8 +17,11 @@ class LeagueData extends AbstractData
     public $league_map;
     public $division_map;
     public $round_map;
+    public $match_map;
     public $player_map;
     public $user_map;
+
+    public $player_by_user_id_map;
 
     const name_spacer = " &rsaquo; ";
 
@@ -36,8 +39,11 @@ class LeagueData extends AbstractData
         $this->league_map = $this->list_to_map($this->league_list);
         $this->division_map = $this->list_to_map($this->division_list);
         $this->round_map = $this->list_to_map($this->round_list);
+        $this->match_map = $this->list_to_map($this->match_list);
         $this->player_map = $this->list_to_map($this->player_list);
         $this->user_map = $this->list_to_map($this->user_list);
+
+        $this->player_by_user_id_map = $this->list_to_map($this->player_list, 'user_id');
     }
 
     public function print_club_name($club_id)
@@ -97,6 +103,19 @@ class LeagueData extends AbstractData
             $result = ($fully_qualified ? $this->print_division_name($player->division_id) . self::name_spacer : "") . $user->name;
         } else if (!empty($user_id)) {
             $result = $user_id;
+        }
+        return $result;
+    }
+
+    public function print_match_name($match_id, $fully_qualified = true)
+    {
+        $match = $this->match_map[$match_id];
+        $player_one = $this->player_map[$match->player_one_id];
+        $player_two = $this->player_map[$match->player_two_id];
+        if (!empty($match)) {
+            $result = ($fully_qualified ? $this->print_round_name($match->round_id) . self::name_spacer : "") . self::print_user_name($player_one->id, false) . " vs " . self::print_user_name($player_two->id, false);
+        } else {
+            $result = $match_id;
         }
         return $result;
     }
@@ -170,6 +189,44 @@ class LeagueData extends AbstractData
             }
         }
         return $leagues_without_round;
+    }
+
+    public function rounds_in_league($league_id)
+    {
+        $rounds_in_league = array();
+        foreach ($this->round_list as $round) {
+            $division = $this->division_map[$round->division_id];
+            $league = $this->league_map[$division->league_id];
+            if ($league->id == $league_id) {
+                $rounds_in_league[] = $round;
+            }
+        }
+        return $rounds_in_league;
+    }
+
+    public function divisions_in_league($league_id)
+    {
+        $divisions_in_league = array();
+        foreach ($this->division_list as $division) {
+            $league = $this->league_map[$division->league_id];
+            if ($league->id == $league_id) {
+                $divisions_in_league[] = $division;
+            }
+        }
+        return $divisions_in_league;
+    }
+
+    public function sort_and_filter_rounds($rounds, $finished = 'false')
+    {
+        $sorted_filtered_rounds = array();
+        foreach (($finished == 'true' ? array(Round::finished) : array(Round::inplay, Round::starting_soon)) as $status) {
+            foreach ($rounds as $round) {
+                if ($round->status == $status) {
+                    $sorted_filtered_rounds[] = $round;
+                }
+            }
+        }
+        return $sorted_filtered_rounds;
     }
 }
 

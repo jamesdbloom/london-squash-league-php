@@ -12,7 +12,7 @@ class Player
     public $status;
 
     const active = 'active';
-    const unregistered = 'unregistered';
+    const inactive = 'inactive';
 
     function __construct($id, $user_id, $division_id, $league_id, $status)
     {

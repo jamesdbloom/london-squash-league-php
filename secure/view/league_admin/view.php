@@ -7,11 +7,11 @@ if (Session::is_administrator()) {
     load::load_file('view/league_admin', 'league_data.php');
 
     $leagueData = new LeagueData();
-    Page::header(Link::Leagues, array(), '', '', array(new Link('recreate_schema_controller.php', 'Recreate Table')));
+    Page::header(Link::Leagues, array(), '', '', array(Link::get_link(Link::Recreate_Table)));
 
     // CLUBS
     print_table_start('Clubs', 'action_table');
-    print "<tr><th class='club'>Name</th><th class='address'>Address</th><th class='button last'></th></tr>\n";
+    print "<tr><th class='club'>Name</th><th class='address'>Address</th><th class='button last'></th></tr>";
     foreach ($leagueData->club_list as $club) {
         print_form(
             array('club', 'address'), array($club->name, $club->address),
@@ -19,12 +19,12 @@ if (Session::is_administrator()) {
         );
     }
     print_create_form_start('club');
-    print "<tr class='create_row'><td class='club last'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address last'><input name='address' type='text' pattern='.{10,125}'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "<tr class='create_row'><td class='club last'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address last'><input name='address' type='text' pattern='.{10,125}'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
     // LEAGUES
     print_table_start('Leagues', 'action_table');
-    print "<tr><th class='club'>Club</th><th class='league'>League</th><th class='button last'></th></tr>\n";
+    print "<tr><th class='club'>Club</th><th class='league'>League</th><th class='button last'></th></tr>";
     foreach ($leagueData->league_list as $league) {
         print_form(
             array('club', 'league'), array($leagueData->print_club_name($league->club_id), $league->name),
@@ -42,12 +42,12 @@ if (Session::is_administrator()) {
     } else {
         print "&nbsp;";
     }
-    print "</td><td class='league last'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "</td><td class='league last'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
     // DIVISIONS
     print_table_start('Divisions', 'action_table');
-    print "<tr><th class='league'>League</th><th class='division'>Division</th><th class='button last'></th></tr>\n";
+    print "<tr><th class='league'>League</th><th class='division'>Division</th><th class='button last'></th></tr>";
     foreach ($leagueData->division_list as $division) {
         print_form(
             array('league', 'division'), array($leagueData->print_league_name($division->league_id), $division->name),
@@ -65,12 +65,12 @@ if (Session::is_administrator()) {
     } else {
         print "&nbsp;";
     }
-    print "</td><td class='division last'><input class='show_validation' name='name' type='text' pattern='.{1,25}' required='required'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "</td><td class='division last'><input class='show_validation' name='name' type='text' pattern='.{1,25}' required='required'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
     // ROUNDS
     print_table_start('Rounds', 'action_table');
-    print "<tr><th class='division'>Division</th><th class='status'>Status</th><th class='date'>Start</th><th class='date'>End</th><th class='button last'></th></tr>\n";
+    print "<tr><th class='division'>Division</th><th class='status'>Status</th><th class='date'>Start</th><th class='date'>End</th><th class='button last'></th></tr>";
     foreach ($leagueData->round_list as $round) {
         print_form(
             array('division', 'status', 'date', 'date'), array($leagueData->print_division_name($round->division_id), $round->status, date('d-M-Y', $round->start), date('d-M-Y', $round->end)),
@@ -86,14 +86,14 @@ if (Session::is_administrator()) {
             print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>\n";
         }
         print "</select>";
-        print "</td><td class='date last'><input name='start' type='date' required='required'/></td><td class='date last'><input name='end' type='date' required='required'/></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+        print "</td><td class='date last'><input name='start' type='date' required='required'/></td><td class='date last'><input name='end' type='date' required='required'/></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
         print "</form>";
     }
     print "</table>";
 
     // PLAYERS
     print_table_start('Players', 'action_table');
-    print "<tr><th class='division'>Division</th><th class='name'>User</th><th class='button last'></th></tr>\n";
+    print "<tr><th class='division'>Division</th><th class='name'>User</th><th class='button last'></th></tr>";
     foreach ($leagueData->player_list as $player) {
         print_form(
             array('division', 'name'), array($leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false)),
@@ -121,7 +121,7 @@ if (Session::is_administrator()) {
     } else {
         print "&nbsp;";
     }
-    print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
 
@@ -129,7 +129,7 @@ if (Session::is_administrator()) {
     print "<h2 class='table_title'>Matches</h2>";
     foreach ($leagueData->round_list as $round_table) {
         print_table_start($leagueData->print_division_name($round_table->division_id), 'action_table', 'table_subtitle');
-        print "<tr><th class='round'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='button last'></th></tr>\n";
+        print "<tr><th class='round'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='button last'></th></tr>";
         foreach ($leagueData->match_list as $match) {
             if ($match->round_id == $round_table->id) {
                 print_form(
@@ -172,7 +172,7 @@ if (Session::is_administrator()) {
         } else {
             print "&nbsp;";
         }
-        print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+        print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
         print_form_table_end();
     }
 

@@ -13,7 +13,8 @@ class Round
 
     public $status;
 
-    const not_started = 'not_started';
+    const not_started = 'not started';
+    const starting_soon = 'starting soon';
     const inplay = 'inplay';
     const finished = 'finished';
 
@@ -23,8 +24,12 @@ class Round
         $this->division_id = $division_id;
         $this->start = $start;
         $this->end = $end;
-        if ($start >= time()) {
+
+        $offset = strtotime(' +2 day');
+        if ($start >= $offset) {
             $this->status = self::not_started;
+        } else if ($start >= time() && $start <= $offset) {
+            $this->status = self::starting_soon;
         } else if ($start <= time() && $end >= time()) {
             $this->status = self::inplay;
         } else if ($end <= time()) {
@@ -43,7 +48,7 @@ class Round
 
     public function is_not_started()
     {
-        return $this->status == self::not_started;
+        return $this->status == self::not_started || $this->status == self::starting_soon;
     }
 
     public function __toString()

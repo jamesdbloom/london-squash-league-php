@@ -12,6 +12,7 @@ class MatchDAO extends DAO implements Mapper
     const player_two_id_column = 'PLAYER_TWO_ID';
     const round_id_column = 'ROUND_ID';
     const division_id_column = 'DIVISION_ID';
+    const score_column = 'SCORE_ID';
 
     public static function create_match_schema()
     {
@@ -25,6 +26,7 @@ class MatchDAO extends DAO implements Mapper
             self::player_two_id_column . " INT NOT NULL, " .
             self::round_id_column . " VARCHAR(25), " .
             self::division_id_column . " VARCHAR(25), " .
+            self::score_column . " VARCHAR(25), " .
             "CONSTRAINT foreign_key_" . self::player_one_id_column . " FOREIGN KEY (" . self::player_one_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . "), " .
             "CONSTRAINT foreign_key_" . self::player_two_id_column . " FOREIGN KEY (" . self::player_two_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . "), " .
             "CONSTRAINT foreign_key_" . self::round_id_column . " FOREIGN KEY (" . self::round_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . "), " .
@@ -117,6 +119,19 @@ class MatchDAO extends DAO implements Mapper
         }
     }
 
+    public static function update_score_by_id($match_id, $score)
+    {
+        $query =
+            "UPDATE " . self::table_name .
+                " SET " . self::score_column . " = :" . self::score_column .
+                " WHERE " . self::id_column . " = :" . self::id_column;
+        $parameters = array(
+            ':' . self::score_column => $score,
+            ':' . self::id_column => $match_id,
+        );
+        self::insert_update_delete_create($query, $parameters, 'update player status by division id and user id ');
+    }
+
     public static function delete_by_id($id)
     {
         $query = "DELETE FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
@@ -133,7 +148,8 @@ class MatchDAO extends DAO implements Mapper
             $match_row[self::player_one_id_column],
             $match_row[self::player_two_id_column],
             $match_row[self::round_id_column],
-            $match_row[self::division_id_column]
+            $match_row[self::division_id_column],
+            $match_row[self::score_column]
         );
     }
 }

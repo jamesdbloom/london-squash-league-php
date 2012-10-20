@@ -51,7 +51,12 @@ class Page
     {
         array_unshift($links, Link::get_link(Link::Home));
         if (Session::has_active_session()) {
+            if (Session::is_administrator()) {
+                $links[] = Link::get_link(Link::Administration);
+            }
+            $links[] = Link::get_link(Link::View_League);
             $links[] = Link::get_link(Link::Account_Settings);
+            $links[] = Link::get_link(Link::Enter_Score);
             $links[] = Link::get_link(Link::Logout);
         } else {
             $links[] = Link::get_link(Link::Login);
@@ -65,12 +70,8 @@ class Page
     {
         if (count($links) > 0) {
             print "<ul class='tabs'>";
-            // todo - do this property
-            if (Session::is_administrator()) {
-                print "<li class='hidden_link'>" . Link::get_link(Link::Administration) . "</li>";
-            }
             foreach ($links as $key => $link) {
-                print "<li " . ($link->text == $active ? "class='active'" : "" ). ">$link</li>";
+                print "<li class='" . ($link->hide_on_small_screen ? "hide_on_small_screen" : "") . " " . ($link->text == $active ? "active" : "") . "''>$link</li>";
             }
             print "</ul>";
         }
