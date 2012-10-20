@@ -19,6 +19,8 @@ class AccountData extends LeagueData
     public $user_round_map;
     public $user_player_map;
 
+    public $user_division_to_player_map;
+
     public function __construct()
     {
         parent::__construct();
@@ -37,6 +39,8 @@ class AccountData extends LeagueData
             $this->user_division_map = $this->list_to_map($this->user_division_list);
             $this->user_round_map = $this->list_to_map($this->user_round_list);
             $this->user_player_map = $this->list_to_map($this->user_player_list);
+
+            $this->user_division_to_player_map = $this->list_to_map($this->user_player_list, 'division_id');
         } else {
             $GLOBALS['errors']->add('not_logged_in', 'You are not logged in');
         }

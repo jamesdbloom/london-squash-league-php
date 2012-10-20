@@ -104,11 +104,13 @@ class LeagueData extends AbstractData
     public function create_matches()
     {
         foreach ($this->round_list as $round) {
-            foreach ($this->players_in_division($round) as $player_one) {
-                foreach ($this->players_in_division($round) as $player_two) {
-                    if ($this->not_the_same_player($player_one, $player_two)) {
-                        if ($this->no_match_already_exists($round, $player_one, $player_two)) {
-                            MatchDAO::create($player_one->id, $player_two->id, $round->id);
+            if ($round->is_not_started()) {
+                foreach ($this->players_in_division($round) as $player_one) {
+                    foreach ($this->players_in_division($round) as $player_two) {
+                        if ($this->not_the_same_player($player_one, $player_two)) {
+                            if ($this->no_match_already_exists($round, $player_one, $player_two)) {
+                                $this->match_list[] = MatchDAO::create($player_one->id, $player_two->id, $round->id);
+                            }
                         }
                     }
                 }
@@ -116,23 +118,31 @@ class LeagueData extends AbstractData
         }
     }
 
-    public function no_match_already_exists($round, $player_one, $player_two)
+    public function no_match_already_exists(Round $round, Player $player_one, Player $player_two)
     {
         $result = true;
         foreach ($this->match_list as $match) {
-            if ($match->round_id == $round->id && $match->player_one_id == $player_one->id && $match->player_two_id == $player_two->id) {
+            if (
+                $match->round_id == $round->id
+                &&
+                (
+                    ($match->player_one_id == $player_one->id && $match->player_two_id == $player_two->id)
+                    ||
+                    ($match->player_one_id == $player_two->id && $match->player_two_id == $player_one->id)
+                )
+            ) {
                 $result = false;
             }
         }
         return $result;
     }
 
-    public function not_the_same_player($player_one, $player_two)
+    public function not_the_same_player(Player $player_one, Player $player_two)
     {
         return $player_one->id != $player_two->id;
     }
 
-    public function players_in_division($round)
+    public function players_in_division(Round $round)
     {
         $players_in_division = array();
         foreach ($this->player_list as $player) {
@@ -141,6 +151,25 @@ class LeagueData extends AbstractData
             }
         }
         return $players_in_division;
+    }
+
+    public function leagues_without_round()
+    {
+        $leagues_without_round = array();
+        foreach ($this->league_list as $league) {
+            $has_round = false;
+            foreach ($this->division_list as $division) {
+                foreach ($this->round_list as $round) {
+                    if ($round->division_id == $division->id && $division->league_id == $league->id) {
+                        $has_round = true;
+                    }
+                }
+            }
+            if (!$has_round) {
+                $leagues_without_round[] = $league;
+            }
+        }
+        return $leagues_without_round;
     }
 }
 

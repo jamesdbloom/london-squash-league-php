@@ -11,6 +11,7 @@ class MatchDAO extends DAO implements Mapper
     const player_one_id_column = 'PLAYER_ONE_ID';
     const player_two_id_column = 'PLAYER_TWO_ID';
     const round_id_column = 'ROUND_ID';
+    const division_id_column = 'DIVISION_ID';
 
     public static function create_match_schema()
     {
@@ -23,9 +24,12 @@ class MatchDAO extends DAO implements Mapper
             self::player_one_id_column . " INT NOT NULL, " .
             self::player_two_id_column . " INT NOT NULL, " .
             self::round_id_column . " VARCHAR(25), " .
+            self::division_id_column . " VARCHAR(25), " .
             "CONSTRAINT foreign_key_" . self::player_one_id_column . " FOREIGN KEY (" . self::player_one_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . "), " .
             "CONSTRAINT foreign_key_" . self::player_two_id_column . " FOREIGN KEY (" . self::player_two_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . "), " .
             "CONSTRAINT foreign_key_" . self::round_id_column . " FOREIGN KEY (" . self::round_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . "), " .
+            "CONSTRAINT foreign_key_" . self::player_one_id_column . "_" . self::division_id_column . " FOREIGN KEY (" . self::player_one_id_column . ", " . self::division_id_column . ") REFERENCES " . PlayerDAO::table_name . "(" . PlayerDAO::user_id_column . ", " . PlayerDAO::division_id_column . "), " .
+            "CONSTRAINT foreign_key_" . self::player_two_id_column . "_" . self::division_id_column . " FOREIGN KEY (" . self::player_two_id_column . ", " . self::division_id_column . ") REFERENCES " . PlayerDAO::table_name . "(" . PlayerDAO::user_id_column . ", " . PlayerDAO::division_id_column . "), " .
             "CONSTRAINT unique_" . self::player_one_id_column . "_" . self::player_two_id_column . "_" . self::round_id_column . " UNIQUE (" . self::player_one_id_column . ", " . self::player_two_id_column . ", " . self::round_id_column . ") " .
             ")";
         $parameters = array();
@@ -87,20 +91,24 @@ class MatchDAO extends DAO implements Mapper
 
     public static function create($player_one_id, $player_two_id, $round_id)
     {
+        $division_id = RoundDAO::get_by_id($round_id)->division_id;
         if ($player_one_id != $player_two_id) {
             $query = "INSERT INTO " . self::table_name . "(" .
                 self::player_one_id_column . "," .
                 self::player_two_id_column . "," .
-                self::round_id_column .
+                self::round_id_column . "," .
+                self::division_id_column .
                 ") VALUES (" .
                 ":" . self::player_one_id_column . "," .
                 ":" . self::player_two_id_column . "," .
-                ":" . self::round_id_column .
+                ":" . self::round_id_column . "," .
+                ":" . self::division_id_column .
                 ")";
             $parameters = array(
                 ':' . self::player_one_id_column => self::sanitize_value($player_one_id),
                 ':' . self::player_two_id_column => self::sanitize_value($player_two_id),
                 ':' . self::round_id_column => self::sanitize_value($round_id),
+                ':' . self::division_id_column => self::sanitize_value($division_id),
             );
             self::insert_update_delete_create($query, $parameters, 'save match ');
             return self::get_by_player_id_and_round_id($player_one_id, $player_two_id, $round_id);
@@ -124,7 +132,8 @@ class MatchDAO extends DAO implements Mapper
             $match_row[self::id_column],
             $match_row[self::player_one_id_column],
             $match_row[self::player_two_id_column],
-            $match_row[self::round_id_column]
+            $match_row[self::round_id_column],
+            $match_row[self::division_id_column]
         );
     }
 }

@@ -83,7 +83,7 @@ class DAO
             $stmt = self::$db->prepare($query);
             $stmt->execute($parameters);
         } catch (PDOException $e) {
-            $message = 'Unable to ' . $action . (self::$show_queries ? ' ' . $query . $e->getMessage() : '');
+            $message = 'Unable to ' . $action . (self::$show_queries ? ' ' .  "<br/>" . $query . "<br/>" . $e->getMessage() : '');
             if (self::$show_errors) {
                 print $message . '<br/>';
             }

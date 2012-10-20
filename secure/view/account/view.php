@@ -24,11 +24,12 @@ if (!empty($user)) {
     // DIVISIONS
     $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();
     print_table_start('Divisions', 'action_table');
-    print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='division_unqualified'>Division</th><th class='button last'></th></tr>";
+    print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='division_unqualified'>Division</th><th class='status'>Status</th><th class='button last'></th></tr>";
     foreach ($accountData->user_division_list as $division) {
         $league = $accountData->league_map[$division->league_id];
+        $player = $accountData->user_division_to_player_map[$division->id];
         print_form(
-            array('club', 'league_unqualified', 'division_unqualified'), array($accountData->print_club_name($league->club_id), $league->name, $division->name),
+            array('club', 'league_unqualified', 'division_unqualified', 'status'), array($accountData->print_club_name($league->club_id), $league->name, $division->name, $player->status),
             array('division_id', 'user_id'), array($division->id, $user->id),
             'unregister'
         );
@@ -36,7 +37,7 @@ if (!empty($user)) {
     print_create_form_start('player');
     print "<input name='user_id' type='hidden' value='" . $user->id . "'>";
     if (count($unregistered_divisions) > 0) {
-        print "<tr class='create_row'><td colspan='3' class='name last'>";
+        print "<tr class='create_row'><td colspan='4' class='name last'>";
         print "<select name='division_id'>";
         foreach ($unregistered_divisions as $division) {
             print "<option value='" . $division->id . "''>" . $accountData->print_division_name($division->id) . "</option>";

@@ -9,12 +9,15 @@ class Match
 
     public $round_id;
 
-    function __construct($id, $player_one_id, $player_two_id, $round_id)
+    public $division_id;
+
+    function __construct($id, $player_one_id, $player_two_id, $round_id, $division_id)
     {
         $this->id = $id;
         $this->player_one_id = $player_one_id;
         $this->player_two_id = $player_two_id;
         $this->round_id = $round_id;
+        $this->division_id = $division_id;
     }
 
     public function __toString()

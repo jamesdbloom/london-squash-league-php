@@ -65,31 +65,31 @@ if (Session::is_administrator()) {
     } else {
         print "&nbsp;";
     }
-    print "</td><td class='division last'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+    print "</td><td class='division last'><input class='show_validation' name='name' type='text' pattern='.{1,25}' required='required'></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
     print_form_table_end();
 
     // ROUNDS
     print_table_start('Rounds', 'action_table');
-    print "<tr><th class='division'>Division</th><th class='date'>Start</th><th class='date'>End</th><th class='button last'></th></tr>\n";
-    foreach ($leagueData->round_list as $round_table) {
+    print "<tr><th class='division'>Division</th><th class='status'>Status</th><th class='date'>Start</th><th class='date'>End</th><th class='button last'></th></tr>\n";
+    foreach ($leagueData->round_list as $round) {
         print_form(
-            array('division', 'date', 'date'), array($leagueData->print_division_name($round_table->division_id), date('d-M-Y', $round_table->start), date('d-M-Y', $round_table->end)),
-            array('round_id'), array($round_table->id)
+            array('division', 'status', 'date', 'date'), array($leagueData->print_division_name($round->division_id), $round->status, date('d-M-Y', $round->start), date('d-M-Y', $round->end)),
+            array('round_id'), array($round->id)
         );
     }
-    print_create_form_start('round');
-    print "<tr class='create_row'><td class='division last'>";
-    if (count($leagueData->division_list) > 0) {
-        print "<select name='division_id'>";
-        foreach ($leagueData->division_list as $division) {
-            print "<option value='" . $division->id . "''>" . $leagueData->print_division_name($division->id) . "</option>\n";
+    $leagues = $leagueData->league_list;
+    if (count($leagues) > 0) {
+        print_create_form_start('all_rounds_for_league');
+        print "<tr class='create_row'><td class='division last' colspan='2'>";
+        print "<select name='league_id'>";
+        foreach ($leagues as $league) {
+            print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>\n";
         }
         print "</select>";
-    } else {
-        print "&nbsp;";
+        print "</td><td class='date last'><input name='start' type='date' required='required'/></td><td class='date last'><input name='end' type='date' required='required'/></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
+        print "</form>";
     }
-    print "</td><td class='date last'><input name='start' type='date' required='required'/></td><td class='date last'><input name='end' type='date' required='required'/></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>\n";
-    print_form_table_end();
+    print "</table>";
 
     // PLAYERS
     print_table_start('Players', 'action_table');

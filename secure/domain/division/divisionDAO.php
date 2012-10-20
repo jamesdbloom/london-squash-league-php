@@ -52,6 +52,15 @@ class DivisionDAO extends DAO implements Mapper
         return self::load_all_objects($query, $parameters, new self(), 'load list of divisions by user_id ');
     }
 
+    public static function get_all_by_league_id($league_id)
+    {
+        $query = "SELECT * FROM " . self::table_name . " WHERE " . self::league_id_column . " = :" . self::league_id_column;
+        $parameters = array(
+            ':' . self::league_id_column => $league_id,
+        );
+        return self::load_all_objects($query, $parameters, new self(), 'load list of divisions by league id ');
+    }
+
     public static function get_by_id($id)
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;

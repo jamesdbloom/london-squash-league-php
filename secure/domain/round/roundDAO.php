@@ -38,8 +38,8 @@ class RoundDAO extends DAO implements Mapper
             "ORDER BY " .
             ClubDAO::table_name . "." . ClubDAO::name_column . ", " .
             LeagueDAO::table_name . "." . LeagueDAO::name_column . ", " .
-            DivisionDAO::table_name . "." . DivisionDAO::name_column . ", " .
-            self::start_column;
+            self::start_column . ", " .
+            DivisionDAO::table_name . "." . DivisionDAO::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of rounds ');
     }
