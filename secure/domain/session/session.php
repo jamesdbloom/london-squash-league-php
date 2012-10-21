@@ -13,6 +13,13 @@ class Session
     const uuid_hash_length = 40;
     const SSO_ID_COOKIE_NAME = "secure_cookie";
 
+    const active = 'active';
+    const inactive = 'inactive';
+    const expired = 'expired';
+
+    const inactive_period = ' -3 hour';
+    const expired_period = ' -5 day';
+
     function __construct($id, $user_id, $status, $created_date, $last_activity_date)
     {
         $this->id = $id;
@@ -83,77 +90,87 @@ class Session
         }
     }
 
-    public static function check_session_freshness($create_date, $status)
-    {
-        // todo
-        // implement session expiry and session logout
-
-        // $GLOBALS['errors']->add('expired', 'Your session has expired. Please log-in again.', Error::message);
-
-    }
-
     public static function create_session($email, $password)
     {
-        $session = self::get_session();
-
-        if (!empty($session)) {
-            if (self::validate_session($session)) {
-                $GLOBALS['errors']->add('already_authenticated', 'You are already logged in.', Error::message);
-            }
-        } else {
-            $user = UserDAO::get_by_email_and_password($email, $password);
-            if (empty($user)) {
-                $GLOBALS['errors']->add('authentication_failure', 'Username and password combination incorrect.', 'warning');
-            }
+        $session = null;
+        $user = UserDAO::get_by_email_and_password($email, $password);
+        if (empty($user)) {
+            $GLOBALS['errors']->add('authentication_failure', 'Username and password combination incorrect.', 'warning');
+        }
+        if (!$GLOBALS['errors']->has_errors()) {
+            $session = SessionDAO::create(self::generate_session_id($user->id), $user->id);
             if (!$GLOBALS['errors']->has_errors()) {
-                $session = SessionDAO::create(self::generate_session_id($user->id), $user->id);
-                if (!$GLOBALS['errors']->has_errors()) {
-                    Cookies::set_cookie(self::SSO_ID_COOKIE_NAME, $session->id);
-                }
+                Cookies::set_cookie(self::SSO_ID_COOKIE_NAME, $session->id);
             }
         }
         return $session;
     }
 
-    public static function get_session()
+    public static function validate_session(Session $session, $redirect = false)
+    {
+        $logged_in = !empty($session);
+
+        if ($logged_in) {
+
+            $valid = self::check_session_id($session->id, $session->user_id);
+
+            if ($valid) {
+
+                $session_fresh = $session->last_activity_date >= strtotime(self::inactive_period) && $session->created_date >= strtotime(self::expired_period);
+
+                if ($session_fresh) {
+                    SessionDAO::update_last_activity_date($session->id);
+                    return true;
+                } else {
+                    SessionDAO::update_session_status();
+                    if ($redirect) {
+                        Page::session_expired();
+                    }
+                }
+            }
+        }
+        if ($redirect) {
+            Page::not_logged_in();
+        }
+        return false;
+    }
+
+    public static function get_session($redirect = false)
     {
         $session = null;
 
         $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);
         if (!empty($secure_cookie)) {
             $session = SessionDAO::get_by_id($secure_cookie);
-            return $session;
+            if (self::validate_session($session, $redirect)) {
+                return $session;
+            } else {
+                $session = null;
+            }
         }
+
         return $session;
     }
 
-    public static function has_active_session()
+    public static function has_active_session($redirect = false)
     {
-        $session = self::get_session();
+        $session = self::get_session($redirect);
         return !empty($session);
     }
 
-    public static function validate_session(Session $session)
-    {
-        self::check_session_id($session->id, $session->user_id);
-        self::check_session_freshness($session->created_date, $session->status);
-
-        return !$GLOBALS['errors']->has_errors();
-    }
-
-    public static function get_user()
+    public static function get_user($redirect = false)
     {
         $user = null;
-        $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);
-        if (!empty($secure_cookie)) {
-            $user = UserDAO::get_by_session_id($secure_cookie);
+        $session = self::get_session($redirect);
+        if (!empty($session)) {
+            $user = UserDAO::get_by_id($session->user_id);
         }
         return $user;
     }
 
-    public static function is_administrator()
+    public static function is_administrator($redirect = false)
     {
-        $user = self::get_user();
+        $user = self::get_user($redirect);
         return $user && $user->is_administrator();
     }
 

@@ -168,10 +168,10 @@ class Error
                 }
             }
             if (!empty($errors_messages)) {
-                print '<p class="errors_messages">' . $errors_messages . '</p>';
+                print "<p class='errors_messages'>" . $errors_messages . "</p>";
             }
             if (!empty($errors_warnings)) {
-                print '<p class="errors_warnings">' . $errors_warnings . '</p>';
+                print "<p class='errors_warnings'>" . $errors_warnings . "</p>";
             }
         }
     }

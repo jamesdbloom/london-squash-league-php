@@ -6,13 +6,11 @@ class Parameters
         return self::default_if_empty(InputValidation::clean_input($_POST[$name]), $default_value);
     }
 
-    // todo
     public static function read_get_input($name, $default_value = '')
     {
         return self::default_if_empty(InputValidation::clean_input($_GET[$name]), $default_value);
     }
 
-    // todo
     public static function read_request_input($name, $default_value = '')
     {
         return self::default_if_empty(InputValidation::clean_input($_REQUEST[$name]), $default_value);

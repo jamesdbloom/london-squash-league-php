@@ -11,9 +11,6 @@ if (!empty($key)) {
     }
 } else {
     $user = Session::get_user();
-    if (empty($user)) {
-        Headers::redirect_to_login(LoginViewHelper::not_logged_in);
-    }
 }
 
 if (Form::is_post()) {
@@ -41,7 +38,7 @@ if (Form::is_post()) {
 Page::header(Link::Update_Password, array(), '', "Enter your new password below.");
 ?>
 
-<form action='<?php echo Link::Reset_Password_Url . '?key=' . rawurlencode($key) . '&email=' . rawurlencode($email); ?>' method='post'>
+<form action='<?php echo Link::Update_Password_Url . '?key=' . rawurlencode($key) . '&email=' . rawurlencode($email); ?>' method='post'>
     <input type="hidden" name="email" value="<?php echo Urls::escape_and_sanitize_attribute_value(Parameters::read_post_input('email')); ?>"/>
 
     <div class="reset_password_form">

@@ -94,13 +94,13 @@ class LeagueData extends AbstractData
         return $result;
     }
 
-    public function print_user_name($player_id, $fully_qualified = true)
+    public function print_user_name($player_id, $fully_qualified = true, $user_id = '')
     {
         $player = $this->player_map[$player_id];
         $user = $this->user_map[$player->user_id];
         $result = "N/A";
         if (!empty($user)) {
-            $result = ($fully_qualified ? $this->print_division_name($player->division_id) . self::name_spacer : "") . $user->name;
+            $result = ($fully_qualified ? $this->print_division_name($player->division_id) . self::name_spacer : "") . ($user->id == $user_id ? ' you ' : $user->name);
         } else if (!empty($user_id)) {
             $result = $user_id;
         }
@@ -239,6 +239,18 @@ class LeagueData extends AbstractData
                 if ($user_id == $player_one->user_id || $user_id == $player_two->user_id) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    public function round_in_play($match_id)
+    {
+        $match = $this->match_map[$match_id];
+        if (!empty($match)) {
+            $round = $this->round_map[$match->round_id];
+            if (!empty($round)) {
+                return $round->is_inplay();
             }
         }
         return false;

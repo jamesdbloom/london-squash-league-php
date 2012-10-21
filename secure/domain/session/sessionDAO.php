@@ -83,7 +83,7 @@ class SessionDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $id,
             ':' . self::user_id_column => $user_id,
-            ':' . self::status_column => 'active',
+            ':' . self::status_column => Session::active,
             ':' . self::created_date_column => date('Y-m-d H:i:s'),
             ':' . self::last_activity_date_column => date('Y-m-d H:i:s'),
         );
@@ -100,6 +100,26 @@ class SessionDAO extends DAO implements Mapper
             ':' . self::id_column => $id,
         );
         self::insert_update_delete_create($query, $parameters, 'update status ');
+    }
+
+
+    public static function update_session_status()
+    {
+        $query = "UPDATE " . self::table_name . " SET " . self::status_column . " = :" . self::status_column .
+            " WHERE " . self::last_activity_date_column . " <= :" . self::last_activity_date_column;
+        $parameters = array(
+            ':' . self::status_column => Session::inactive,
+            ':' . self::last_activity_date_column => date('Y-m-d H:i:s', strtotime(Session::inactive_period)),
+        );
+        self::insert_update_delete_create($query, $parameters, 'update sessions status to inactive ');
+
+        $query = "UPDATE " . self::table_name . " SET " . self::status_column . " = :" . self::status_column .
+            " WHERE " . self::created_date_column . " <= :" . self::created_date_column;
+        $parameters = array(
+            ':' . self::status_column => Session::expired,
+            ':' . self::created_date_column => date('Y-m-d H:i:s', strtotime(Session::expired_period)),
+        );
+        self::insert_update_delete_create($query, $parameters, 'update sessions status to expired ');
     }
 
     public static function update_last_activity_date($id)
@@ -154,8 +174,8 @@ class SessionDAO extends DAO implements Mapper
             $row[self::id_column],
             $row[self::user_id_column],
             $row[self::status_column],
-            $row[self::created_date_column],
-            $row[self::last_activity_date_column]
+            strtotime($row[self::created_date_column]),
+            strtotime($row[self::last_activity_date_column])
         );
     }
 }

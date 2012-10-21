@@ -109,6 +109,8 @@ class Headers
     {
         if (Urls::is_validate_redirect_url($location)) {
             header('Location: ' . $location);
+            // var_dump(debug_backtrace());
+            exit;
         }
     }
 

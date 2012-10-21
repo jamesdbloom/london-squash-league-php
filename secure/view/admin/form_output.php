@@ -41,4 +41,23 @@ function print_form_table_end()
     print "</table>";
 }
 
+function print_recreation_confirm($table_type) {
+    if (Session::is_administrator()) {
+
+        Page::header(Link::Recreate_Tables);
+
+        print "<h2 class='form_subtitle'>Are you sure you want to recreate all $table_type tables?</h2>";
+        print "<form method='post' action='recreate_schema_controller.php'><div class='recreate_tables_confirm_form'>";
+        print "<p class='submit'><input class='submit' type='submit' name='yes' value='yes'></p>";
+        print "</div></form>";
+
+        Page::footer();
+
+    } else {
+
+        Page::not_authorised();
+
+    }
+}
+
 ?>

@@ -7,6 +7,7 @@ class LoginViewHelper
 {
     const message = 'message';
     const not_logged_in = 'not_logged_in';
+    const session_expired = 'session_expired';
     const not_authorised = 'not_authorised';
     const registered = 'registered';
     const retrieve_password = 'retrieve_password';
@@ -17,7 +18,7 @@ class LoginViewHelper
     {
         $current_path = Urls::get_current_path();
         if (strstr($current_path, "login")) {
-            $current_path = "/";
+            $current_path = Urls::get_landing_page();
         }
         return Urls::escape_and_sanitize_attribute_value(Parameters::read_request_input(self::redirect_to, $current_path));
     }

@@ -49,13 +49,12 @@ class Page
 
     private static function default_navigation($links = array())
     {
-        array_unshift($links, Link::get_link(Link::Home));
         if (Session::has_active_session()) {
+            array_unshift($links, Link::get_link(Link::Account_Settings));
             if (Session::is_administrator()) {
-                $links[] = Link::get_link(Link::Administration);
+                array_unshift($links, Link::get_link(Link::Administration));
             }
-            $links[] = Link::get_link(Link::View_League);
-            $links[] = Link::get_link(Link::Account_Settings);
+            array_unshift($links, Link::get_link(Link::View_League));
             $links[] = Link::get_link(Link::Enter_Score);
             $links[] = Link::get_link(Link::Logout);
         } else {
@@ -63,6 +62,7 @@ class Page
             $links[] = Link::get_link(Link::Register);
             $links[] = Link::get_link(Link::Lost_password);
         }
+        array_unshift($links, Link::get_link(Link::Home));
         return $links;
     }
 
@@ -103,11 +103,19 @@ class Page
     public static function not_authorised()
     {
         Headers::redirect_to_login(LoginViewHelper::not_authorised);
+        exit;
     }
 
     public static function not_logged_in()
     {
         Headers::redirect_to_login(LoginViewHelper::not_logged_in);
+        exit;
+    }
+
+    public static function session_expired()
+    {
+        Headers::redirect_to_login(LoginViewHelper::session_expired);
+        exit;
     }
 }
 

@@ -2,12 +2,24 @@
 require_once('../../load.php');
 load::load_file('view/login', 'login_view_helper.php');
 
-if (Session::has_active_session()) {
-    Page::header(Link::Login);
-    print "<p class='message'>You are already logged in if you want to login as another user please " . Link::get_link(Link::Logout) . " first</p>";
-    Page::footer();
-    exit;
+switch (Parameters::read_request_input(LoginViewHelper::message)) {
+    case LoginViewHelper::not_logged_in:
+        $GLOBALS['errors']->add(LoginViewHelper::not_logged_in, 'Please login to access this page', Error::message);
+        break;
+    case LoginViewHelper::session_expired:
+        $GLOBALS['errors']->add('expired', 'Your session has expired please log-in again', Error::message);
+        break;
+    case LoginViewHelper::not_authorised:
+        $GLOBALS['errors']->add(LoginViewHelper::not_authorised, 'You are not authorized to view this, please login as administrator', Error::message);
+        break;
+    case LoginViewHelper::registered:
+        $GLOBALS['errors']->add(LoginViewHelper::registered, 'Registration complete - please check your e-mail for your temporary password', Error::message);
+        break;
+    case LoginViewHelper::retrieve_password:
+        $GLOBALS['errors']->add(LoginViewHelper::retrieve_password, 'Please check your e-mail to reset your password', Error::message);
+        break;
 }
+
 
 if (Form::is_post()) {
     if (!Cookies::test_cookie_exists()) {
@@ -24,24 +36,16 @@ if (Form::is_post()) {
         } else {
             Cookies::remove_cookie(Cookies::REMEMBER_ME_COOKIE_NAME);
         }
-        Headers::set_redirect_header(Urls::get_landing_page() . LoginViewHelper::redirect_url());
+        Headers::set_redirect_header(Parameters::read_request_input('redirect_to', Urls::get_landing_page()));
         exit;
     }
-}
-
-switch (Parameters::read_get_input(LoginViewHelper::message)) {
-    case LoginViewHelper::not_logged_in:
-        $GLOBALS['errors']->add(LoginViewHelper::not_logged_in, 'Please login to access this page', Error::message);
-        break;
-    case LoginViewHelper::not_authorised:
-        $GLOBALS['errors']->add(LoginViewHelper::not_authorised, 'You are not authorized to view this, please login as administrator', Error::message);
-        break;
-    case LoginViewHelper::registered:
-        $GLOBALS['errors']->add(LoginViewHelper::registered, 'Registration complete - please check your e-mail for your temporary password.', Error::message);
-        break;
-    case LoginViewHelper::retrieve_password:
-        $GLOBALS['errors']->add(LoginViewHelper::retrieve_password, 'Please check your e-mail to reset your password', Error::message);
-        break;
+} else {
+    if (Session::has_active_session()) {
+        Page::header(Link::Login);
+        print "<p class='message'>You are already logged in if you want to login as another user please " . Link::get_link(Link::Logout) . " first</p>";
+        Page::footer();
+        exit;
+    }
 }
 
 Page::header(Link::Login);

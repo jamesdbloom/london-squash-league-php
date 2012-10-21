@@ -188,12 +188,26 @@ h2 {
         font: 1.125em 'EarwigFactoryRegular', sans-serif;
     }
 
+    .action_table input[type="date"] {
+        width: 60px !important;
+    }
+
+    .hide_on_very_small_screen {
+        display: none;
+    }
+}
+
+@media only screen and (max-width : 620px) {
+    .hide_on_small_screen {
+        display: none;
+    }
+
     .login_form input:not([type="submit"]),
     .register_form input:not([type="submit"]),
     .retrieve_password_form input:not([type="submit"]),
     .reset_password_form input:not([type="submit"]),
     .delete_sessions_form input:not([type="submit"]) {
-        width: 80%
+        width: 80%;
     }
 
     .login_form select,
@@ -201,17 +215,23 @@ h2 {
     .retrieve_password_form select,
     .reset_password_form select,
     .delete_sessions_form select {
-        width: 80%
+        width: 80%;
     }
 
-    .email, .status {
-        display: none;
+    .action_table select {
+        width: 80%;
     }
-}
 
-@media only screen and (max-width : 480px) {
-    .hide_on_small_screen {
-        display: none;
+    .action_table input:not([type="submit"]) {
+        width: 80%;
+    }
+
+    td[colspan='3'] select {
+        width: 60%;
+    }
+
+    td[colspan='4'] select {
+        width: 50%;
     }
 }
 
@@ -238,30 +258,6 @@ h2 {
 
     #footer p {
         font: 1.5em 'EarwigFactoryRegular', sans-serif;
-    }
-
-    .login_form input:not([type="submit"]),
-    .register_form input:not([type="submit"]),
-    .retrieve_password_form input:not([type="submit"]),
-    .reset_password_form input:not([type="submit"]),
-    .delete_sessions_form input:not([type="submit"]) {
-        width: 80%
-    }
-
-    td[colspan='3'] select {
-        width: 60%
-    }
-
-    td[colspan='4'] select {
-        width: 50%
-    }
-
-    .login_form select,
-    .register_form select,
-    .retrieve_password_form select,
-    .reset_password_form select,
-    .delete_sessions_form select {
-        width: 80%
     }
 }
 
@@ -509,13 +505,17 @@ ol.link_list {
 
 .select_league_form {
     display: block;
-    padding-top: 0.25em;
-    padding-bottom: 2em;
+    padding-top: 1%;
+    padding-bottom: 0.5em;
 }
 
 .select_league_form div {
     float: left;
     margin-right: 1em;
+}
+
+.recreate_tables_confirm_form p {
+    margin-top: 1em;
 }
 
 /* field validation */
@@ -548,6 +548,40 @@ input.password-no-match {
 
 /* table messages */
 
+
+h2.table_title {
+    font-size: 1.75em;
+    font-weight: bolder;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+h2.table_title:first-of-type {
+    margin-top: 0;
+}
+
+h2.table_subtitle {
+    font-size: 1.125em;
+    font-weight: bolder;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+h2.form_title {
+    font-size: 1.75em;
+    font-weight: bolder;
+    margin-bottom: 1.5em;
+    margin-top: 1em;
+}
+
+p.page_link {
+    font-size: 1.25em;
+    font-weight: bolder;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    margin-left: 1.5em;
+}
+
 .table_message {
     font-size: 0.8em;
     margin-bottom: 0.35em;
@@ -559,7 +593,10 @@ h2.table_title + .table_message {
 }
 
 .table_subtitle + .table_message,
-table + .table_message {
+table + .table_message,
+.errors_messages + .table_message,
+.errors_warnings + .table_message,
+.message + .table_message {
     margin-top: 1em;
     margin-left: 0.1em;
 }
@@ -572,18 +609,32 @@ table + .table_subtitle {
     margin-top: 0.125em;
 }
 
+.form_subtitle .enter_score_subtitle {
+    display: inline-block;
+    padding: 1%
+}
+
 /* message */
 
-p.message {
+.message {
     padding: 2.5%;
-    margin: 2.5%;
+    margin: 3%;
     border-style: solid;
     border-width: 1px;
     border-color: #206f92;
     width: 90%;
 }
 
-p.errors_messages {
+.message strong {
+    font-size: 1.1em;
+    color: #205c7d;
+}
+
+.message + .table_title {
+    margin-top: 1em !important;
+}
+
+.errors_messages {
     padding: 2.5%;
     margin: 2.5%;
     border-style: solid;
@@ -592,7 +643,7 @@ p.errors_messages {
     width: 90%;
 }
 
-p.errors_warnings {
+.errors_warnings {
     padding: 2.5%;
     margin: 2.5%;
     border-style: solid;
@@ -669,37 +720,4 @@ th {
 
 td {
     line-height: 1.5em;
-}
-
-h2.table_title {
-    font-size: 1.75em;
-    font-weight: bolder;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-h2.table_title:first-of-type {
-    margin-top: 0;
-}
-
-h2.table_subtitle {
-    font-size: 1.125em;
-    font-weight: bolder;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-h2.form_title {
-    font-size: 1.75em;
-    font-weight: bolder;
-    margin-bottom: 1.5em;
-    margin-top: 1em;
-}
-
-p.page_link {
-    font-size: 1.25em;
-    font-weight: bolder;
-    margin-top: 1.5em;
-    margin-bottom: 1.5em;
-    margin-left: 1.5em;
 }

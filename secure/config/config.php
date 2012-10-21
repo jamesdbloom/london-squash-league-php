@@ -45,5 +45,5 @@ define('RANDOM_SEED', 'UNVdAU44 FxtXC8Pk 6s1UbDZn wAkqdM7q XdzoNWq7');
 if ( !defined('ROOT_PATH') )
     define('ROOT_PATH', dirname(__FILE__) . '/');
 
-define('DEBUG', false);
+define('DEBUG', true);
 define('SHOW_QUERIES', true);

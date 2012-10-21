@@ -21,12 +21,12 @@ if (Form::is_post()) {
             }
 
             $title = PageSearchTerms::site_title . ' Password Reset';
-            $reset_url = Link::get_link(Link::Reset_Password_Url, true) . "?key=" . rawurlencode($key) . "&email=" . rawurlencode($user->email);
-            $message = '
+            $reset_url = Link::get_link(Link::Update_Password, true)->add_query_string("key=" . rawurlencode($key) . "&email=" . rawurlencode($user->email));
+            $message = "
                     <p>Someone requested that the password be reset for the account associated to this email address.</p>
                     <p>If this was a mistake, just ignore this email and nothing will happen.</p>
-                    <p>To reset your password, visit the following address <a href="' . $reset_url . '">' . $reset_url . '</a></p>
-                ';
+                    <p>To reset your password, visit the following address $reset_url</p>
+                ";
 
             Email::send_email($user->email, $title, $message);
         }
