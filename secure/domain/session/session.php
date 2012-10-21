@@ -38,7 +38,7 @@ class Session
     {
         $uuid = self::generate_uuid();
 
-        $uuid_hash = self::generate_uuid_hash($user_id, $uuid);
+        $uuid_hash = self::generate_hash($user_id, $uuid);
 
         if (empty($uuid_hash)) {
             $GLOBALS['errors']->add('session', 'Error creating session');
@@ -59,7 +59,7 @@ class Session
         return $uuid;
     }
 
-    public static function generate_uuid_hash($user_id, $uuid)
+    public static function generate_hash($user_id, $uuid)
     {
         $seed = RANDOM_SEED + $user_id;
         $uuid_hash = md5($uuid . $seed);
@@ -78,7 +78,7 @@ class Session
         $uuid = substr($session_id, 0, self::uuid_length);
 
         $actual_uuid_hash = substr($session_id, -self::uuid_hash_length);
-        $expected_uuid_hash = self::generate_uuid_hash($user_id, $uuid);
+        $expected_uuid_hash = self::generate_hash($user_id, $uuid);
 
         if ($actual_uuid_hash == $expected_uuid_hash) {
             return true;
@@ -106,7 +106,7 @@ class Session
         return $session;
     }
 
-    public static function validate_session(Session $session, $redirect = false)
+    public static function validate_session($session, $redirect = false)
     {
         $logged_in = !empty($session);
 

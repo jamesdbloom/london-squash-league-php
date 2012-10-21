@@ -24,13 +24,14 @@ class Page
         print "<title>" . PageSearchTerms::site_title . " &rsaquo; $title</title>";
         print "</head>";
         print "<body>";
-        print "<div id='container'>";
+        print "<div id='container'>"; // container
         if (!empty($title)) {
             print "<div id='header'>$title</div>";
         }
         $links = self::default_navigation($links);
         self::print_tab_navigation($links, $title);
-        print "<div id='main_content'><div class='section'>";
+        print "<div id='main_content'>"; // main_content
+        print "<div class='section'>"; // section
         Error::print_errors();
         if (!empty($message)) {
             print "<p class='message'>$message</p>";
@@ -55,7 +56,8 @@ class Page
                 array_unshift($links, Link::get_link(Link::Administration));
             }
             array_unshift($links, Link::get_link(Link::View_League));
-            $links[] = Link::get_link(Link::Enter_Score);
+            $links[] = Link::get_link(Link::Report_Issue);
+            $links[] = Link::get_link(Link::Contact_Us);
             $links[] = Link::get_link(Link::Logout);
         } else {
             $links[] = Link::get_link(Link::Login);
@@ -70,8 +72,8 @@ class Page
     {
         if (count($links) > 0) {
             print "<ul class='tabs'>";
-            foreach ($links as $key => $link) {
-                print "<li class='" . ($link->hide_on_small_screen ? "hide_on_small_screen" : "") . " " . ($link->text == $active ? "active" : "") . "''>$link</li>";
+            foreach ($links as $link) {
+                print "<li class='" . $link->class . " " . ($link->text == $active ? "active" : "") . "''>$link</li>";
             }
             print "</ul>";
         }

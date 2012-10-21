@@ -160,6 +160,14 @@ h2 {
     font: 2em 'EarwigFactoryRegular', sans-serif;
 }
 
+.large_screen {
+    display: table;
+}
+
+.small_screen {
+    display: none;
+}
+
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 400px) {
     body {
@@ -192,14 +200,33 @@ h2 {
         width: 60px !important;
     }
 
-    .hide_on_very_small_screen {
+    .hide_on_very_small_screen,
+    .hide_on_small_screen,
+    .hide_on_medium_screen {
         display: none;
+    }
+
+    .large_screen {
+        display: none;
+    }
+
+    .small_screen {
+        display: table;
     }
 }
 
 @media only screen and (max-width : 620px) {
-    .hide_on_small_screen {
+    .hide_on_small_screen,
+    .hide_on_medium_screen {
         display: none;
+    }
+
+    .large_screen {
+        display: none;
+    }
+
+    .small_screen {
+        display: table;
     }
 
     .login_form input:not([type="submit"]),
@@ -258,6 +285,12 @@ h2 {
 
     #footer p {
         font: 1.5em 'EarwigFactoryRegular', sans-serif;
+    }
+}
+
+@media only screen and (min-width : 700px) and (max-width : 1000px) {
+    .hide_on_medium_screen {
+        display: none;
     }
 }
 
@@ -431,7 +464,9 @@ ol.link_list {
 .register_form,
 .retrieve_password_form,
 .reset_password_form,
-.delete_sessions_form {
+.delete_sessions_form,
+.report_issue_form,
+.send_message_form {
     width: 80%;
     margin-top: 2em;
     margin-bottom: 2.75em;
@@ -446,7 +481,9 @@ ol.link_list {
 .register_form label,
 .retrieve_password_form label,
 .reset_password_form label,
-.delete_sessions_form label {
+.delete_sessions_form label,
+.report_issue_form label,
+.send_message_form label {
     display: block;
     float: left;
     width: 35%;
@@ -470,9 +507,41 @@ ol.link_list {
     text-overflow: ellipsis;
 }
 
+.report_issue_form input:not([type="submit"]),
+.send_message_form input:not([type="submit"]) {
+    width: 50%;
+    height: 2em;
+    line-height: 2em;
+    text-overflow: ellipsis;
+    border-width: 0;
+    /*background-color: rgba(13, 60, 74, 0.32);*/
+}
+
 .register_form select {
     width: 50%;
     height: 2em;
+}
+
+.report_issue_form textarea,
+.send_message_form textarea {
+    width: 50%;
+    resize: none;
+    border-width: 2px;
+    border-style: ;
+    border-color: #273A47;
+    font-size: 1em;
+    color: #206f92;
+}
+
+.report_issue_form textarea:active,
+.send_message_form textarea:active {
+    background-color: rgba(32, 111, 146, 0.32);
+}
+
+.report_issue_form textarea:focus,
+.send_message_form textarea:focus {
+    color: #5d1919;
+    /*color: #206f92;*/
 }
 
 .login_form input[type="checkbox"],
@@ -486,7 +555,9 @@ ol.link_list {
 .register_form p,
 .retrieve_password_form p,
 .reset_password_form p,
-.delete_sessions_form p {
+.delete_sessions_form p,
+.report_issue_form p,
+.send_message_form p {
     margin-top: 1.25em;
     vertical-align: middle;
 }
@@ -495,7 +566,9 @@ ol.link_list {
 .register_form p.submit,
 .retrieve_password_form p.submit,
 .reset_password_form p.submit,
-.delete_sessions_form p.submit {
+.delete_sessions_form p.submit,
+.report_issue_form p.submit,
+.send_message_form p.submit {
     margin-bottom: 1em;
     display: block;
     margin-right: 6%;
@@ -547,7 +620,6 @@ input.password-no-match {
 }
 
 /* table messages */
-
 
 h2.table_title {
     font-size: 1.75em;
@@ -721,3 +793,16 @@ th {
 td {
     line-height: 1.5em;
 }
+
+/*td.no_match {*/
+    /*-moz-border-radius: 6px 6px 6px 6px !important;*/
+    /*-webkit-border-radius: 6px 6px 6px 6px !important;*/
+    /*border-radius: 6px 6px 6px 6px !important;*/
+    /*background-color: rgba(127, 33, 33, 0.16) !important;*/
+/*}*/
+
+/*td.no_match + td {*/
+    /*-moz-border-radius: 6px 0 0 6px !important;*/
+    /*-webkit-border-radius: 6px 0 0 6px !important;*/
+    /*border-radius: 6px 0 0 6px  !important;*/
+/*}*/

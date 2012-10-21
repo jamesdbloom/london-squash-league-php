@@ -11,6 +11,8 @@ class User
 
     public $mobile_privacy;
 
+    public $salt;
+
     public $type;
 
     public static $mobile_privacy_text = array();
@@ -18,13 +20,14 @@ class User
     const player = 'player';
     const administrator = 'administrator';
 
-    function __construct($id, $name, $email, $mobile, $mobile_privacy, $type = User::player)
+    function __construct($id, $name, $email, $mobile, $mobile_privacy, $salt, $type = User::player)
     {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->mobile = $mobile;
         $this->mobile_privacy = $mobile_privacy;
+        $this->salt = $salt;
         $this->type = $type;
     }
 
@@ -47,6 +50,16 @@ class User
             self::$mobile_privacy_text['everyone'] = 'Show everyone';
         }
         return self::$mobile_privacy_text[$mobile_privacy];
+    }
+
+    public static function generate_salt()
+    {
+        return Session::generate_uuid();
+    }
+
+    public static function hash_password($password, $salt)
+    {
+        return Session::generate_hash($password, $salt);
     }
 }
 

@@ -1,7 +1,7 @@
 <?php
 require_once('../../load.php');
 
-Page::header('London Squash League');
+Page::header('Home');
 if (Session::has_active_session()) {
     print "<ol class='link_list'>";
     if (Session::is_administrator()) {

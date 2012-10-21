@@ -5,9 +5,9 @@ function print_table_start($title, $class = '', $title_class = 'table_title', $t
     print "<table class='$class'>";
 }
 
-function print_form($classes, $values, $field_ids = array(), $field_values = array(), $button = 'delete')
+function print_form($classes, $values, $field_ids = array(), $field_values = array(), $button = 'delete', $action = 'delete_controller.php')
 {
-    print "<form method='post' action='delete_controller.php'>";
+    print "<form method='post' action='$action'>";
     foreach (array_keys($field_ids) as $key) {
         print "<input name='$field_ids[$key]' type='hidden' value='" . $field_values[$key] . "'>";
     }

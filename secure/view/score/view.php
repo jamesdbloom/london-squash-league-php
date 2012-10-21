@@ -1,12 +1,13 @@
 <?php
 require_once('../../load.php');
 
-$match_id = Parameters::read_request_input('match_id');
-if (!empty($match_id)) {
+$user = Session::get_user(true);
 
-    $user = Session::get_user(true);
+if (!empty($user)) {
 
-    if (!empty($user)) {
+    $match_id = Parameters::read_request_input('match_id');
+    if (!empty($match_id)) {
+
 
         load::load_file('view/league_admin', 'league_data.php');
 
@@ -41,12 +42,8 @@ if (!empty($match_id)) {
         }
 
     } else {
-
-        Page::not_logged_in();
-
+        Headers::set_redirect_header(Link::View_League_Url . '?message=no_match_selected');
     }
 
-} else {
-    Headers::set_redirect_header(Link::View_League_Url . '?message=no_match_selected');
 }
 ?>

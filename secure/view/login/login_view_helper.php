@@ -20,7 +20,7 @@ class LoginViewHelper
         if (strstr($current_path, "login")) {
             $current_path = Urls::get_landing_page();
         }
-        return Urls::escape_and_sanitize_attribute_value(Parameters::read_request_input(self::redirect_to, $current_path));
+        return Form::escape_and_sanitize_field_value(Parameters::read_request_input(self::redirect_to, $current_path));
     }
 
     public static function validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $league_id)
@@ -46,7 +46,7 @@ class LoginViewHelper
             $password = Authentication::generate_password(12, true);
             $user = UserDAO::create($human_name, $password, $email, $mobile, Authentication::generate_password(20, true), $mobile_privacy);
             if (empty($user)) {
-                $GLOBALS['errors']->add('registration_failure', sprintf('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact <a href="mailto:%s">%s</a>', Urls::get_webmaster_email(), Urls::get_webmaster_email()));
+                $GLOBALS['errors']->add('registration_failure', sprintf('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact <a href="mailto:%s">%s</a>', Urls::webmaster_email(), Urls::webmaster_email()));
             } else {
                 self::send_new_user_notification($user, $password);
                 return $user;

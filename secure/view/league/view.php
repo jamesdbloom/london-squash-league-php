@@ -71,15 +71,20 @@ if (!empty($user)) {
     print "<h2 class='table_title'>Matches</h2>";
     $rounds = $leagueData->sort_and_filter_rounds((empty($league_id) ? $leagueData->round_list : $leagueData->rounds_in_league($league_id)), $finished);
     $start_date = '';
+
+    $matches_by_round_id = $leagueData->matches_by_round_id();
     foreach ($rounds as $round) {
         if ($start_date != $round->start) {
             print "<p class='table_subtitle'>" . (empty($league_id) ? $leagueData->print_league_name($leagueData->division_map[$round->division_id]->league_id) : "") . " " . $round->name . "</p>";
             $start_date = $round->start;
         }
-        print_table_start($leagueData->print_division_name($round->division_id), '', 'table_message', $round->division_id);
-        print "<tr><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
-        foreach ($leagueData->match_list as $match) {
-            if ($match->round_id == $round->id) {
+        $players_by_round_id = $leagueData->players_by_round_id($round->id);
+
+        if (count($players_by_round_id) > 0) {
+            // small screen - start
+            print_table_start($leagueData->print_division_name($round->division_id), 'small_screen', 'table_message small_screen', $round->division_id);
+            print "<tr><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
+            foreach ($matches_by_round_id[$round->id] as $match) {
                 $score = $match->score;
                 if (empty($score)
                     &&
@@ -93,15 +98,42 @@ if (!empty($user)) {
                     array($leagueData->print_user_name($match->player_one_id, false), $leagueData->print_user_name($match->player_two_id, false), $score)
                 );
             }
+            print "</table>";
+            // small screen - end
+
+            // large screen - start
+            print_table_start($leagueData->print_division_name($round->division_id), 'large_screen', 'table_message large_screen', $round->division_id);
+            print "<tr><th class='player'></th>";
+            foreach ($players_by_round_id as $player_column) {
+                print "<th class='player'>" . $leagueData->print_user_name($player_column->id, false) . "</th>";
+            }
+            print "</tr>";
+            foreach ($players_by_round_id as $player_row) {
+                print "<tr><td class='player'>" . $leagueData->print_user_name($player_row->id, false) . "</td>";
+                foreach ($players_by_round_id as $player_column) {
+                    if ($player_row->id != $player_column->id) {
+                        $match_cell = $leagueData->match_by_player_ids($player_row->id, $player_column->id, $round->id);
+                        $score = $match_cell->score;
+                        if (empty($score)
+                            &&
+                            $leagueData->user_is_player_in_match($user->id, $match_cell->id)
+                            && $leagueData->round_in_play($match_cell->id)
+                        ) {
+                            $score = Link::get_link(Link::Enter_Score, false, 'enter')->add_query_string('match_id=' . $match_cell->id);
+                        }
+                        print "<td class='score'>$score</td>";
+                    } else {
+                        print "<td class='no_match'>X</td>";
+                    }
+                }
+                print "</tr>";
+            }
+            print "</table>";
+            // large screen - end
         }
-        print "</table>";
     }
 
     Page::footer();
-
-} else {
-
-    Page::not_logged_in();
 
 }
 ?>

@@ -16,6 +16,11 @@ class Parameters
         return self::default_if_empty(InputValidation::clean_input($_REQUEST[$name]), $default_value);
     }
 
+    public static function read_header($name, $default_value = '')
+    {
+        return self::default_if_empty(InputValidation::clean_input($_SERVER[$name]), $default_value);
+    }
+
     private static function default_if_empty($input_value, $default_value)
     {
         if (!empty($input_value)) {

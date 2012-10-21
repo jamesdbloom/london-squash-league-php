@@ -165,7 +165,7 @@ class LeagueData extends AbstractData
     {
         $players_in_division = array();
         foreach ($this->player_list as $player) {
-            if ($player->division_id == $round->division_id) {
+            if ($player->division_id == $round->division_id && $player->status == Player::active) {
                 $players_in_division[] = $player;
             }
         }
@@ -254,6 +254,55 @@ class LeagueData extends AbstractData
             }
         }
         return false;
+    }
+
+    public function matches_by_round_id()
+    {
+        $matches_by_round_id = array();
+        foreach ($this->round_list as $round) {
+            $matches_in_round = array();
+            foreach ($this->match_list as $match) {
+                if ($match->round_id == $round->id) {
+                    $matches_in_round[] = $match;
+                }
+            }
+            $matches_by_round_id[$round->id] = $matches_in_round;
+        }
+        return $matches_by_round_id;
+    }
+
+    public $players_by_round_id = array();
+
+    public function players_by_round_id($round_id)
+    {
+        if (count($this->players_by_round_id) <= 0) {
+            foreach ($this->round_list as $round) {
+                $players_in_round = array();
+                foreach ($this->player_list as $player) {
+                    if ($player->division_id == $round->division_id) {
+                        $players_in_round[] = $player;
+                    }
+                }
+                $this->players_by_round_id[$round->id] = $players_in_round;
+            }
+        }
+        return $this->players_by_round_id[$round_id];
+    }
+
+    public $matches_by_player_ids = array();
+
+    public function match_by_player_ids($player_one_id, $player_two_id, $round_id)
+    {
+        if (count($this->matches_by_player_ids) <= 0) {
+            foreach ($this->match_list as $match) {
+                $this->matches_by_player_ids[$match->round_id . '->' . $match->player_one_id . '-' . $match->player_two_id] = $match;
+            }
+        }
+        $result = $this->matches_by_player_ids[$round_id . '->' . $player_one_id . '-' . $player_two_id];
+        if(empty($result)) {
+            $result = $this->matches_by_player_ids[$round_id . '->' . $player_two_id . '-' . $player_one_id];
+        }
+        return $result;
     }
 }
 

@@ -12,12 +12,6 @@ class Urls
         return $url;
     }
 
-    public static function escape_and_sanitize_attribute_value($text)
-    {
-        // todo
-        return $text;
-    }
-
     public static function is_validate_redirect_url($location)
     {
         $result = false;
@@ -71,9 +65,19 @@ class Urls
         return "https://" . $_SERVER["SERVER_NAME"];
     }
 
-    public static function get_webmaster_email()
+    public static function webmaster_email()
     {
         return preg_replace('/www./', 'info@', $_SERVER["SERVER_NAME"]);
+    }
+
+    public static function contact_us_email()
+    {
+        return preg_replace('/www./', 'contact_us@', $_SERVER["SERVER_NAME"]);
+    }
+
+    public static function issue_report_email()
+    {
+        return preg_replace('/www./', 'issue_report@', $_SERVER["SERVER_NAME"]);
     }
 }
 

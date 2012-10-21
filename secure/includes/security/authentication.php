@@ -7,7 +7,7 @@ class Authentication
         $user = UserDAO::get_by_email_and_activation_key($email, $key);
 
         if (empty($user)) {
-            $GLOBALS['errors']->add('invalidcombo', 'Error during password reset please contact ' . Urls::get_webmaster_email());
+            $GLOBALS['errors']->add('invalidcombo', 'Error during password reset please contact ' . Urls::webmaster_email());
         }
 
         return $user;

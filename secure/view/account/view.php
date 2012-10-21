@@ -32,7 +32,8 @@ if (!empty($user)) {
         print_form(
             array('club', 'league_unqualified', 'status hide_on_small_screen', 'division_unqualified'), array($accountData->print_club_name($league->club_id), $league->name, $player->status, $division->name),
             array('division_id', 'user_id'), array($division->id, $user->id),
-            'unregister'
+            ($player->status == Player::active ? 'unregister' : 'register'),
+            'division_controller.php'
         );
     }
     print_create_form_start('player');
@@ -61,13 +62,21 @@ if (!empty($user)) {
     print "<tr><th class='division hide_on_small_screen'>Division</th><th class='round_nowrap'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
     foreach ($accountData->user_match_list as $match) {
         $round = $accountData->round_map[$match->round_id];
+        $score = $match->score;
+        if (empty($score)
+            &&
+            $accountData->user_is_player_in_match($user->id, $match->id)
+            && $accountData->round_in_play($match->id)
+        ) {
+            $score = Link::get_link(Link::Enter_Score, false, 'enter')->add_query_string('match_id=' . $match->id);
+        }
         print_table_row(
             array('division hide_on_small_screen', 'round_nowrap', 'player', 'player', 'score'),
             array(
                 $accountData->print_division_name($round->division_id),
                 $round->name, $accountData->print_user_name($match->player_one_id, false),
                 $accountData->print_user_name($match->player_two_id, false, $user->id),
-                (empty($match->score) && $accountData->user_is_player_in_match($user->id, $match->id) ? Link::get_link(Link::Enter_Score, false, 'enter')->add_query_string('match_id=' . $match->id) : $match->score)
+                $score
             )
         );
     }
@@ -90,10 +99,6 @@ if (!empty($user)) {
 //    print_form_table_end();
 
     Page::footer();
-
-} else {
-
-    Page::not_logged_in();
 
 }
 

@@ -53,7 +53,7 @@ Page::header(Link::Lost_password);
     <div class='retrieve_password_form'>
         <p>
             <label class='email' for="email">E-mail:</label>
-            <input class='show_validation' type="email" name="email" class="input" value="<?php echo Urls::escape_and_sanitize_attribute_value($email); ?>" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+            <input class='show_validation' type="email" name="email" class="input" value="<?php echo Form::escape_and_sanitize_field_value($email); ?>" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
                    pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" tabindex="10"/>
         </p>
 

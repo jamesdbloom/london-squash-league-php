@@ -25,5 +25,10 @@ class Form {
     {
         return ('POST' == $_SERVER['REQUEST_METHOD']);
     }
+
+    public static function escape_and_sanitize_field_value($text)
+    {
+        return htmlspecialchars($text);
+    }
 }
 ?>

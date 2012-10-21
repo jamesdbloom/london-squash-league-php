@@ -9,6 +9,7 @@ class UserDAO extends DAO implements Mapper
     const id_column = 'USER_ID';
     const name_column = 'NAME';
     const password_column = 'PASSWORD';
+    const salt_column = 'HASH_SALT';
     const email_column = 'EMAIL';
     const mobile_column = 'MOBILE';
     const mobile_privacy_column = 'MOBILE_PRIVACY';
@@ -24,7 +25,8 @@ class UserDAO extends DAO implements Mapper
         $query = "CREATE TABLE " . self::table_name . " (" .
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
             self::name_column . " VARCHAR(25), " .
-            self::password_column . " VARCHAR(12), " .
+            self::password_column . " VARCHAR(250), " .
+            self::salt_column . " VARCHAR(125), " .
             self::email_column . " VARCHAR(75), " .
             self::mobile_column . " VARCHAR(25), " .
             self::mobile_privacy_column . " VARCHAR(25), " .
@@ -51,20 +53,6 @@ class UserDAO extends DAO implements Mapper
         );
         return self::load_object($query, $parameters, new self(), 'load user by id ');
     }
-
-//    public static function get_by_session_id($session_id)
-//    {
-//        $query =
-//            "SELECT DISTINCT " . UserDAO::table_name . ".* " .
-//                " FROM " . UserDAO::table_name .
-//                " INNER JOIN " . SessionDAO::table_name .
-//                " ON " . UserDAO::table_name . "." . UserDAO::id_column . " = " . SessionDAO::table_name . "." . SessionDAO::user_id_column .
-//                " WHERE " . SessionDAO::table_name . "." . SessionDAO::id_column . " = :" . SessionDAO::id_column;
-//        $parameters = array(
-//            ':' . SessionDAO::id_column => $session_id,
-//        );
-//        return self::load_object($query, $parameters, new self(), 'load user by id ');
-//    }
 
     public static function get_by_email($email)
     {
@@ -93,19 +81,25 @@ class UserDAO extends DAO implements Mapper
 
     public static function get_by_email_and_password($email, $password)
     {
-        $query = "SELECT * FROM " . self::table_name . " WHERE " . self::email_column . " = :" . self::email_column . " AND " . self::password_column . " = :" . self::password_column;
-        $parameters = array(
-            ':' . self::email_column => self::sanitize_email($email),
-            ':' . self::password_column => $password,
-        );
-        return self::load_object($query, $parameters, new self(), 'load user by email and password ');
+        $user = self::get_by_email($email);
+        if (!empty($user)) {
+            $query = "SELECT * FROM " . self::table_name . " WHERE " . self::email_column . " = :" . self::email_column . " AND " . self::password_column . " = :" . self::password_column;
+            $parameters = array(
+                ':' . self::email_column => self::sanitize_email($email),
+                ':' . self::password_column => User::hash_password($password, $user->salt),
+            );
+            return self::load_object($query, $parameters, new self(), 'load user by email and password ');
+        }
+        return null;
     }
 
     public static function create($name, $password, $email, $mobile, $key, $mobile_privacy = '', $type = User::player)
     {
+        $salt = User::generate_salt();
         $query = "INSERT INTO " . self::table_name . "(" .
             self::name_column . "," .
             self::password_column . "," .
+            self::salt_column . "," .
             self::email_column . "," .
             self::mobile_column . "," .
             self::mobile_privacy_column . "," .
@@ -114,6 +108,7 @@ class UserDAO extends DAO implements Mapper
             ") VALUES (" .
             ":" . self::name_column . "," .
             ":" . self::password_column . "," .
+            ":" . self::salt_column . "," .
             ":" . self::email_column . "," .
             ":" . self::mobile_column . "," .
             ":" . self::mobile_privacy_column . "," .
@@ -122,7 +117,8 @@ class UserDAO extends DAO implements Mapper
             ")";
         $parameters = array(
             ':' . self::name_column => self::sanitize_value($name),
-            ':' . self::password_column => $password,
+            ':' . self::password_column => User::hash_password($password, $salt),
+            ':' . self::salt_column => $salt,
             ':' . self::email_column => self::sanitize_email($email),
             ':' . self::mobile_column => self::sanitize_value($mobile),
             ':' . self::mobile_privacy_column => self::sanitize_value($mobile_privacy),
@@ -136,12 +132,15 @@ class UserDAO extends DAO implements Mapper
 
     public static function update_password($email, $new_password)
     {
-        $query = "UPDATE " . self::table_name . " SET " . self::password_column . " = :" . self::password_column . " WHERE " . self::email_column . " = :" . self::email_column;
-        $parameters = array(
-            ':' . self::password_column => $new_password,
-            ':' . self::email_column => self::sanitize_email($email),
-        );
-        self::insert_update_delete_create($query, $parameters, 'update password ');
+        $user = self::get_by_email($email);
+        if (!empty($user)) {
+            $query = "UPDATE " . self::table_name . " SET " . self::password_column . " = :" . self::password_column . " WHERE " . self::email_column . " = :" . self::email_column;
+            $parameters = array(
+                ':' . self::password_column => User::hash_password($new_password, $user->salt),
+                ':' . self::email_column => self::sanitize_email($email),
+            );
+            self::insert_update_delete_create($query, $parameters, 'update password ');
+        }
     }
 
     public static function update_activation_key($email, $key)
@@ -180,6 +179,7 @@ class UserDAO extends DAO implements Mapper
             $user_row[self::email_column],
             $user_row[self::mobile_column],
             $user_row[self::mobile_privacy_column],
+            $user_row[self::salt_column],
             $user_row[self::type_column]
         );
     }
