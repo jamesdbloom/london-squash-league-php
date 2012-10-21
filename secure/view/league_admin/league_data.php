@@ -82,12 +82,12 @@ class LeagueData extends AbstractData
         return $result;
     }
 
-    public function print_round_name($round_id, $fully_qualified = true)
+    public function print_round_name($round_id, $fully_qualified = true, $spacer = self::name_spacer)
     {
         $round = $this->round_map[$round_id];
         $result = "&nbsp;";
         if (!empty($round)) {
-            $result = ($fully_qualified ? $this->print_division_name($round->division_id) . self::name_spacer : "") . $round->name;
+            $result = ($fully_qualified ? $this->print_division_name($round->division_id) . $spacer : "") . $round->name;
         } else if (!empty($round_id)) {
             $result = $round_id;
         }
@@ -107,13 +107,13 @@ class LeagueData extends AbstractData
         return $result;
     }
 
-    public function print_match_name($match_id, $fully_qualified = true)
+    public function print_match_name($match_id, $fully_qualified = true, $spacer = self::name_spacer)
     {
         $match = $this->match_map[$match_id];
         $player_one = $this->player_map[$match->player_one_id];
         $player_two = $this->player_map[$match->player_two_id];
         if (!empty($match)) {
-            $result = ($fully_qualified ? $this->print_round_name($match->round_id) . self::name_spacer : "") . self::print_user_name($player_one->id, false) . " vs " . self::print_user_name($player_two->id, false);
+            $result = ($fully_qualified ? $this->print_round_name($match->round_id, true, $spacer) . $spacer : "") . self::print_user_name($player_one->id, false) . " vs " . self::print_user_name($player_two->id, false);
         } else {
             $result = $match_id;
         }
@@ -227,6 +227,21 @@ class LeagueData extends AbstractData
             }
         }
         return $sorted_filtered_rounds;
+    }
+
+    public function user_is_player_in_match($user_id, $match_id)
+    {
+        if (!empty($user_id) && !empty($match_id)) {
+            $match = $this->match_map[$match_id];
+            $player_one = $this->player_map[$match->player_one_id];
+            $player_two = $this->player_map[$match->player_two_id];
+            if (!empty($match) && !empty($player_one) && !empty($player_two)) {
+                if ($user_id == $player_one->user_id || $user_id == $player_two->user_id) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
 

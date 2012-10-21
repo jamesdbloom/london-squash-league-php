@@ -12,7 +12,7 @@ class MatchDAO extends DAO implements Mapper
     const player_two_id_column = 'PLAYER_TWO_ID';
     const round_id_column = 'ROUND_ID';
     const division_id_column = 'DIVISION_ID';
-    const score_column = 'SCORE_ID';
+    const score_column = 'SCORE';
 
     public static function create_match_schema()
     {

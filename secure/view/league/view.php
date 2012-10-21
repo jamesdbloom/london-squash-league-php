@@ -63,8 +63,6 @@ if (!empty($user)) {
     print "<h2 class='table_title'>Matches</h2>";
     $rounds = $leagueData->sort_and_filter_rounds((empty($league_id) ? $leagueData->round_list : $leagueData->rounds_in_league($league_id)), $finished);
     $start_date = '';
-    $player = $leagueData->player_by_user_id_map[$user->id];
-    var_dump($player);
     foreach ($rounds as $round) {
         if ($start_date != $round->start) {
             print "<p class='table_subtitle'>" . (empty($league_id) ? $leagueData->print_league_name($leagueData->division_map[$round->division_id]->league_id) : "") . " " . $round->name . "</p>";
@@ -74,14 +72,12 @@ if (!empty($user)) {
         print "<tr><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
         foreach ($leagueData->match_list as $match) {
             if ($match->round_id == $round->id) {
-                $show_enter_score_link = !empty($player) && ($match->player_one_id == $player->id || $match->player_two_id == $player->id);
-                var_dump($match);
                 print_table_row(
                     array('player', 'player', 'score'),
                     array(
                         $leagueData->print_user_name($match->player_one_id, false),
                         $leagueData->print_user_name($match->player_two_id, false),
-                        (empty($match->score) && $show_enter_score_link ? Link::get_link(Link::Enter_Score, false, 'enter')->add_query_string('match_id=' . $match->id) : $match->score)
+                        (empty($match->score) && $leagueData->user_is_player_in_match($user->id, $match->id) ? Link::get_link(Link::Enter_Score, false, 'enter')->add_query_string('match_id=' . $match->id) : $match->score)
                     )
                 );
             }

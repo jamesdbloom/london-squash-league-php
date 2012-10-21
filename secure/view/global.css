@@ -29,6 +29,7 @@ ol, ul {
 
 blockquote, q {
     quotes: none;
+    quotes: none;
 }
 
 blockquote:before, blockquote:after,
@@ -565,6 +566,10 @@ table + .table_message {
 
 table + .table_subtitle {
     margin-top: 2em;
+}
+
+.form_subtitle p + p {
+    margin-top: 0.125em;
 }
 
 /* message */
