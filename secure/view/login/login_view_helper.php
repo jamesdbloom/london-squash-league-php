@@ -2,6 +2,7 @@
 require_once('../../load.php');
 load::load_file('domain/user', 'userDAO.php');
 load::load_file('domain/session', 'sessionDAO.php');
+load::load_file('domain/player', 'playerDAO.php');
 
 class LoginViewHelper
 {
@@ -23,7 +24,7 @@ class LoginViewHelper
         return Form::escape_and_sanitize_field_value(Parameters::read_request_input(self::redirect_to, $current_path));
     }
 
-    public static function validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $league_id)
+    public static function validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $division_id)
     {
         // Check the human_name
         if ($human_name == '') {
@@ -45,6 +46,7 @@ class LoginViewHelper
         if (!$GLOBALS['errors']->has_errors()) {
             $password = Authentication::generate_password(12, true);
             $user = UserDAO::create($human_name, $password, $email, $mobile, Authentication::generate_password(20, true), $mobile_privacy);
+            PlayerDAO::create($user->id, $division_id);
             if (empty($user)) {
                 $GLOBALS['errors']->add('registration_failure', sprintf('<strong>ERROR</strong>: Couldn&#8217;t register you... please contact <a href="mailto:%s">%s</a>', Urls::webmaster_email(), Urls::webmaster_email()));
             } else {

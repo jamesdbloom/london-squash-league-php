@@ -11,8 +11,8 @@ if (Form::is_post()) {
     $email = Parameters::read_post_input('email');
     $mobile = Parameters::read_post_input('mobile');
     $mobile_privacy = Parameters::read_post_input('mobile_privacy');
-    $league_id = Parameters::read_post_input('mobile_privacy');
-    LoginViewHelper::validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $league_id);
+    $division_id = Parameters::read_post_input('division_id');
+    LoginViewHelper::validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $division_id);
 
     if (!$GLOBALS['errors']->has_errors()) {
         Headers::set_redirect_header(Link::Login_Url . "?" . LoginViewHelper::message . "=" . LoginViewHelper::registered);
@@ -50,23 +50,28 @@ Page::header(Link::Register);
         <p>
             <label class='mobile_privacy' for='mobile_privacy'>Mobile Privacy:</label>
             <select id='mobile_privacy' name='mobile_privacy'>
-                <option value='''>Please select...</option>
-                <option value='secret''><?php echo User::get_mobile_privacy_text('secret'); ?></option>
-                <option value='division''><?php echo User::get_mobile_privacy_text('division'); ?></option>
-                <option value='league''><?php echo User::get_mobile_privacy_text('league'); ?></option>
-                <option value='everyone''><?php echo User::get_mobile_privacy_text('everyone'); ?></option>
+                <option value=''
+                '>Please select...</option>
+                <option value='secret'
+                '><?php echo User::get_mobile_privacy_text('secret'); ?></option>
+                <option value='division'
+                '><?php echo User::get_mobile_privacy_text('division'); ?></option>
+                <option value='league'
+                '><?php echo User::get_mobile_privacy_text('league'); ?></option>
+                <option value='everyone'
+                '><?php echo User::get_mobile_privacy_text('everyone'); ?></option>
             </select>
         </p>
 
         <p>
-            <label class='league' for='league_id'>League:</label>
+            <label class='division' for='division_id'>League & Division:</label>
             <?php
             load::load_file('view/league_admin', 'league_data.php');
             $leagueData = new LeagueData();
-            print "<select name='league_id' required='required'>";
-            print "<option value='''>Please select...</option>";
-            foreach ($leagueData->league_list as $league) {
-                print "<option value='' . $league->id . '''>" . $leagueData->print_league_name($league->id) . "</option>";
+            print "<select id='division_id' name='division_id' required='required'>";
+            print "<option value=''>Please select...</option>";
+            foreach ($leagueData->division_list as $division) {
+                print "<option value='" . $division->id . "'>" . $leagueData->print_division_name($division->id) . "</option>";
             }
             print '</select>';
             ?>

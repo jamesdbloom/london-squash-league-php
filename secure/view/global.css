@@ -168,7 +168,7 @@ h2 {
     display: none;
 }
 
-@media only screen and (max-width : 675px) {
+@media only screen and (max-width : 730px) {
     .large_screen {
         display: none;
     }
@@ -291,7 +291,7 @@ h2 {
 /* iPads (portrait) ----------- */
 @media only screen and (min-width : 768px) and (max-width : 1223px) {
     body {
-        font-size: 0.95em;
+        font-size: 0.9em;
     }
 
     #container {
