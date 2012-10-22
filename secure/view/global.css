@@ -179,8 +179,12 @@ h2 {
 }
 
 /* Smartphones (portrait) ----------- */
-@media only screen and (max-width : 400px) {
+@media only screen and (max-width : 420px) {
     body {
+        font-size: 0.75em;
+    }
+
+    h2.message {
         font-size: 0.75em;
     }
 
@@ -215,12 +219,52 @@ h2 {
     .hide_on_medium_screen {
         display: none;
     }
+
+    th.row_start_after_hidden_very_small_screen,
+    th.row_start_after_hidden_small_screen,
+    th.row_start_after_hidden_medium_screen,
+    td.row_start_after_hidden_very_small_screen,
+    td.row_start_after_hidden_small_screen,
+    td.row_start_after_hidden_medium_screen {
+        -moz-border-radius: 6px 0 0 6px;
+        -webkit-border-radius: 6px 0 0 6px;
+        border-radius: 6px 0 0 6px;
+    }
+
+    th.row_end_before_hidden_very_small_screen,
+    th.row_end_before_hidden_small_screen,
+    th.row_end_before_hidden_medium_screen,
+    td.row_end_before_hidden_very_small_screen,
+    td.row_end_before_hidden_small_screen,
+    td.row_end_before_hidden_medium_screen {
+        -moz-border-radius: 0 6px 6px 0;
+        -webkit-border-radius: 0 6px 6px 0;
+        border-radius: 0 6px 6px 0;
+    }
 }
 
-@media only screen and (max-width : 620px) {
+@media only screen and (max-width : 679px) {
     .hide_on_small_screen,
     .hide_on_medium_screen {
         display: none;
+    }
+
+    th.row_start_after_hidden_small_screen,
+    th.row_start_after_hidden_medium_screen,
+    td.row_start_after_hidden_small_screen,
+    td.row_start_after_hidden_medium_screen {
+        -moz-border-radius: 6px 0 0 6px;
+        -webkit-border-radius: 6px 0 0 6px;
+        border-radius: 6px 0 0 6px;
+    }
+
+    th.row_end_before_hidden_small_screen,
+    th.row_end_before_hidden_medium_screen,
+    td.row_end_before_hidden_small_screen,
+    td.row_end_before_hidden_medium_screen {
+        -moz-border-radius: 0 6px 6px 0;
+        -webkit-border-radius: 0 6px 6px 0;
+        border-radius: 0 6px 6px 0;
     }
 
     .login_form input:not([type="submit"]),
@@ -259,7 +303,7 @@ h2 {
 /* Smartphones (landscape) ----------- */
 @media only screen and (min-width : 401px) and (max-width: 767px) {
     body {
-        font-size: 0.85em;
+        font-size: 0.80em;
     }
 
     #container {
@@ -282,9 +326,23 @@ h2 {
     }
 }
 
-@media only screen and (min-width : 700px) and (max-width : 1000px) {
+@media only screen and (min-width : 680px) and (max-width : 1000px) {
     .hide_on_medium_screen {
         display: none;
+    }
+
+    th.row_start_after_hidden_medium_screen,
+    td.row_start_after_hidden_medium_screen {
+        -moz-border-radius: 6px 0 0 6px;
+        -webkit-border-radius: 6px 0 0 6px;
+        border-radius: 6px 0 0 6px;
+    }
+
+    th.row_end_before_hidden_medium_screen,
+    td.row_end_before_hidden_medium_screen {
+        -moz-border-radius: 0 6px 6px 0;
+        -webkit-border-radius: 0 6px 6px 0;
+        border-radius: 0 6px 6px 0;
     }
 }
 
@@ -462,10 +520,15 @@ ol.link_list {
 .register_form,
 .retrieve_password_form,
 .reset_password_form,
-.delete_sessions_form,
+.delete_sessions_form {
+    width: 80%;
+    margin-top: 2em;
+    margin-bottom: 2.75em;
+}
+
 .report_issue_form,
 .send_message_form {
-    width: 80%;
+    width: 95%;
     margin-top: 2em;
     margin-bottom: 2.75em;
 }

@@ -7,7 +7,7 @@ if (!empty($user)) {
 
     Page::header(Link::Administration);
     print "<ol class='link_list'>";
-    print "<li>" . Link::get_link(Link::Leagues) . "</li>";
+    print "<li>" . Link::get_link(Link::League_Admin) . "</li>";
     print "<li>" . Link::get_link(Link::Users_Sessions) . "</li>";
     print "</ol>";
     Page::footer();

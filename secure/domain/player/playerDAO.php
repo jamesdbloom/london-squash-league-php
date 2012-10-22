@@ -89,7 +89,7 @@ class PlayerDAO extends DAO implements Mapper
         return self::load_object($query, $parameters, new self(), 'load player by id ');
     }
 
-    public static function create($user_id, $division_id)
+    public static function create($user_id, $division_id, $status = Player::active)
     {
         $league_id = DivisionDAO::get_by_id($division_id)->league_id;
         $query = "INSERT INTO " . self::table_name . "(" .
@@ -107,7 +107,7 @@ class PlayerDAO extends DAO implements Mapper
             ':' . self::user_id_column => self::sanitize_value($user_id),
             ':' . self::division_id_column => self::sanitize_value($division_id),
             ':' . self::league_id_column => self::sanitize_value($league_id),
-            ':' . self::status_column => Player::active,
+            ':' . self::status_column => self::sanitize_value($status),
         );
         self::insert_update_delete_create($query, $parameters, 'save player ');
     }

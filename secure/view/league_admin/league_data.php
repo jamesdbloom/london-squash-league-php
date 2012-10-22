@@ -299,7 +299,7 @@ class LeagueData extends AbstractData
             }
         }
         $result = $this->matches_by_player_ids[$round_id . '->' . $player_one_id . '-' . $player_two_id];
-        if(empty($result)) {
+        if (empty($result)) {
             $result = $this->matches_by_player_ids[$round_id . '->' . $player_two_id . '-' . $player_one_id];
         }
         return $result;

@@ -49,11 +49,8 @@ class RoundDAO extends DAO implements Mapper
         $query =
             "SELECT DISTINCT " . RoundDAO::table_name . ".* " .
                 " FROM " . RoundDAO::table_name .
-                " INNER JOIN (" . MatchDAO::table_name .
                 "   INNER JOIN " . PlayerDAO::table_name .
-                "   ON ((" . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
-                "   OR  (" . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ")))" .
-                " ON " . RoundDAO::table_name . "." . RoundDAO::id_column . " = " . MatchDAO::table_name . "." . MatchDAO::round_id_column .
+                " ON " . RoundDAO::table_name . "." . RoundDAO::division_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column .
                 " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),

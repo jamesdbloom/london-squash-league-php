@@ -10,10 +10,10 @@ if (Session::is_administrator()) {
 
     // USERS
     print_table_start('Users', 'action_table');
-    print "<tr><th class='name'>Name</th><th class='email hide_on_very_small_screen'>Email</th><th class='mobile_privacy hide_on_small_screen hide_on_medium_screen'>Mobile Privacy</th><th class='mobile'>Mobile</th><th class='button last'></th></tr>";
+    print "<tr><th class='name'>Name</th><th class='email hide_on_very_small_screen'>Email</th><th class='mobile row_end_before_hidden_medium_screen'>Mobile</th><th class='mobile_privacy hide_on_medium_screen'>Mobile Privacy</th><th class='button last'></th></tr>";
     foreach ($userData->user_list as $user) {
         print_form(
-            array('name', 'email hide_on_very_small_screen', 'mobile_privacy hide_on_small_screen hide_on_medium_screen', 'mobile'), array($user->name, $user->email, User::get_mobile_privacy_text($user->mobile_privacy), "<a href='tel:$user->mobile'>$user->mobile<a/>"),
+            array('name', 'email hide_on_very_small_screen', 'mobile row_end_before_hidden_medium_screen', 'mobile_privacy hide_on_medium_screen'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>", User::get_mobile_privacy_text($user->mobile_privacy)),
             array('user_id'), array($user->id)
         );
     }
@@ -21,14 +21,14 @@ if (Session::is_administrator()) {
     print "<tr class='create_row'>";
     print "<td class='name last'><input name='name' type='text' pattern='.{3,25}' required='required'></td>";
     print "<td class='email last hide_on_very_small_screen'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td>";
-    print "<td class='mobile_privacy last hide_on_small_screen hide_on_medium_screen'><select name='mobile_privacy'>";
+    print "<td class='mobile row_end_before_hidden_medium_screen last'><input name='mobile' type='tel' pattern='\d{5,25}'></td>";
+    print "<td class='mobile_privacy last hide_on_medium_screen'><select name='mobile_privacy'>";
     print "<option value='''>Please select...</option>";
     print "<option value='secret''>" . User::get_mobile_privacy_text('secret') . "</option>";
     print "<option value='division''>" . User::get_mobile_privacy_text('division') . "</option>";
     print "<option value='league''>" . User::get_mobile_privacy_text('league') . "</option>";
     print "<option value='everyone''>" . User::get_mobile_privacy_text('everyone') . "</option>";
     print "</select></td>";
-    print "<td class='mobile last'><input name='mobile' type='tel' pattern='\d{5,25}'></td>";
     print "<td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 

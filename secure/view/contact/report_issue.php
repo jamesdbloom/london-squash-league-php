@@ -58,7 +58,7 @@ if (Form::is_post()) {
 
             <p>
                 <label class='bug_description' for='bug_description'>Bug Description:</label>
-                <textarea id='bug_description' name='bug_description' class='show_validation' cols='58' rows='20' autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required" tabindex="10"></textarea>
+                <textarea id='bug_description' name='bug_description' class='show_validation' cols='58' rows='15' autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required" tabindex="10"></textarea>
             </p>
 
             <p class='submit'>

@@ -39,7 +39,7 @@ class Link
     const Enter_Score = "Enter Score";
     const Join_A_League = "Join A League";
     const Home = "Home";
-    const Leagues = "Leagues";
+    const League_Admin = "Leagues";
     const Login = "Login";
     const Logout = "Logout";
     const Lost_password = "Lost Password?";
@@ -66,12 +66,12 @@ class Link
     {
         if (count(self::$links) <= 0) {
             self::$links[self::Account_Settings] = new Link(self::Account_Url, self::Account_Settings);
-            self::$links[self::Administration] = new Link('/secure/view/admin/administration.php', self::Administration, self::hide_on_medium_screen);
-            self::$links[self::Contact_Us] = new Link(self::Contact_Us_Url, self::Contact_Us, self::hide_on_small_screen);
+            self::$links[self::Administration] = new Link('/secure/view/admin/administration.php', self::Administration, self::hide_on_small_screen);
+            self::$links[self::Contact_Us] = new Link(self::Contact_Us_Url, self::Contact_Us, self::hide_on_very_small_screen);
             self::$links[self::Enter_Score] = new Link('/secure/view/score/view.php', self::Enter_Score, self::hide_on_small_screen);
             self::$links[self::Join_A_League] = new Link(self::Account_Url, self::Join_A_League);
             self::$links[self::Home] = new Link(Urls::get_root_url() . '/secure/', self::Home);
-            self::$links[self::Leagues] = new Link(self::League_Admin_Url, self::Leagues);
+            self::$links[self::League_Admin] = new Link(self::League_Admin_Url, self::League_Admin);
             self::$links[self::Login] = new Link(self::Login_Url, self::Login);
             self::$links[self::Logout] = new Link('/secure/view/login/logout.php', self::Logout);
             self::$links[self::Lost_password] = new Link(self::Retrieve_Password_Url, self::Lost_password);

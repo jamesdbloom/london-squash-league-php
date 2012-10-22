@@ -7,7 +7,7 @@ if (Session::is_administrator()) {
     load::load_file('view/league_admin', 'league_data.php');
 
     $leagueData = new LeagueData();
-    Page::header(Link::Leagues, array(), '', '', array(Link::get_link(Link::Recreate_Tables)));
+    Page::header(Link::League_Admin, array(), '', '', array(Link::get_link(Link::Recreate_Tables)));
 
     // CLUBS
     print_table_start('Clubs', 'action_table');
@@ -36,7 +36,7 @@ if (Session::is_administrator()) {
     if (count($leagueData->club_list) > 0) {
         print "<select name='club_id'>";
         foreach ($leagueData->club_list as $club) {
-            print "<option value='" . $club->id . "''>$club->name</option>\n";
+            print "<option value='" . $club->id . "''>$club->name</option>";
         }
         print "</select>";
     } else {
@@ -59,7 +59,7 @@ if (Session::is_administrator()) {
     if (count($leagueData->league_list) > 0) {
         print "<select name='league_id'>";
         foreach ($leagueData->league_list as $league) {
-            print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>\n";
+            print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>";
         }
         print "</select>";
     } else {
@@ -83,7 +83,7 @@ if (Session::is_administrator()) {
         print "<tr class='create_row'><td class='division last'>";
         print "<select name='league_id'>";
         foreach ($leagues as $league) {
-            print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>\n";
+            print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>";
         }
         print "</select>";
         print "</td><td class='status last hide_on_small_screen'>&nbsp;</td><td class='date last'><input name='start' type='date' required='required'/></td><td class='date last'><input name='end' type='date' required='required'/></td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
@@ -93,10 +93,10 @@ if (Session::is_administrator()) {
 
     // PLAYERS
     print_table_start('Players', 'action_table');
-    print "<tr><th class='division'>Division</th><th class='name'>User</th><th class='button last'></th></tr>";
+    print "<tr><th class='division'>Division</th><th class='name'>User</th><th class='status'>Status</th><th class='button last'></th></tr>";
     foreach ($leagueData->player_list as $player) {
         print_form(
-            array('division', 'name'), array($leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false)),
+            array('division', 'name', 'status'), array($leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false), $player->status),
             array('player_id'), array($player->id)
         );
     }
@@ -105,7 +105,7 @@ if (Session::is_administrator()) {
     if (count($leagueData->division_list) > 0) {
         print "<select name='division_id'>";
         foreach ($leagueData->division_list as $division) {
-            print "<option value='" . $division->id . "''>" . $leagueData->print_division_name($division->id) . "</option>\n";
+            print "<option value='" . $division->id . "''>" . $leagueData->print_division_name($division->id) . "</option>";
         }
         print "</select>";
     } else {
@@ -115,12 +115,17 @@ if (Session::is_administrator()) {
     if (count($leagueData->user_list) > 0) {
         print "<select name='user_id'>";
         foreach ($leagueData->user_list as $user) {
-            print "<option value='" . $user->id . "''>" . $user->name . "</option>\n";
+            print "<option value='" . $user->id . "''>" . $user->name . "</option>";
         }
         print "</select>";
     } else {
         print "&nbsp;";
     }
+    print "</td><td class='status last'>";
+    print "<select name='status'>";
+    print "<option value='" . Player::active . "''>" . Player::active. "</option>";
+    print "<option value='" . Player::inactive . "''>" . Player::inactive. "</option>";
+    print "</select>";
     print "</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
@@ -144,7 +149,7 @@ if (Session::is_administrator()) {
             print "<select name='round_id'>";
             foreach ($leagueData->round_list as $round) {
                 if ($round->id == $round_table->id) {
-                    print "<option value='" . $round->id . "''>" . $leagueData->print_round_name($round->id, false) . "</option>\n";
+                    print "<option value='" . $round->id . "''>" . $leagueData->print_round_name($round->id, false) . "</option>";
                 }
             }
             print "</select>";
@@ -156,7 +161,7 @@ if (Session::is_administrator()) {
         if (count($players_in_division) > 0) {
             print "<select name='player_one_id'>";
             foreach ($players_in_division as $player) {
-                print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>\n";
+                print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>";
             }
             print "</select>";
         } else {
@@ -166,7 +171,7 @@ if (Session::is_administrator()) {
         if (count($players_in_division) > 0) {
             print "<select name='player_two_id'>";
             foreach ($players_in_division as $player) {
-                print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>\n";
+                print "<option value='" . $player->id . "''>" . $leagueData->print_user_name($player->id, false) . "</option>";
             }
             print "</select>";
         } else {
@@ -176,7 +181,7 @@ if (Session::is_administrator()) {
         print_form_table_end();
     }
 
-    print "<h2 class='table_title'>Create All Matches</h2>";
+    print "<h2 class='table_xtitle'>Create All Matches</h2>";
     print_create_form_start('create_all_matches');
     print "<div class='create_all_matches_form'>";
     print "<p><label class='ignore_round_status' for='ignore_round_status'>Ignore Round Status:</label><input id='ignore_round_status' name='ignore_round_status' type='checkbox' /></p>";
@@ -191,7 +196,7 @@ if (Session::is_administrator()) {
 //    if (count($leagueData->user_list) > 0) {
 //        print "<select name='" . $field_id . "'>";
 //        foreach ($leagueData->player_list as $player) {
-//            print "<option value='" . $player->id . "''>" . call_user_func(array($leagueData, $callback), $player->user_id) . "</option>\n";
+//            print "<option value='" . $player->id . "''>" . call_user_func(array($leagueData, $callback), $player->user_id) . "</option>";
 //        }
 //        print "</select>";
 //    } else {

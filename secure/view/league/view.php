@@ -6,9 +6,9 @@ $user = Session::get_user(true);
 if (!empty($user)) {
 
     load::load_file('view/admin', 'form_output.php');
-    load::load_file('view/league_admin', 'league_data.php');
+    load::load_file('view/account', 'account_data.php');
 
-    $leagueData = new LeagueData();
+    $leagueData = new AccountData();
 
     $league_id = Parameters::read_request_input('league_id');
     $finished = Parameters::read_request_input('finished', 'false');
@@ -20,16 +20,16 @@ if (!empty($user)) {
         $GLOBALS['errors']->add('no_match_selected', 'To enter a score please select a match from the matches table below', Error::message);
     }
 
-    Page::header(Link::Leagues);
+    Page::header(Link::View_League);
 
     if (empty($league_id)) {
         print "<div class='message'>";
-        print "<div class='table_message'>Choose a league to only display matches for that league</div>";
+        print "<div class='table_message'>Choose a league to display all divisions</div>";
         print "<form method='get' action='view.php'>";
         print "<div class='select_league_form'>";
         print "<div><select name='league_id'>";
-        if (count($leagueData->league_list) > 0) {
-            foreach ($leagueData->league_list as $league) {
+        if (count($leagueData->user_league_list) > 0) {
+            foreach ($leagueData->user_league_list as $league) {
                 print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>\n";
             }
         }
@@ -41,11 +41,11 @@ if (!empty($user)) {
         print "</div>";
     } else {
         print "<h2 class='table_title'>" . $leagueData->print_league_name($league_id) . "</h2>";
-        print "<div class='standalone_link'><a href='view.php?finished=$finished'>Show all leagues and divisions</a></div>";
+        print "<div class='standalone_link'><a href='view.php?finished=$finished'>Show only your divisions</a></div>";
     }
     if (empty($message)) {
         if ($finished == 'true') {
-            print "<div class='standalone_link'><a href='view.php?" . (!empty($league_id) ? "league_id=$league_id&" : "") . "finished=false'>Show in play and soon to start rounds</a></div>";
+            print "<div class='standalone_link'><a href='view.php?" . (!empty($league_id) ? "league_id=$league_id&" : "") . "finished=false'>Show in-play <span class='hide_on_very_small_screen'>and imminent </span>rounds</a></div>";
         } else {
             print "<div class='standalone_link'><a href='view.php?" . (!empty($league_id) ? "league_id=$league_id&" : "") . "finished=true'>Show finished rounds</a></div>";
         }
@@ -55,7 +55,7 @@ if (!empty($user)) {
     print_table_start('Divisions', '');
     print "<tr><th class='league'>Club</th><th class='league'>League</th><th class='division'>Division</th></tr>";
     print "<p class='table_message'>Click on a row to jump to the table for that division</p>";
-    $divisions = (empty($league_id) ? $leagueData->division_list : $leagueData->divisions_in_league($league_id));
+    $divisions = (empty($league_id) ? $leagueData->user_division_list : $leagueData->divisions_in_league($league_id));
     foreach ($divisions as $division) {
         $league = $leagueData->league_map[$division->league_id];
         print_table_row(
@@ -69,13 +69,13 @@ if (!empty($user)) {
 
     // MATCHES
     print "<h2 class='table_title'>Matches</h2>";
-    $rounds = $leagueData->sort_and_filter_rounds((empty($league_id) ? $leagueData->round_list : $leagueData->rounds_in_league($league_id)), $finished);
+    $rounds = $leagueData->sort_and_filter_rounds((empty($league_id) ? $leagueData->user_round_list : $leagueData->rounds_in_league($league_id)), $finished);
     $start_date = '';
 
     $matches_by_round_id = $leagueData->matches_by_round_id();
     foreach ($rounds as $round) {
         if ($start_date != $round->start) {
-            print "<p class='table_subtitle'>" . (empty($league_id) ? $leagueData->print_league_name($leagueData->division_map[$round->division_id]->league_id) : "") . " " . $round->name . "</p>";
+            print "<p class='table_subtitle'>" . $round->name . "</p>";
             $start_date = $round->start;
         }
         $players_by_round_id = $leagueData->players_by_round_id($round->id);
