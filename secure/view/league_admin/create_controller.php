@@ -49,7 +49,7 @@ if ($type == 'match') {
 }
 if ($type == 'create_all_matches') {
     $leagueData = new LeagueData();
-    $leagueData->create_matches();
+    $leagueData->create_matches(Parameters::read_post_input('ignore_round_status'));
 }
 if ($type == 'player') {
     PlayerDAO::create(

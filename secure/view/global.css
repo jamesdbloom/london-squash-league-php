@@ -168,6 +168,16 @@ h2 {
     display: none;
 }
 
+@media only screen and (max-width : 675px) {
+    .large_screen {
+        display: none;
+    }
+
+    .small_screen {
+        display: table;
+    }
+}
+
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 400px) {
     body {
@@ -205,28 +215,12 @@ h2 {
     .hide_on_medium_screen {
         display: none;
     }
-
-    .large_screen {
-        display: none;
-    }
-
-    .small_screen {
-        display: table;
-    }
 }
 
 @media only screen and (max-width : 620px) {
     .hide_on_small_screen,
     .hide_on_medium_screen {
         display: none;
-    }
-
-    .large_screen {
-        display: none;
-    }
-
-    .small_screen {
-        display: table;
     }
 
     .login_form input:not([type="submit"]),
@@ -296,6 +290,10 @@ h2 {
 
 /* iPads (portrait) ----------- */
 @media only screen and (min-width : 768px) and (max-width : 1223px) {
+    body {
+        font-size: 0.95em;
+    }
+
     #container {
         width: 94%;
         margin: 0 auto;
@@ -472,6 +470,12 @@ ol.link_list {
     margin-bottom: 2.75em;
 }
 
+.create_all_matches_form {
+    width: 32%;
+    margin-top: 2em;
+    margin-bottom: 2.75em;
+}
+
 .reset_password_form .form_message {
     margin-left: 20%;
     color: #206f92;
@@ -496,12 +500,32 @@ ol.link_list {
     line-height: 1.3em;
 }
 
+.create_all_matches_form label {
+    display: block;
+    float: left;
+    width: 79%;
+    text-align: right;
+    padding-top: 2px;
+    margin-right: 7%;
+    margin-left: 1.75%;
+    margin-bottom: 0;
+    overflow: hidden;
+    line-height: 1.3em;
+}
+
 .login_form input:not([type="submit"]),
 .register_form input:not([type="submit"]),
 .retrieve_password_form input:not([type="submit"]),
 .reset_password_form input:not([type="submit"]),
 .delete_sessions_form input:not([type="submit"]) {
     width: 50%;
+    height: 2em;
+    line-height: 2em;
+    text-overflow: ellipsis;
+}
+
+.create_all_matches_form input:not([type="submit"]) {
+    width: 5%;
     height: 2em;
     line-height: 2em;
     text-overflow: ellipsis;
@@ -527,7 +551,7 @@ ol.link_list {
     width: 50%;
     resize: none;
     border-width: 2px;
-    border-style: ;
+    border-style: inset;
     border-color: #273A47;
     font-size: 1em;
     color: #206f92;
@@ -547,7 +571,8 @@ ol.link_list {
 .login_form input[type="checkbox"],
 .register_form input[type="checkbox"],
 .retrieve_password_form input[type="checkbox"],
-.reset_password_form input[type="checkbox"] {
+.reset_password_form input[type="checkbox"],
+.create_all_matches_form input[type="checkbox"] {
     margin: 0;
 }
 
@@ -557,7 +582,8 @@ ol.link_list {
 .reset_password_form p,
 .delete_sessions_form p,
 .report_issue_form p,
-.send_message_form p {
+.send_message_form p,
+.create_all_matches_form p {
     margin-top: 1.25em;
     vertical-align: middle;
 }
@@ -568,7 +594,8 @@ ol.link_list {
 .reset_password_form p.submit,
 .delete_sessions_form p.submit,
 .report_issue_form p.submit,
-.send_message_form p.submit {
+.send_message_form p.submit,
+.create_all_matches_form p.submit {
     margin-bottom: 1em;
     display: block;
     margin-right: 6%;
@@ -795,14 +822,14 @@ td {
 }
 
 /*td.no_match {*/
-    /*-moz-border-radius: 6px 6px 6px 6px !important;*/
-    /*-webkit-border-radius: 6px 6px 6px 6px !important;*/
-    /*border-radius: 6px 6px 6px 6px !important;*/
-    /*background-color: rgba(127, 33, 33, 0.16) !important;*/
+/*-moz-border-radius: 6px 6px 6px 6px !important;*/
+/*-webkit-border-radius: 6px 6px 6px 6px !important;*/
+/*border-radius: 6px 6px 6px 6px !important;*/
+/*background-color: rgba(127, 33, 33, 0.16) !important;*/
 /*}*/
 
 /*td.no_match + td {*/
-    /*-moz-border-radius: 6px 0 0 6px !important;*/
-    /*-webkit-border-radius: 6px 0 0 6px !important;*/
-    /*border-radius: 6px 0 0 6px  !important;*/
+/*-moz-border-radius: 6px 0 0 6px !important;*/
+/*-webkit-border-radius: 6px 0 0 6px !important;*/
+/*border-radius: 6px 0 0 6px  !important;*/
 /*}*/

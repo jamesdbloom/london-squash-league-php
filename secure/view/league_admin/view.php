@@ -176,8 +176,10 @@ if (Session::is_administrator()) {
         print_form_table_end();
     }
 
-    print "<h2 class='form_title'>Create All Matches</h2>";
+    print "<h2 class='table_title'>Create All Matches</h2>";
     print_create_form_start('create_all_matches');
+    print "<div class='create_all_matches_form'>";
+    print "<p><label class='ignore_round_status' for='ignore_round_status'>Ignore Round Status:</label><input id='ignore_round_status' name='ignore_round_status' type='checkbox' /></p>";
     print "<p class='submit'><input class='submit' type='submit' name='create' value='create'></p>";
     print "</div></form><br/>";
 

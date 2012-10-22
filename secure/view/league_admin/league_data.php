@@ -120,10 +120,10 @@ class LeagueData extends AbstractData
         return $result;
     }
 
-    public function create_matches()
+    public function create_matches($ignore_round_status = false)
     {
         foreach ($this->round_list as $round) {
-            if ($round->is_not_started()) {
+            if ($ignore_round_status || $round->is_not_started()) {
                 foreach ($this->players_in_division($round) as $player_one) {
                     foreach ($this->players_in_division($round) as $player_two) {
                         if ($this->not_the_same_player($player_one, $player_two)) {
