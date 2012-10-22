@@ -23,6 +23,7 @@ class Page
         }
         print "<title>" . PageSearchTerms::site_title . " &rsaquo; $title</title>";
         ?>
+<!-- google analytics start -->
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -36,6 +37,7 @@ class Page
   })();
 
 </script>
+<!-- google analytics end -->
         <?php
         print "</head>";
         print "<body>";
