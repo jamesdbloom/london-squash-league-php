@@ -49,18 +49,13 @@ Page::header(Link::Register);
 
         <p>
             <label class='mobile_privacy' for='mobile_privacy'>Mobile Privacy:</label>
-            <select id='mobile_privacy' name='mobile_privacy'>
-                <option value=''
-                '>Please select...</option>
-                <option value='secret'
-                '><?php echo User::get_mobile_privacy_text('secret'); ?></option>
-                <option value='division'
-                '><?php echo User::get_mobile_privacy_text('division'); ?></option>
-                <option value='league'
-                '><?php echo User::get_mobile_privacy_text('league'); ?></option>
-                <option value='everyone'
-                '><?php echo User::get_mobile_privacy_text('everyone'); ?></option>
-            </select>
+            <select id='mobile_privacy' name='mobile_privacy'><?php
+                print "<option value=''>Please select...</option>";
+                print "<option value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
+                print "<option value='" . User::division . "'>" . User::get_mobile_privacy_text(User::division) . "</option>";
+                print "<option value='" . User::league . "'>" . User::get_mobile_privacy_text(User::league) . "</option>";
+                print "<option value='" . User::everyone . "'>" . User::get_mobile_privacy_text(User::everyone) . "</option>";
+            ?></select>
         </p>
 
         <p>

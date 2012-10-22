@@ -120,6 +120,22 @@ class LeagueData extends AbstractData
         return $result;
     }
 
+    public function print_opponents_mobile($match_id, $user_id) {
+        $match = $this->match_map[$match_id];
+        $player_one = $this->player_map[$match->player_one_id];
+        $player_two = $this->player_map[$match->player_two_id];
+
+        $opponent = null;
+        if($user_id == $player_one->user_id) {
+            $opponent = $this->user_map[$player_two->user_id];
+        } else if ($user_id == $player_two->user_id) {
+            $opponent = $this->user_map[$player_one->user_id];
+        }
+        if(!empty($opponent) && $opponent->mobile_privacy != User::secret) {
+           return $opponent->mobile;
+        }
+    }
+
     public function create_matches($ignore_round_status = false)
     {
         foreach ($this->round_list as $round) {

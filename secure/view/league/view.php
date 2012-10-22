@@ -24,7 +24,7 @@ if (!empty($user)) {
 
     if (empty($league_id)) {
         print "<div class='message'>";
-        print "<div class='table_message'>Choose a league to display all divisions</div>";
+        print "<div class='table_message'>This page shows the divisions you are playing in, to view all divisions in one of your leagues select a league:</div>";
         print "<form method='get' action='view.php'>";
         print "<div class='select_league_form'>";
         print "<div><select name='league_id'>";
@@ -40,7 +40,6 @@ if (!empty($user)) {
         print "</form>";
         print "</div>";
     } else {
-        print "<h2 class='table_title'>" . $leagueData->print_league_name($league_id) . "</h2>";
         print "<div class='standalone_link'><a href='view.php?finished=$finished'>Show only your divisions</a></div>";
     }
     if (empty($message)) {
@@ -52,9 +51,14 @@ if (!empty($user)) {
     }
 
     // DIVISIONS
-    print_table_start('Divisions', '');
+    if (empty($league_id)) {
+        print "<h2 class='table_title'>Your Divisions</h2>";
+    } else {
+        print "<h2 class='table_title'>" . $leagueData->print_league_name($league_id) . "</h2>";
+    }
+    print "<table>";
     print "<tr><th class='league'>Club</th><th class='league'>League</th><th class='division'>Division</th></tr>";
-    print "<p class='table_message'>Click on a row to jump to the table for that division</p>";
+    print "<p class='table_message'>Click on a row to jump to the matches for that division</p>";
     $divisions = (empty($league_id) ? $leagueData->user_division_list : $leagueData->divisions_in_league($league_id));
     foreach ($divisions as $division) {
         $league = $leagueData->league_map[$division->league_id];
@@ -68,7 +72,7 @@ if (!empty($user)) {
     print "</table>";
 
     // MATCHES
-    print "<h2 class='table_title'>Matches</h2>";
+//    print "<h2 class='table_title'>Matches</h2>";
     $rounds = $leagueData->sort_and_filter_rounds((empty($league_id) ? $leagueData->user_round_list : $leagueData->rounds_in_league($league_id)), $finished);
     $start_date = '';
 

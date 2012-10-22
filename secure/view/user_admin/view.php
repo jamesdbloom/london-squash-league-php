@@ -23,11 +23,11 @@ if (Session::is_administrator()) {
     print "<td class='email last hide_on_very_small_screen'><input name='email' type='email' pattern=\"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\" required='required'></td>";
     print "<td class='mobile row_end_before_hidden_medium_screen last'><input name='mobile' type='tel' pattern='\d{5,25}'></td>";
     print "<td class='mobile_privacy last hide_on_medium_screen'><select name='mobile_privacy'>";
-    print "<option value='''>Please select...</option>";
-    print "<option value='secret''>" . User::get_mobile_privacy_text('secret') . "</option>";
-    print "<option value='division''>" . User::get_mobile_privacy_text('division') . "</option>";
-    print "<option value='league''>" . User::get_mobile_privacy_text('league') . "</option>";
-    print "<option value='everyone''>" . User::get_mobile_privacy_text('everyone') . "</option>";
+    print "<option value=''>Please select...</option>";
+    print "<option value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
+    print "<option value='" . User::division . "'>" . User::get_mobile_privacy_text(User::division) . "</option>";
+    print "<option value='" . User::league . "'>" . User::get_mobile_privacy_text(User::league) . "</option>";
+    print "<option value='" . User::everyone . "'>" . User::get_mobile_privacy_text(User::everyone) . "</option>";
     print "</select></td>";
     print "<td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();

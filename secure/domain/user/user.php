@@ -19,6 +19,10 @@ class User
 
     const player = 'player';
     const administrator = 'administrator';
+    const secret = 'secret';
+    const division = 'division';
+    const league = 'league';
+    const everyone = 'everyone';
 
     function __construct($id, $name, $email, $mobile, $mobile_privacy, $salt, $type = User::player)
     {
