@@ -42,7 +42,7 @@ if (!empty($user)) {
         }
 
         if (!$GLOBALS['errors']->has_errors()) {
-            Headers::set_redirect_header(Link::Account_Url . "?message=account_updated");
+            Headers::set_redirect_header(Link::Account_Url);
             exit;
         }
     }
