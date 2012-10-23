@@ -9,7 +9,7 @@ if (!empty($user)) {
     load::load_file('view/account', 'account_data.php');
 
     $accountData = new AccountData();
-    Page::header(Link::Account_Settings, array(), $accountData->user->name, '', array(Link::get_link(Link::Update_Password)));
+    Page::header(Link::Account_Settings, array(), $accountData->user->name, '', array(Link::get_link(Link::Update_Password), Link::get_link(Link::Update_User)));
 
     // USERS
     print_table_start('User');
@@ -21,6 +21,7 @@ if (!empty($user)) {
     print_form_table_end();
 
     print "<div class='standalone_link'>" . Link::get_link(Link::Update_Password) . "</div>";
+    print "<div class='standalone_link'>" . Link::get_link(Link::Update_User) . "</div>";
 
     // DIVISIONS
     $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();

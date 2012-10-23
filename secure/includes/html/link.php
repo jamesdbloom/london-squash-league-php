@@ -47,6 +47,7 @@ class Link
     const Register = "Register";
     const Report_Issue = "Report Issue";
     const Update_Password = "Update Password";
+    const Update_User = "Update User";
     const Users_Sessions = "Users & Sessions";
     const View_League = "View League";
 
@@ -59,6 +60,7 @@ class Link
     const Retrieve_Password_Url = '/secure/view/login/retrieve_password.php';
     const Report_Issue_Url = '/secure/view/contact/report_issue.php';
     const Update_Password_Url = '/secure/view/login/update_password.php';
+    const Update_User_Url = '/secure/view/login/update_user.php';
     const User_Admin_Url = '/secure/view/user_admin/view.php';
     const View_League_Url = '/secure/view/league/view.php';
 
@@ -79,6 +81,7 @@ class Link
             self::$links[self::Register] = new Link(self::Register_Url, self::Register);
             self::$links[self::Report_Issue] = new Link(self::Report_Issue_Url, self::Report_Issue, self::hide_on_very_small_screen);
             self::$links[self::Update_Password] = new Link(self::Update_Password_Url, self::Update_Password, self::hide_on_small_screen);
+            self::$links[self::Update_User] = new Link(self::Update_User_Url, self::Update_User, self::hide_on_medium_screen);
             self::$links[self::Users_Sessions] = new Link(self::User_Admin_Url, self::Users_Sessions);
             self::$links[self::View_League] = new Link(self::View_League_Url, self::View_League);
         }

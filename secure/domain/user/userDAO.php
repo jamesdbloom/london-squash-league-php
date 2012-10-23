@@ -153,6 +153,27 @@ class UserDAO extends DAO implements Mapper
         self::insert_update_delete_create($query, $parameters, 'update activate key ');
     }
 
+
+    public static function update($name, $email, $mobile, $mobile_privacy)
+    {
+        $existing_user = self::get_by_email($email);
+        $query = "UPDATE " . self::table_name .
+            " SET " . self::name_column . " = :" . self::name_column . ", " .
+            self::email_column . " = :" . self::email_column . ", " .
+            self::mobile_column . " = :" . self::mobile_column . ", " .
+            self::mobile_privacy_column . " = :" . self::mobile_privacy_column .
+            " WHERE " . self::id_column . " = :" . self::id_column;
+        $parameters = array(
+            ':' . self::id_column => $existing_user->id,
+            ':' . self::name_column => self::sanitize_value($name),
+            ':' . self::email_column => self::sanitize_email($email),
+            ':' . self::mobile_column => self::sanitize_value($mobile),
+            ':' . self::mobile_privacy_column => self::sanitize_value($mobile_privacy),
+        );
+        self::insert_update_delete_create($query, $parameters, 'update user details ');
+        return self::get_by_id($existing_user->id);
+    }
+
     public static function delete_by_id($id)
     {
         $query = "DELETE FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;

@@ -352,14 +352,12 @@ ol.link_list {
     text-overflow: ellipsis;
 }
 
-.report_issue_form input:not([type="submit"]),
-.send_message_form input:not([type="submit"]) {
+input[readonly="readonly"] {
     width: 50%;
     height: 2em;
     line-height: 2em;
     text-overflow: ellipsis;
     border-width: 0;
-    /*background-color: rgba(13, 60, 74, 0.32);*/
 }
 
 .register_form select {
