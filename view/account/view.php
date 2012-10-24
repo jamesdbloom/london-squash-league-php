@@ -62,7 +62,7 @@ if (!empty($user)) {
 
     // MATCHES
     print_table_start('Your Matches');
-    print "<tr><th class='division'>Division</th><th class='round hide_on_small_screen'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='mobile'>Opponent's Mobile</th><th class='score'>Score</th></tr>";
+    print "<tr><th class='division'>Division</th><th class='round hide_on_small_screen'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
     foreach ($accountData->user_match_list as $match) {
         $round = $accountData->round_map[$match->round_id];
         $score = $match->score;
@@ -75,13 +75,12 @@ if (!empty($user)) {
         }
         $opponents_mobile = $accountData->print_opponents_mobile($match->id, $user->id);
         print_table_row(
-            array('division', 'round hide_on_small_screen', 'player', 'player', 'mobile', 'score'),
+            array('division', 'round hide_on_small_screen', 'player', 'player', 'score'),
             array(
                 $accountData->print_division_name($round->division_id),
                 $round->name,
-                $accountData->print_user_name($match->player_one_id, false, $user->id),
-                $accountData->print_user_name($match->player_two_id, false, $user->id),
-                "<a href='tel:$opponents_mobile'>$opponents_mobile<a/>",
+                $accountData->print_user_name($match->player_one_id, false, $user->id, true),
+                $accountData->print_user_name($match->player_two_id, false, $user->id, true),
                 $score
             )
         );
