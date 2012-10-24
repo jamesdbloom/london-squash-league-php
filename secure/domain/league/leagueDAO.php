@@ -38,7 +38,7 @@ class LeagueDAO extends DAO implements Mapper
         return self::load_all_objects($query, $parameters, new self(), 'load list of leagues ');
     }
 
-    public static function get_all_by_user_id($user_id)
+    public static function get_all_by_user_id($user_id, $ignore_player_status = false)
     {
         $query =
             "SELECT DISTINCT " . LeagueDAO::table_name . ".* " .
@@ -48,7 +48,7 @@ class LeagueDAO extends DAO implements Mapper
                 "   ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column . ")" .
                 " ON " . LeagueDAO::table_name . "." . LeagueDAO::id_column . " = " . DivisionDAO::table_name . "." . DivisionDAO::league_id_column .
                 " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column .
-                " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' ";
+                ($ignore_player_status ? "" : " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' ");
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );

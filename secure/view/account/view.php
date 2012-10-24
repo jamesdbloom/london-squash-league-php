@@ -31,9 +31,11 @@ if (!empty($user)) {
         $league = $accountData->league_map[$division->league_id];
         $player = $accountData->user_division_to_player_map[$division->id];
         print_form(
-            array('club', 'league_unqualified', 'status hide_on_very_small_screen', 'division_unqualified'), array($accountData->print_club_name($league->club_id), $league->name, $player->status, $division->name),
-            array('division_id', 'user_id'), array($division->id, $user->id),
-            ($player->status == Player::active ? 'unregister' : 'register'),
+            array('club', 'league_unqualified', 'status hide_on_very_small_screen', 'division_unqualified'),
+            array($accountData->print_club_name($league->club_id), $league->name, $player->status, $division->name),
+            array('division_id', 'user_id'),
+            array($division->id, $user->id),
+            ($player->status == Player::active ? 'unregister' : 're-register'),
             'division_controller.php'
         );
     }

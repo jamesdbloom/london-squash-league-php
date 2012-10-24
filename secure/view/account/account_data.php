@@ -8,6 +8,7 @@ class AccountData extends LeagueData
     public $user;
     public $user_club_list;
     public $user_league_list;
+    public $user_league_list_ignore_player_status;
     public $user_division_list;
     public $user_division_list_ignore_player_status;
     public $user_round_list;
@@ -16,6 +17,7 @@ class AccountData extends LeagueData
 
     public $user_club_map;
     public $user_league_map;
+    public $user_league_map_ignore_player_status;
     public $user_division_map;
     public $user_round_map;
     public $user_player_map;
@@ -30,6 +32,7 @@ class AccountData extends LeagueData
             $user_id = $this->user->id;
             $this->user_club_list = ClubDAO::get_all_by_user_id($user_id);
             $this->user_league_list = LeagueDAO::get_all_by_user_id($user_id);
+            $this->user_league_list_ignore_player_status = LeagueDAO::get_all_by_user_id($user_id, true);
             $this->user_division_list = DivisionDAO::get_all_by_user_id($user_id);
             $this->user_division_list_ignore_player_status = DivisionDAO::get_all_by_user_id($user_id, true);
             $this->user_round_list = RoundDAO::get_all_by_user_id($user_id);
@@ -38,6 +41,7 @@ class AccountData extends LeagueData
 
             $this->user_club_map = $this->list_to_map($this->user_club_list);
             $this->user_league_map = $this->list_to_map($this->user_league_list);
+            $this->user_league_map_ignore_player_status = $this->list_to_map($this->user_league_list_ignore_player_status);
             $this->user_division_map = $this->list_to_map($this->user_division_list);
             $this->user_round_map = $this->list_to_map($this->user_round_list);
             $this->user_player_map = $this->list_to_map($this->user_player_list);
@@ -50,9 +54,9 @@ class AccountData extends LeagueData
 
     public function divisions_in_unregistered_leagues()
     {
-        $unregistered_divisions = array_diff($this->division_list, $this->user_division_list);
+        $unregistered_divisions = array_diff($this->division_list, $this->user_division_list_ignore_player_status);
         foreach (array_keys($unregistered_divisions) as $key) {
-            $league = $this->user_league_map[$unregistered_divisions[$key]->league_id];
+            $league = $this->user_league_map_ignore_player_status[$unregistered_divisions[$key]->league_id];
             if (!empty($league)) {
                 unset($unregistered_divisions[$key]);
             }
