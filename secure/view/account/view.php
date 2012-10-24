@@ -25,9 +25,9 @@ if (!empty($user)) {
 
     // DIVISIONS
     $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();
-    print_table_start('Divisions', 'action_table');
+    print_table_start('Divisions', 'action_table', 'table_title', 'divisions');
     print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='status hide_on_very_small_screen'>Status</th><th class='division_unqualified'>Division</th><th class='button last'></th></tr>";
-    foreach ($accountData->user_division_list as $division) {
+    foreach ($accountData->user_division_list_ignore_player_status as $division) {
         $league = $accountData->league_map[$division->league_id];
         $player = $accountData->user_division_to_player_map[$division->id];
         print_form(
@@ -46,7 +46,7 @@ if (!empty($user)) {
             print "<option value='" . $division->id . "''>" . $accountData->print_division_name($division->id) . "</option>";
         }
         print "</select>";
-        print "</td><td class='status hide_on_very_small_screen'></td><td class='button last'><input type='submit' name='register' value='register'></td></tr>";
+        print "</td><td class='status last hide_on_very_small_screen'></td><td class='button last'><input type='submit' name='register' value='register'></td></tr>";
     }
     print_form_table_end();
 
@@ -60,7 +60,7 @@ if (!empty($user)) {
 
     // MATCHES
     print_table_start('Your Matches');
-    print "<tr><th class='division hide_on_very_small_screen'>Division</th><th class='round row_start_after_hidden_very_small_screen'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='mobile'>Opponents Mobile</th><th class='score'>Score</th></tr>";
+    print "<tr><th class='division'>Division</th><th class='round hide_on_small_screen'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='mobile'>Opponent's Mobile</th><th class='score'>Score</th></tr>";
     foreach ($accountData->user_match_list as $match) {
         $round = $accountData->round_map[$match->round_id];
         $score = $match->score;
@@ -71,14 +71,15 @@ if (!empty($user)) {
         ) {
             $score = Link::get_link(Link::Enter_Score, false, 'enter')->add_query_string('match_id=' . $match->id);
         }
+        $opponents_mobile = $accountData->print_opponents_mobile($match->id, $user->id);
         print_table_row(
-            array('division hide_on_very_small_screen', 'round row_start_after_hidden_very_small_screen', 'player', 'player', 'mobile', 'score'),
+            array('division', 'round hide_on_small_screen', 'player', 'player', 'mobile', 'score'),
             array(
                 $accountData->print_division_name($round->division_id),
                 $round->name,
                 $accountData->print_user_name($match->player_one_id, false, $user->id),
                 $accountData->print_user_name($match->player_two_id, false, $user->id),
-                $accountData->print_opponents_mobile($match->id, $user->id),
+                "<a href='tel:$opponents_mobile'>$opponents_mobile<a/>",
                 $score
             )
         );

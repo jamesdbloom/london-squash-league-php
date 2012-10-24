@@ -47,7 +47,8 @@ class LeagueDAO extends DAO implements Mapper
                 "   INNER JOIN " . PlayerDAO::table_name .
                 "   ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column . ")" .
                 " ON " . LeagueDAO::table_name . "." . LeagueDAO::id_column . " = " . DivisionDAO::table_name . "." . DivisionDAO::league_id_column .
-                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column .
+                " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' ";
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );

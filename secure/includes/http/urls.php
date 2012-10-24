@@ -79,6 +79,17 @@ class Urls
     {
         return preg_replace('/www./', 'issue_report@', $_SERVER["SERVER_NAME"]);
     }
+
+    const redirect_to = 'redirect_to';
+
+    public static function redirect_url()
+    {
+        $current_path = Urls::get_current_path();
+        if (strstr($current_path, "login")) {
+            $current_path = Urls::get_landing_page();
+        }
+        return Form::escape_and_sanitize_field_value(Parameters::read_request_input(self::redirect_to, $current_path));
+    }
 }
 
 ?>

@@ -29,6 +29,6 @@ if (!$GLOBALS['errors']->has_errors()) {
 if ($GLOBALS['errors']->has_errors()) {
     page::basic_page('Error', "<a href='/secure'>Home</a>");
 } else {
-    Headers::set_redirect_header(Link::View_League_Url);
+    Headers::set_redirect_header(Urls::redirect_url());
 }
 ?>

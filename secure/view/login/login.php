@@ -36,7 +36,7 @@ if (Form::is_post()) {
         } else {
             Cookies::remove_cookie(Cookies::REMEMBER_ME_COOKIE_NAME);
         }
-        Headers::set_redirect_header(Parameters::read_request_input('redirect_to', Urls::get_landing_page()));
+        Headers::set_redirect_header(Urls::redirect_url());
         exit;
     }
 } else {

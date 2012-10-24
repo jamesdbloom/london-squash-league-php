@@ -147,6 +147,10 @@ class Session
             } else {
                 $session = null;
             }
+        } else {
+            if ($redirect) {
+                Page::not_logged_in();
+            }
         }
 
         return $session;

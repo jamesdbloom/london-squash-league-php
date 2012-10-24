@@ -20,9 +20,9 @@ function print_form($classes, $values, $field_ids = array(), $field_values = arr
     print "</form>";
 }
 
-function print_table_row($classes, $values, $cell_type = 'td')
+function print_table_row($classes, $values, $cell_type = 'td', $row_class = '')
 {
-    print "<tr>";
+    print "<tr class='$row_class'>";
     foreach (array_keys($classes) as $key) {
         print "<" . $cell_type . " class='$classes[$key]'>" . (!empty($values[$key]) ? $values[$key] : "&nbsp;") . "</" . $cell_type . ">";
     }
@@ -35,10 +35,13 @@ function print_create_form_start($type)
     print "<input name='type' type='hidden' value='$type'>";
 }
 
-function print_form_table_end()
+function print_form_table_end($hash_id = '')
 {
     print "</form>";
     print "</table>";
+    if(!empty($hash_id)) {
+        print "<span id='$hash_id'></span>";
+    }
 }
 
 function print_recreation_confirm($table_type) {

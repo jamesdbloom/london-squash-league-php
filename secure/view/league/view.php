@@ -63,30 +63,44 @@ if (!empty($user)) {
     foreach ($divisions as $division) {
         $league = $leagueData->league_map[$division->league_id];
         print_table_row(
-            array('club', 'league', 'division'), array(
-                "<a class='league_internal_page_link' href='#$division->id' >" . $leagueData->club_map[$league->club_id]->name . "</a>",
-                "<a class='league_internal_page_link' href='#$division->id' >" . $league->name . "</a>",
-                "<a class='league_internal_page_link' href='#$division->id' >" . $division->name . "</a>")
+            array('club', 'league', 'division'),
+            array(
+                "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $leagueData->club_map[$league->club_id]->name . "</a>",
+                "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $league->name . "</a>",
+                "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $division->name . "</a>"
+            ), "td", 'small_screen'
+        );
+    }
+    foreach ($divisions as $division) {
+        $league = $leagueData->league_map[$division->league_id];
+        print_table_row(
+            array('club', 'league', 'division'),
+            array(
+                "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $leagueData->club_map[$league->club_id]->name . "</a>",
+                "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $league->name . "</a>",
+                "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $division->name . "</a>"
+            ), "td", 'large_screen'
         );
     }
     print "</table>";
 
     // MATCHES
-//    print "<h2 class='table_title'>Matches</h2>";
     $rounds = $leagueData->sort_and_filter_rounds((empty($league_id) ? $leagueData->user_round_list : $leagueData->rounds_in_league($league_id)), $finished);
     $start_date = '';
+    $end_date = '';
 
     $matches_by_round_id = $leagueData->matches_by_round_id();
     foreach ($rounds as $round) {
-        if ($start_date != $round->start) {
+        if ($start_date != $round->start && $end_date != $round->end) {
             print "<p class='table_subtitle'>" . $round->name . "</p>";
             $start_date = $round->start;
+            $end_date = $round->end;
         }
         $players_by_round_id = $leagueData->players_by_round_id($round->id);
 
         if (count($players_by_round_id) > 0) {
             // small screen - start
-            print_table_start($leagueData->print_division_name($round->division_id), 'small_screen', 'table_message small_screen', $round->division_id);
+            print_table_start($leagueData->print_division_name($round->division_id), 'small_screen', 'table_message small_screen', $round->division_id . "_small");
             print "<tr><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
             foreach ($matches_by_round_id[$round->id] as $match) {
                 $score = $match->score;
@@ -106,7 +120,7 @@ if (!empty($user)) {
             // small screen - end
 
             // large screen - start
-            print_table_start($leagueData->print_division_name($round->division_id), 'large_screen', 'table_message large_screen', $round->division_id);
+            print_table_start($leagueData->print_division_name($round->division_id), 'large_screen', 'table_message large_screen', $round->division_id . "_large");
             print "<tr><th class='player'></th>";
             foreach ($players_by_round_id as $player_column) {
                 print "<th class='player'>" . $leagueData->print_user_name($player_column->id, false) . "</th>";

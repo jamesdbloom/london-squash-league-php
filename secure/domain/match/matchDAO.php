@@ -49,6 +49,8 @@ class MatchDAO extends DAO implements Mapper
             " ON " . PlayerDAO::table_name . "_ONE." . PlayerDAO::user_id_column . " = " . UserDAO::table_name . "_ONE." . UserDAO::id_column . " " .
             "JOIN " . UserDAO::table_name . " AS " . UserDAO::table_name . "_TWO" .
             " ON " . PlayerDAO::table_name . "_TWO." . PlayerDAO::user_id_column . " = " . UserDAO::table_name . "_TWO." . UserDAO::id_column . " " .
+            " WHERE " . PlayerDAO::table_name . "_ONE." . PlayerDAO::status_column . " <> '" . Player::inactive . "' " .
+            " AND " . PlayerDAO::table_name . "_TWO." . PlayerDAO::status_column . " <> '" . Player::inactive . "' " .
             "ORDER BY " .
             UserDAO::table_name . "_ONE" . "." . UserDAO::name_column . ", " .
             UserDAO::table_name . "_TWO" . "." . UserDAO::name_column;
@@ -64,7 +66,8 @@ class MatchDAO extends DAO implements Mapper
                 " INNER JOIN " . PlayerDAO::table_name .
                 " ON ((" . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . ") " .
                 " OR  (" . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column . "))" .
-                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column .
+                " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' ";
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );

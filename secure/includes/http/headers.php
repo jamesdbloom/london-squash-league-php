@@ -143,7 +143,7 @@ class Headers
         self::set_redirect_header(
             Link::Login_Url .
                 ($message ? '?' . LoginViewHelper::message . '=' . $message . '&' : '?') .
-                LoginViewHelper::redirect_to . '=' . Urls::get_current_path());
+                Urls::redirect_to . '=' . Urls::get_current_path());
     }
 }
 

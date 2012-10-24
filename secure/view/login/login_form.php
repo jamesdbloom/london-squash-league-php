@@ -1,11 +1,16 @@
+<?php
+require_once('../../load.php');
+?>
+
 <form action='<?php echo Link::Login_Url; ?>' method='post'>
 
-    <input type='hidden' name='redirect_to' value="<?php echo LoginViewHelper::redirect_url(); ?>"/>
+    <input type='hidden' name='<?php echo Urls::redirect_to ?>' value="<?php echo Urls::redirect_url(); ?>"/>
 
     <div class="login_form">
         <p>
             <label class='email' for='email'>E-mail:</label>
-            <input id='email' class='show_validation' type='email' name='email' value="<?php echo Form::escape_and_sanitize_field_value(Cookies::get_cookie_value(Cookies::REMEMBER_ME_COOKIE_NAME)); ?>" size='35' autocorrect=”off” autocapitalize=”off” autocomplete=”off” required='required'
+            <input id='email' class='show_validation' type='email' name='email' value="<?php echo Form::escape_and_sanitize_field_value(Cookies::get_cookie_value(Cookies::REMEMBER_ME_COOKIE_NAME)); ?>" size='35' autocorrect=”off” autocapitalize=”off” autocomplete=”off”
+                   required='required'
                    pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" tabindex='10'/>
         </p>
 

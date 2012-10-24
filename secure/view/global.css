@@ -470,8 +470,8 @@ input.password-no-match {
 h2.table_title {
     font-size: 1.75em;
     font-weight: bolder;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
 h2.table_title:first-of-type {
@@ -503,6 +503,8 @@ p.page_link {
 .table_message {
     font-size: 1em;
     margin-bottom: 0.35em;
+    padding-top: 0.35em;
+    padding-bottom: 0.35em;
 }
 
 h2.table_title + .table_message {
@@ -515,7 +517,7 @@ table + .table_message,
 .errors_messages + .table_message,
 .errors_warnings + .table_message,
 .message + .table_message {
-    margin-top: 1em;
+    padding-top: 0.75em;
     margin-left: 0.1em;
 }
 
@@ -642,20 +644,34 @@ td {
 
 /* adaptive design */
 
-.large_screen {
+tr.small_screen,
+h2.small_screen,
+table.small_screen {
+    display: none;
+}
+tr.large_screen {
+    display: table-row;
+}
+h2.large_screen {
+    display: table;
+}
+table.large_screen {
     display: table;
 }
 
-.small_screen {
-    display: none;
-}
-
-@media only screen and (max-width : 730px) {
-    .large_screen {
+@media only screen and (max-width : 900px) {
+    tr.large_screen,
+    h2.large_screen,
+    table.large_screen  {
         display: none;
     }
-
-    .small_screen {
+    tr.small_screen {
+        display: table-row;
+    }
+    h2.small_screen {
+        display: table;
+    }
+    table.small_screen {
         display: table;
     }
 }
@@ -758,7 +774,7 @@ td {
     .retrieve_password_form input:not([type="submit"]),
     .reset_password_form input:not([type="submit"]),
     .delete_sessions_form input:not([type="submit"]) {
-        width: 80%;
+        width: 50%;
     }
 
     .login_form select,
@@ -766,7 +782,7 @@ td {
     .retrieve_password_form select,
     .reset_password_form select,
     .delete_sessions_form select {
-        width: 80%;
+        width: 50%;
     }
 
     .action_table select {

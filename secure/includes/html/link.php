@@ -71,7 +71,7 @@ class Link
             self::$links[self::Administration] = new Link('/secure/view/admin/administration.php', self::Administration, self::hide_on_small_screen);
             self::$links[self::Contact_Us] = new Link(self::Contact_Us_Url, self::Contact_Us, self::hide_on_very_small_screen);
             self::$links[self::Enter_Score] = new Link('/secure/view/score/view.php', self::Enter_Score, self::hide_on_small_screen);
-            self::$links[self::Join_A_League] = new Link(self::Account_Url, self::Join_A_League);
+            self::$links[self::Join_A_League] = new Link(self::Account_Url . '#divisions', self::Join_A_League);
             self::$links[self::Home] = new Link(Urls::get_root_url() . '/secure/', self::Home);
             self::$links[self::League_Admin] = new Link(self::League_Admin_Url, self::League_Admin);
             self::$links[self::Login] = new Link(self::Login_Url, self::Login);

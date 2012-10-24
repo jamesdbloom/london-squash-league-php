@@ -24,7 +24,7 @@ Page::header(Link::Register);
 ?>
 
 <form action='<?php echo Link::Register_Url; ?>' method='post'>
-    <input type='hidden' name='redirect_to' value='<?php echo LoginViewHelper::redirect_url(); ?>'/>
+    <input type='hidden' name='<?php echo Urls::redirect_to ?>' value='<?php echo Urls::redirect_url(); ?>'/>
 
     <p class='message'>Please enter your details and a temporary password will be e-mailed to you.</p>
 

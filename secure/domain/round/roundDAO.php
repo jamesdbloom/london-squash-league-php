@@ -51,7 +51,8 @@ class RoundDAO extends DAO implements Mapper
                 " FROM " . RoundDAO::table_name .
                 "   INNER JOIN " . PlayerDAO::table_name .
                 " ON " . RoundDAO::table_name . "." . RoundDAO::division_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column .
-                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column;
+                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column .
+                " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' ";
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );

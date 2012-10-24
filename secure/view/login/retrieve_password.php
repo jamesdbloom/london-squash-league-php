@@ -46,7 +46,7 @@ Page::header(Link::Lost_password);
 ?>
 
 <form action='<?php echo Link::Retrieve_Password_Url; ?>' method='post'>
-    <input type='hidden' name='redirect_to' value='<?php echo LoginViewHelper::redirect_url(); ?>'/>
+    <input type='hidden' name='<?php echo Urls::redirect_to ?>' value='<?php echo Urls::redirect_url(); ?>'/>
 
     <p class='message'>To receive a password reset link please enter your email.</p>
 

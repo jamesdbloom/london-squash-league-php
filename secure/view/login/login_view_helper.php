@@ -13,17 +13,6 @@ class LoginViewHelper
     const registered = 'registered';
     const retrieve_password = 'retrieve_password';
 
-    const redirect_to = 'redirect_to';
-
-    public static function redirect_url()
-    {
-        $current_path = Urls::get_current_path();
-        if (strstr($current_path, "login")) {
-            $current_path = Urls::get_landing_page();
-        }
-        return Form::escape_and_sanitize_field_value(Parameters::read_request_input(self::redirect_to, $current_path));
-    }
-
     public static function validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $division_id)
     {
         // Check the human_name
