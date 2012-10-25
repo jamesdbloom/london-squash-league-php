@@ -5,7 +5,7 @@ function print_table_start($title, $class = '', $title_class = 'table_title', $t
     print "<table class='$class'>";
 }
 
-function print_form($classes, $values, $field_ids = array(), $field_values = array(), $button = 'delete', $action = 'delete_controller.php')
+function print_form($action, $classes, $values, $field_ids = array(), $field_values = array(), $button = 'delete')
 {
     print "<form method='post' action='$action'>";
     foreach (array_keys($field_ids) as $key) {
@@ -29,9 +29,9 @@ function print_table_row($classes, $values, $cell_type = 'td', $row_class = '')
     print "</tr>";
 }
 
-function print_create_form_start($type)
+function print_create_form_start($action, $type)
 {
-    print "<form method='post' action='create_controller.php'>";
+    print "<form method='post' action='$action'>";
     print "<input name='type' type='hidden' value='$type'>";
 }
 
@@ -39,18 +39,19 @@ function print_form_table_end($hash_id = '')
 {
     print "</form>";
     print "</table>";
-    if(!empty($hash_id)) {
+    if (!empty($hash_id)) {
         print "<span id='$hash_id'></span>";
     }
 }
 
-function print_recreation_confirm($table_type) {
+function print_recreation_confirm($action, $table_type)
+{
     if (Session::is_administrator()) {
 
-        Page::header(Link::Recreate_Tables);
+        Page::header('Recreate ' . $table_type . ' Tables');
 
         print "<h2 class='form_subtitle'>Are you sure you want to recreate all $table_type tables?</h2>";
-        print "<form method='post' action='recreate_schema_controller.php'><div class='recreate_tables_confirm_form'>";
+        print "<form method='post' action='$action'><div class='recreate_tables_confirm_form'>";
         print "<p class='submit'><input class='submit' type='submit' name='yes' value='yes'></p>";
         print "</div></form>";
 

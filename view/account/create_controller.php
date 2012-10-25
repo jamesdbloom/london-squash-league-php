@@ -10,5 +10,5 @@ if ($type == 'player') {
     );
 }
 
-Footer::outputFooter();
+Footer::outputAccountFooter();
 ?>

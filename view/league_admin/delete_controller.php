@@ -28,5 +28,5 @@ if (!empty($player_id)) {
     PlayerDAO::delete_by_id($player_id);
 }
 
-Footer::outputFooter();
+Footer::outputLeagueAdminFooter();
 ?>

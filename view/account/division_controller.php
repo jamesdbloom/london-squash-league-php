@@ -15,5 +15,5 @@ if (!empty($division_id)) {
     }
 }
 
-Footer::outputFooter();
+Footer::outputAccountFooter();
 ?>

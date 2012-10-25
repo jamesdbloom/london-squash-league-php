@@ -25,7 +25,7 @@ if ($type == 'session') {
     );
 }
 
-Footer::outputFooter();
+Footer::outputUserAdminFooter();
 
 function is_validate_inputs($password_check, $password)
 {

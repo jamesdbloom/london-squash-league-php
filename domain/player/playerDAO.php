@@ -4,6 +4,7 @@ load::load_file('database', 'database.php');
 load::load_file('domain/player', 'player.php');
 load::load_file('domain/user', 'userDAO.php');
 load::load_file('domain/division', 'divisionDAO.php');
+load::load_file('view/league_admin', 'league_data.php');
 class PlayerDAO extends DAO implements Mapper
 {
     const table_name = 'PLAYER';
@@ -110,6 +111,8 @@ class PlayerDAO extends DAO implements Mapper
             ':' . self::status_column => self::sanitize_value($status),
         );
         self::insert_update_delete_create($query, $parameters, 'save player ');
+        $league_data = new LeagueData();
+        $league_data->create_matches(Parameters::read_post_input('ignore_round_status'));
     }
 
     public static function delete_by_id($id)

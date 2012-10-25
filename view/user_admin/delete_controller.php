@@ -20,5 +20,5 @@ if (!empty($session_created)) {
     SessionDAO::delete_by_created_date($session_created);
 }
 
-Footer::outputFooter();
+Footer::outputUserAdminFooter();
 ?>

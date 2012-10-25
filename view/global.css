@@ -292,7 +292,7 @@ ol.link_list {
 }
 
 .create_all_matches_form {
-    width: 32%;
+    width: 65%;
     margin-top: 2em;
     margin-bottom: 2.75em;
 }
@@ -324,7 +324,7 @@ ol.link_list {
 .create_all_matches_form label {
     display: block;
     float: left;
-    width: 79%;
+    width: 55%;
     text-align: right;
     padding-top: 2px;
     margin-right: 7%;
@@ -346,7 +346,7 @@ ol.link_list {
 }
 
 .create_all_matches_form input:not([type="submit"]) {
-    width: 5%;
+    width: 30%;
     height: 2em;
     line-height: 2em;
     text-overflow: ellipsis;

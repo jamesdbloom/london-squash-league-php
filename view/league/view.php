@@ -20,12 +20,12 @@ if (!empty($user)) {
         $GLOBALS['errors']->add('no_match_selected', 'To enter a score please select a match from the matches table below', Error::message);
     }
 
-    Page::header(Link::View_League);
+    Page::header(Link::League . ($finished != 'true' ? ' - in play rounds' : ' - finished rounds'));
 
     if (empty($league_id)) {
         print "<div class='message'>";
         print "<div class='table_message'>This page shows the divisions you are playing in, to view all divisions in one of your leagues select a league:</div>";
-        print "<form method='get' action='view.php'>";
+        print "<form method='get' action='" . Link::root . Link::League_Url . "'>";
         print "<div class='select_league_form'>";
         print "<div><select name='league_id'>";
         if (count($leagueData->user_league_list) > 0) {
@@ -40,13 +40,13 @@ if (!empty($user)) {
         print "</form>";
         print "</div>";
     } else {
-        print "<div class='standalone_link'><a href='view.php?finished=$finished'>Show only your divisions</a></div>";
+        print "<div class='standalone_link'><a href='" . Link::root . Link::League_Url . "?finished=$finished'>Show only your divisions</a></div>";
     }
     if (empty($message)) {
         if ($finished == 'true') {
-            print "<div class='standalone_link'><a href='view.php?" . (!empty($league_id) ? "league_id=$league_id&" : "") . "finished=false'>Show in-play <span class='hide_on_very_small_screen'>and imminent </span>rounds</a></div>";
+            print "<div class='standalone_link'><a href='" . Link::root . Link::League_Url . "?" . (!empty($league_id) ? "league_id=$league_id&" : "") . "finished=false'>Show in-play <span class='hide_on_very_small_screen'>and imminent </span>rounds</a></div>";
         } else {
-            print "<div class='standalone_link'><a href='view.php?" . (!empty($league_id) ? "league_id=$league_id&" : "") . "finished=true'>Show finished rounds</a></div>";
+            print "<div class='standalone_link'><a href='" . Link::root . Link::League_Url . "?" . (!empty($league_id) ? "league_id=$league_id&" : "") . "finished=true'>Show finished rounds</a></div>";
         }
     }
 

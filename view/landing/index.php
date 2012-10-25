@@ -7,9 +7,9 @@ if (Session::has_active_session()) {
     if (Session::is_administrator()) {
         print "<li>" . Link::get_link(Link::Administration) . "</li>";
     }
-    print "<li>" . Link::get_link(Link::View_League, false, "View Your League") . "</li>";
+    print "<li>" . Link::get_link(Link::League, false, "View Your League") . "</li>";
     print "<li>" . Link::get_link(Link::Enter_Score, false, "Enter Match Score") . "</li>";
-    print "<li>" . Link::get_link(Link::Account_Settings, false, "Account Settings") . "</li>";
+    print "<li>" . Link::get_link(Link::Account, false, "Account Settings") . "</li>";
     print "<li>" . Link::get_link(Link::Join_A_League, false, "Join A New League") . "</li>";
     print "<li>" . Link::get_link(Link::Contact_Us) . "</li>";
     print "<li>" . Link::get_link(Link::Report_Issue) . "</li>";

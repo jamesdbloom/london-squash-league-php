@@ -59,5 +59,5 @@ if ($type == 'player') {
     );
 }
 
-Footer::outputFooter();
+Footer::outputLeagueAdminFooter();
 ?>

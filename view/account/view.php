@@ -9,7 +9,7 @@ if (!empty($user)) {
     load::load_file('view/account', 'account_data.php');
 
     $accountData = new AccountData();
-    Page::header(Link::Account_Settings, array(), $accountData->user->name, '', array(Link::get_link(Link::Update_Password), Link::get_link(Link::Update_User)));
+    Page::header(Link::Account, array(), $accountData->user->name, '', array(Link::get_link(Link::Update_Password), Link::get_link(Link::Update_User)));
 
     // USERS
     print_table_start('User');
@@ -31,15 +31,15 @@ if (!empty($user)) {
         $league = $accountData->league_map[$division->league_id];
         $player = $accountData->user_division_to_player_map[$division->id];
         print_form(
+            Link::Account_Division_Controller_Url,
             array('club', 'league_unqualified', 'status hide_on_very_small_screen', 'division_unqualified'),
             array($accountData->print_club_name($league->club_id), $league->name, $player->status, $division->name),
             array('division_id', 'user_id'),
             array($division->id, $user->id),
-            ($player->status == Player::active ? 'unregister' : 're-register'),
-            'division_controller.php'
+            ($player->status == Player::active ? 'unregister' : 're-register')
         );
     }
-    print_create_form_start('player');
+    print_create_form_start(Link::root . Link::Account_Create_Controller_Url, 'player');
     print "<input name='user_id' type='hidden' value='" . $user->id . "'>";
     if (count($unregistered_divisions) > 0) {
         print "<tr class='create_row'><td colspan='3' class='name last'>";

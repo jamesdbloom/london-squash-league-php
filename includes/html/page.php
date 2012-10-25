@@ -63,11 +63,11 @@ class Page
     private static function default_navigation($links = array())
     {
         if (Session::has_active_session()) {
-            array_unshift($links, Link::get_link(Link::Account_Settings));
+            array_unshift($links, Link::get_link(Link::Account));
             if (Session::is_administrator()) {
                 array_unshift($links, Link::get_link(Link::Administration));
             }
-            array_unshift($links, Link::get_link(Link::View_League));
+            array_unshift($links, Link::get_link(Link::League));
             $links[] = Link::get_link(Link::Report_Issue);
             $links[] = Link::get_link(Link::Contact_Us);
             $links[] = Link::get_link(Link::Logout);
@@ -76,7 +76,7 @@ class Page
             $links[] = Link::get_link(Link::Register);
             $links[] = Link::get_link(Link::Lost_password);
         }
-        array_unshift($links, Link::get_link(Link::Home));
+        array_unshift($links, Link::get_link(Link::Landing));
         return $links;
     }
 

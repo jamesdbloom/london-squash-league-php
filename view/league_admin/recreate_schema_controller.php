@@ -11,11 +11,11 @@ if (Parameters::read_post_input('yes') == 'yes') {
     LeagueDAO::create_league_schema();
     ClubDAO::create_club_schema();
 
-    Footer::outputFooter();
+    Footer::outputLeagueAdminFooter();
 
 } else {
 
-    Headers::set_redirect_header(Link::Recreate_Tables);
+    Headers::set_redirect_header(Link::root . Link::League_Admin_Url);
 
 }
 ?>
