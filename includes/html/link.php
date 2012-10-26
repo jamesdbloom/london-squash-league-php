@@ -104,7 +104,7 @@ class Link
     const Enter_Score_Url = 'score';
     const Enter_Score = "Enter Score";
     #RewriteRule ^score/score_controller$ view/score/score_controller.php
-    const Enter_Score_Controller_Url = 'score';
+    const Enter_Score_Controller_Url = 'score/score_controller';
     const Enter_Score_Controller = 'Enter Score Controller';
 
     #RewriteRule ^user_admin$ view/user_admin/view.php

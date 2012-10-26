@@ -38,7 +38,7 @@ class Page
         print "<body>";
         print "<div id='container'>"; // container
         if (!empty($title)) {
-            print "<div id='header'>$title</div>";
+            print "<div id='header'>$title $title_suffix</div>";
         }
         $links = self::default_navigation($links);
         self::print_tab_navigation($links, $title);
@@ -74,7 +74,7 @@ class Page
         } else {
             $links[] = Link::get_link(Link::Login);
             $links[] = Link::get_link(Link::Register);
-            $links[] = Link::get_link(Link::Lost_password);
+            $links[] = Link::get_link(Link::Retrieve_Password);
         }
         array_unshift($links, Link::get_link(Link::Landing));
         return $links;

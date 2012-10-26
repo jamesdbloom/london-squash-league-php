@@ -20,7 +20,7 @@ if (!empty($user)) {
         $GLOBALS['errors']->add('no_match_selected', 'To enter a score please select a match from the matches table below', Error::message);
     }
 
-    Page::header(Link::League . ($finished != 'true' ? ' - in play rounds' : ' - finished rounds'));
+    Page::header(Link::League, array(), ($finished != 'true' ? ' - in play rounds' : ' - finished rounds'));
 
     if (empty($league_id)) {
         print "<div class='message'>";
