@@ -70,7 +70,7 @@ class Link
     const League_Admin = "Leagues";
     #RewriteRule ^league_admin/recreate_schema_confirm$ view/league_admin/recreate_schema_confirm.php
     const League_Admin_Recreate_Tables_Url = 'league_admin/recreate_schema_confirm';
-    const League_Admin_Recreate_Tables = 'League Admin Recreate Tables';
+    const League_Admin_Recreate_Tables = 'Recreate Tables';
     #RewriteRule ^league_admin/recreate_schema_controller$ view/league_admin/recreate_schema_controller.php
     const League_Admin_Recreate_Tables_Controller_Url = 'league_admin/recreate_schema_controller';
     const League_Admin_Recreate_Tables_Controller = 'League Admin Recreate Controller Tables';
@@ -112,7 +112,7 @@ class Link
     const Users_Admin = "Users & Sessions";
     #RewriteRule ^user_admin/recreate_schema_confirm$ view/user_admin/recreate_schema_confirm.php
     const User_Admin_Recreate_Tables_Url = 'user_admin/recreate_schema_confirm';
-    const User_Admin_Recreate_Tables = 'User Admin Recreate Tables';
+    const User_Admin_Recreate_Tables = 'Recreate Tables';
     #RewriteRule ^user_admin/recreate_schema_controller$ view/user_admin/recreate_schema_controller.php
     const User_Admin_Recreate_Tables_Controller_Url = 'user_admin/recreate_schema_controller';
     const User_Admin_Recreate_Tables_Controller = 'User Admin Recreate Controller Tables';

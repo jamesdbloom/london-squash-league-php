@@ -38,7 +38,7 @@ class Page
         print "<body>";
         print "<div id='container'>"; // container
         if (!empty($title)) {
-            print "<div id='header'>$title $title_suffix</div>";
+            print "<div id='header'>$title<div id='header_suffix'>$title_suffix</div></div>";
         }
         $links = self::default_navigation($links);
         self::print_tab_navigation($links, $title);

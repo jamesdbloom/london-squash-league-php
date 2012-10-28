@@ -67,7 +67,7 @@ if (!empty($key) && !empty($email)) {
         <p class="form_message">Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp;</p>
 
         <p class='submit'>
-            <input class='submit' type="submit" name="submit" value="Reset Password" tabindex="100"/>
+            <input class='submit primary' type="submit" name="submit" value="Reset Password" tabindex="100"/>
         </p>
     </div>
 </form>

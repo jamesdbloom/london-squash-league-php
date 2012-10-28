@@ -25,7 +25,7 @@ require_once('../../load.php');
         </p>
 
         <p class='submit'>
-            <input class='submit' type='submit' name='submit' value='Login' tabindex='100'/>
+            <input class='submit primary' type='submit' name='submit' value='Login' tabindex='100'/>
         </p>
     </div>
 </form>

@@ -120,7 +120,7 @@ if (!empty($user)) {
             // small screen - end
 
             // large screen - start
-            print_table_start($leagueData->print_division_name($round->division_id), 'large_screen', 'table_message large_screen', $round->division_id . "_large");
+            print_table_start($leagueData->print_division_name($round->division_id), 'league large_screen', 'table_message large_screen', $round->division_id . "_large");
             print "<tr><th class='player'></th>";
             foreach ($players_by_round_id as $player_column) {
                 print "<th class='player'>" . $leagueData->print_user_name($player_column->id, false) . "</th>";
