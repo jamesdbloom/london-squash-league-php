@@ -331,13 +331,13 @@ class LeagueData extends AbstractData
 
     public function matches_by_player_id($player_id, $round_id)
     {
-        if (count($this->match_by_player_ids) <= 0) {
+        if (count($this->matches_by_player_id) <= 0) {
             foreach ($this->match_list as $match) {
                 $match_list_player_one = $this->matches_by_player_id[$match->round_id . '->' . $match->player_one_id];
-                if(empty($match_list_player_one)) {
+                if (empty($match_list_player_one)) {
                     $match_list_player_one = array($match);
                 } else {
-                    $match_list_player_one[] = $match;
+                    $match_list_player_one[$match->id] = $match;
                 }
                 $this->matches_by_player_id[$match->round_id . '->' . $match->player_one_id] = $match_list_player_one;
 
@@ -350,7 +350,7 @@ class LeagueData extends AbstractData
                 $this->matches_by_player_id[$match->round_id . '->' . $match->player_two_id] = $match_list_player_two;
             }
         }
-        return $this->match_by_player_ids[$round_id . '->' . $player_id];
+        return $this->matches_by_player_id[$round_id . '->' . $player_id];
     }
 }
 

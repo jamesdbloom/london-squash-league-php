@@ -20,14 +20,14 @@ if (!empty($user)) {
         $GLOBALS['errors']->add('no_match_selected', 'To enter a score please select a match from the matches table below', Error::message);
     }
 
-    Page::header(Link::League, array(), ($finished != 'true' ? ' - in play rounds' : ' - finished rounds'));
+    Page::header(Link::League, array(), ($finished != 'true' ? 'in play rounds' : 'finished rounds'));
 
     if (empty($league_id)) {
         print "<div class='message'>";
         print "<div class='table_message'>This page shows the divisions you are playing in, to view all divisions in one of your leagues select a league:</div>";
         print "<form method='get' action='" . Link::root . Link::League_Url . "'>";
         print "<div class='select_league_form'>";
-        print "<div><select name='league_id'>";
+        print "<div class='select'><select name='league_id'>";
         if (count($leagueData->user_league_list) > 0) {
             foreach ($leagueData->user_league_list as $league) {
                 print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>\n";
@@ -123,34 +123,41 @@ if (!empty($user)) {
             print_table_start($leagueData->print_division_name($round->division_id), 'league large_screen', 'table_message large_screen', $round->division_id . "_large");
             print "<tr><th class='player'></th>";
             foreach ($players_by_round_id as $player_column) {
-//                $matches_by_player_id = $leagueData->matches_by_player_id($player_column->id, $round->id);
-//                if (count($matches_by_player_id) > 0) {
+                $matches_by_player_id = $leagueData->matches_by_player_id($player_column->id, $round->id);
+                if (count($matches_by_player_id) > 0) {
                     print "<th class='player'>" . $leagueData->print_user_name($player_column->id, false) . "</th>";
-//                }
+                }
             }
             print "</tr>";
             foreach ($players_by_round_id as $player_row) {
-//                $matches_by_player_id = $leagueData->matches_by_player_id($player_row->id, $round->id);
-//                if (count($matches_by_player_id) > 0) {
+                $matches_by_player_id = $leagueData->matches_by_player_id($player_row->id, $round->id);
+                if (count($matches_by_player_id) > 0) {
                     print "<tr><td class='player'>" . $leagueData->print_user_name($player_row->id, false) . "</td>";
                     foreach ($players_by_round_id as $player_column) {
-                        if ($player_row->id != $player_column->id) {
-                            $match_cell = $leagueData->match_by_player_ids($player_row->id, $player_column->id, $round->id);
-                            $score = $match_cell->score;
-                            if (empty($score)
-                                &&
-                                $leagueData->user_is_player_in_match($user->id, $match_cell->id)
-                                && $leagueData->round_in_play($match_cell->id)
-                            ) {
-                                $score = Link::get_link(Link::Enter_Score, false, 'enter')->add_query_string('match_id=' . $match_cell->id);
+                        $matches_by_player_id = $leagueData->matches_by_player_id($player_column->id, $round->id);
+                        if (count($matches_by_player_id) > 0) {
+                            if ($player_row->id != $player_column->id) {
+                                $match_cell = $leagueData->match_by_player_ids($player_row->id, $player_column->id, $round->id);
+                                $score = $match_cell->score;
+                                if(!empty($score) && $match_cell->player_one_id == $player_column->id) {
+                                    $score_parts = explode('-', $score);
+                                    $score = $score_parts[1] . "-" . $score_parts[0];
+                                }
+                                if (empty($score)
+                                    &&
+                                    $leagueData->user_is_player_in_match($user->id, $match_cell->id)
+                                    && $leagueData->round_in_play($match_cell->id)
+                                ) {
+                                    $score = Link::get_link(Link::Enter_Score, false, 'enter')->add_query_string('match_id=' . $match_cell->id);
+                                }
+                                print "<td class='score'>$score</td>";
+                            } else {
+                                print "<td class='no_match'>X</td>";
                             }
-                            print "<td class='score'>$score</td>";
-                        } else {
-                            print "<td class='no_match'>X</td>";
                         }
                     }
                     print "</tr>";
-//                }
+                }
             }
             print "</table>";
             // large screen - end

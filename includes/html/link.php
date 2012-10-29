@@ -131,8 +131,8 @@ class Link
             self::$links[self::Account_Division_Controller] = new Link(self::root . self::Account_Division_Controller_Url, self::Account_Division_Controller);
             self::$links[self::Account_Create_Controller] = new Link(self::root . self::Account_Create_Controller_Url, self::Account_Create_Controller);
             self::$links[self::Administration] = new Link(self::root . self::Administration_Url, self::Administration, self::hide_on_small_screen);
-            self::$links[self::Contact_Us] = new Link(self::root . self::Contact_Us_Url, self::Contact_Us, self::hide_on_very_small_screen);
-            self::$links[self::Report_Issue] = new Link(self::root . self::Report_Issue_Url, self::Report_Issue, self::hide_on_very_small_screen);
+            self::$links[self::Contact_Us] = new Link(self::root . self::Contact_Us_Url, self::Contact_Us, self::hide_on_small_screen);
+            self::$links[self::Report_Issue] = new Link(self::root . self::Report_Issue_Url, self::Report_Issue, self::hide_on_small_screen);
             self::$links[self::Landing] = new Link(self::root . self::Landing_Url, self::Landing);
             self::$links[self::League] = new Link(self::root . self::League_Url, self::League);
             self::$links[self::League_Admin] = new Link(self::root . self::League_Admin_Url, self::League_Admin);

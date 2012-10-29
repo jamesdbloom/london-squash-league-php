@@ -47,7 +47,7 @@ Page::header(Link::Register);
             <input id='mobile' class='show_validation' type='tel' name='mobile' value='<?php echo Form::escape_and_sanitize_field_value($mobile); ?>' autocorrect=”off” autocapitalize=”off” autocomplete=”off” pattern='\d{5,25}' tabindex='30'/>
         </p>
 
-        <p>
+        <p class='select'>
             <label class='mobile_privacy' for='mobile_privacy'>Mobile Privacy:</label>
             <select id='mobile_privacy' name='mobile_privacy'><?php
                 print "<option value=''>Please select...</option>";

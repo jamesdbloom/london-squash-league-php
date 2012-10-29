@@ -62,7 +62,7 @@ if (Form::is_post()) {
             </p>
 
             <p class='submit'>
-                <input class='submit' type='submit' name='submit' value='Report' tabindex='100'/>
+                <input class='submit primary' type='submit' name='submit' value='Report' tabindex='100'/>
             </p>
         </div>
     </form>
