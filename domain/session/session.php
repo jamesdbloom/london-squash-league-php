@@ -18,7 +18,7 @@ class Session
     const expired = 'expired';
 
     const inactive_period = ' -3 hour';
-    const expired_period = ' -5 day';
+    const expired_period = ' -3 day';
 
     function __construct($id, $user_id, $status, $created_date, $last_activity_date)
     {
@@ -99,6 +99,7 @@ class Session
         }
         if (!$GLOBALS['errors']->has_errors()) {
             $session = SessionDAO::create(self::generate_session_id($user->id), $user->id);
+            SessionDAO::delete_by_created_date(self::expired_period);
             if (!$GLOBALS['errors']->has_errors()) {
                 Cookies::set_cookie(self::SSO_ID_COOKIE_NAME, $session->id);
             }
