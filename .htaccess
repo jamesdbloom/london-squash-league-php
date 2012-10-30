@@ -21,6 +21,15 @@ ExpiresActive On
 
 Header set Vary Accept-Encoding
 
+# Compression (gzip)
+
+# Insert filter
+SetOutputFilter DEFLATE
+
+# Don't compress images
+SetEnvIfNoCase Request_URI \
+\.(?:gif|jpe?g|png|tff|eot|otf|woff)$ no-gzip dont-vary
+
 # URL Rewritting
 Options +FollowSymLinks
 RewriteEngine On
