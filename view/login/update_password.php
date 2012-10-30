@@ -19,13 +19,19 @@ if (!empty($key)) {
 if (Form::is_post()) {
     $password_one = Parameters::read_post_input('password_one');
     $password_two = Parameters::read_post_input('password_two');
+    $existing_password = Parameters::read_post_input('existing_password');
     if (!empty($email)) {
         UserDAO::update_activation_key($email, '');
     }
     if (!empty($password_one) && $password_one != $password_two) {
         $GLOBALS['errors']->add('password_reset_mismatch', 'The passwords do not match.');
     } else {
-        UserDAO::update_password($email, $password_one);
+        $user = UserDAO::get_by_email_and_password($email, $existing_password);
+        if(empty($user)) {
+            $GLOBALS['errors']->add('existing_password_incorrect', 'Your existing password is incorrect');
+        } else {
+            UserDAO::update_password($user->email, $password_one);
+        }
 
         $message = 'Password Lost and Changed for user: ' . $email . '\r\n';
         Email::send_email(Urls::webmaster_email(), PageSearchTerms::site_title . ' Password Lost/Changed', $message);
@@ -52,15 +58,21 @@ if (!empty($key) && !empty($email)) {
 
     <div class="reset_password_form">
         <p>
-            <label class='password' for="password_one">Password:</label>
-            <input id="password_one" class='show_validation' type="password" name="password_one" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+            <label class='password' for="existing_password">Existing Password:</label>
+            <input id="existing_password" type="password" name="existing_password" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
                    pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="10"/>
+        </p>
+
+        <p>
+            <label class='password' for="password_one">New Password:</label>
+            <input id="password_one" class='show_validation' type="password" name="password_one" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+                   pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="20"/>
         </p>
 
         <p>
             <label class='password' for="password_two">Confirm:</label>
             <input id="password_two" class='password-no-match' type="password" name="password_two" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
-                   pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="20"
+                   pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="30"
                    onkeyup="if(this.value == document.getElementById('password_one').value) { this.setAttribute('class', 'password-match'); } else { this.setAttribute('class', 'password-no-match'); }"/>
         </p>
 
