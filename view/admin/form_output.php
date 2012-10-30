@@ -52,7 +52,7 @@ function print_recreation_confirm($action, $table_type)
 
         print "<h2 class='form_subtitle'>Are you sure you want to recreate all $table_type tables?</h2>";
         print "<form method='post' action='$action'><div class='recreate_tables_confirm_form'>";
-        print "<p class='submit'><input class='submit' type='submit' name='yes' value='yes'></p>";
+        print "<p class='submit'><input class='submit primary' type='submit' name='yes' value='yes'></p>";
         print "</div></form>";
 
         Page::footer();

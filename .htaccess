@@ -1,3 +1,27 @@
+# MIME Types
+AddType font/ttf .ttf
+AddType font/eot .eot
+AddType font/otf .otf
+AddType application/x-woff .woff
+
+# Cache Headers
+ExpiresActive On
+
+#<FilesMatch "(login|logout|register|retrieve_password|update_password|report_issue|contact_us)$">
+#  ExpiresDefault "access plus 1 minute"
+#</FilesMatch>
+
+<FilesMatch "\.(ico|gif|jpe?g|png|js|css)$">
+  ExpiresDefault "access plus 1 hour"
+</FilesMatch>
+
+<FilesMatch "\.(tff|eot|otf|woff)$">
+  ExpiresDefault "access plus 1 year"
+</FilesMatch>
+
+Header set Vary Accept-Encoding
+
+# URL Rewritting
 Options +FollowSymLinks
 RewriteEngine On
 RewriteBase /
@@ -6,37 +30,37 @@ RewriteBase /
 RewriteCond %{SERVER_PORT} !443
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R]
 
-RewriteRule ^account/?$ view/account/view.php
-RewriteRule ^account/division_controller/?$ view/account/division_controller.php
-RewriteRule ^account/create_controller/?$ view/account/create_controller.php
+RewriteRule ^account/?$ view/account/view.php [L]
+RewriteRule ^account/division_controller/?$ view/account/division_controller.php [L]
+RewriteRule ^account/create_controller/?$ view/account/create_controller.php [L]
 
-RewriteRule ^administration/?$ view/admin/administration.php
+RewriteRule ^administration/?$ view/admin/administration.php [L]
 
-RewriteRule ^contact_us/?$ view/contact/contact_us.php
-RewriteRule ^report_issue/?$ view/contact/report_issue.php
+RewriteRule ^contact_us/?$ view/contact/contact_us.php [L]
+RewriteRule ^report_issue/?$ view/contact/report_issue.php [L]
 
-#RewriteRule ^$ /view/landing/index.php [L]
+RewriteRule ^$ /view/landing/index.php [L]
 
-RewriteRule ^league/?$ view/league/view.php
+RewriteRule ^league/?$ view/league/view.php [L]
 
-RewriteRule ^league_admin/?$ view/league_admin/view.php
-RewriteRule ^league_admin/recreate_schema_confirm/?$ view/league_admin/recreate_schema_confirm.php
-RewriteRule ^league_admin/recreate_schema_controller/?$ view/league_admin/recreate_schema_controller.php
-RewriteRule ^league_admin/create_controller/?$ view/league_admin/create_controller.php
-RewriteRule ^league_admin/delete_controller/?$ view/league_admin/delete_controller.php
+RewriteRule ^league_admin/?$ view/league_admin/view.php [L]
+RewriteRule ^league_admin/recreate_schema_confirm/?$ view/league_admin/recreate_schema_confirm.php [L]
+RewriteRule ^league_admin/recreate_schema_controller/?$ view/league_admin/recreate_schema_controller.php [L]
+RewriteRule ^league_admin/create_controller/?$ view/league_admin/create_controller.php [L]
+RewriteRule ^league_admin/delete_controller/?$ view/league_admin/delete_controller.php [L]
 
-RewriteRule ^login/?$ view/login/login.php
-RewriteRule ^logout/?$ view/login/logout.php
-RewriteRule ^register/?$ view/login/register.php
-RewriteRule ^retrieve_password/?$ view/login/retrieve_password.php
-RewriteRule ^update_password/?$ view/login/update_password.php
-RewriteRule ^update_user/?$ view/login/update_user.php
+RewriteRule ^login/?$ view/login/login.php [L]
+RewriteRule ^logout/?$ view/login/logout.php [L]
+RewriteRule ^register/?$ view/login/register.php [L]
+RewriteRule ^retrieve_password/?$ view/login/retrieve_password.php [L]
+RewriteRule ^update_password/?$ view/login/update_password.php [L]
+RewriteRule ^update_user/?$ view/login/update_user.php [L]
 
-RewriteRule ^score/?$ view/score/view.php
-RewriteRule ^score/score_controller/?$ view/score/score_controller.php
+RewriteRule ^score/?$ view/score/view.php [L]
+RewriteRule ^score/score_controller/?$ view/score/score_controller.php [L]
 
-RewriteRule ^user_admin/?$ view/user_admin/view.php
-RewriteRule ^user_admin/recreate_schema_confirm/?$ view/user_admin/recreate_schema_confirm.php
-RewriteRule ^user_admin/recreate_schema_controller/?$ view/user_admin/recreate_schema_controller.php
-RewriteRule ^user_admin/create_controller/?$ view/user_admin/create_controller.php
-RewriteRule ^user_admin/delete_controller/?$ view/user_admin/delete_controller.php
+RewriteRule ^user_admin/?$ view/user_admin/view.php [L]
+RewriteRule ^user_admin/recreate_schema_confirm/?$ view/user_admin/recreate_schema_confirm.php [L]
+RewriteRule ^user_admin/recreate_schema_controller/?$ view/user_admin/recreate_schema_controller.php [L]
+RewriteRule ^user_admin/create_controller/?$ view/user_admin/create_controller.php [L]
+RewriteRule ^user_admin/delete_controller/?$ view/user_admin/delete_controller.php [L]
