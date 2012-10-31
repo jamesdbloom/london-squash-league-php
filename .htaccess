@@ -12,7 +12,7 @@ ExpiresActive On
 #</FilesMatch>
 
 <FilesMatch "\.(ico|gif|jpe?g|png|js|css)$">
-  ExpiresDefault "access plus 1 hour"
+  ExpiresDefault "access plus 1 year"
 </FilesMatch>
 
 <FilesMatch "\.(tff|eot|otf|woff)$">
