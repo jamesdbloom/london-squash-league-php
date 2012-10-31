@@ -279,7 +279,7 @@ ol.link_list {
 input[type="text"],
 input[type="password"],
 input[type="email"],
-input[type="tel"]
+input[type="tel"],
 input[type="submit"], textarea {
     -webkit-appearance: none;
     -webkit-box-shadow: 1px 1px 1px #fff;
