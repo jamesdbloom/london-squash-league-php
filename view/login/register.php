@@ -52,9 +52,7 @@ Page::header(Link::Register);
             <select id='mobile_privacy' name='mobile_privacy'><?php
                 print "<option value=''>Please select...</option>";
                 print "<option value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
-                print "<option value='" . User::division . "'>" . User::get_mobile_privacy_text(User::division) . "</option>";
-                print "<option value='" . User::league . "'>" . User::get_mobile_privacy_text(User::league) . "</option>";
-                print "<option value='" . User::everyone . "'>" . User::get_mobile_privacy_text(User::everyone) . "</option>";
+                print "<option value='" . User::opponent . "'>" . User::get_mobile_privacy_text(User::opponent) . "</option>";
             ?></select>
         </p>
 

@@ -77,9 +77,7 @@ if (!empty($user)) {
             <select id='mobile_privacy' name='mobile_privacy'><?php
                 print "<option value=''>Please select...</option>";
                 print "<option ".($mobile_privacy == User::secret ? $selected_string : '') ." value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
-                print "<option ".($mobile_privacy == User::division ? $selected_string : '') ." value='" . User::division . "'>" . User::get_mobile_privacy_text(User::division) . "</option>";
-                print "<option ".($mobile_privacy == User::league ? $selected_string : '') ." value='" . User::league . "'>" . User::get_mobile_privacy_text(User::league) . "</option>";
-                print "<option ".($mobile_privacy == User::everyone ? $selected_string : '') ." value='" . User::everyone . "'>" . User::get_mobile_privacy_text(User::everyone) . "</option>";
+                print "<option ".($mobile_privacy == User::opponent ? $selected_string : '') ." value='" . User::opponent . "'>" . User::get_mobile_privacy_text(User::opponent) . "</option>";
                 ?></select>
         </p>
 
