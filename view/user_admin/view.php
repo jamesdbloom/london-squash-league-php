@@ -26,9 +26,7 @@ if (Session::is_administrator()) {
     print "<td class='mobile_privacy last hide_on_medium_screen'><select name='mobile_privacy'>";
     print "<option value=''>Please select...</option>";
     print "<option value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
-    print "<option value='" . User::division . "'>" . User::get_mobile_privacy_text(User::division) . "</option>";
-    print "<option value='" . User::league . "'>" . User::get_mobile_privacy_text(User::league) . "</option>";
-    print "<option value='" . User::everyone . "'>" . User::get_mobile_privacy_text(User::everyone) . "</option>";
+    print "<option value='" . User::opponent . "'>" . User::get_mobile_privacy_text(User::opponent) . "</option>";
     print "</select></td>";
     print "<td class='button last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();

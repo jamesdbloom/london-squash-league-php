@@ -20,9 +20,7 @@ class User
     const player = 'player';
     const administrator = 'administrator';
     const secret = 'secret';
-    const division = 'division';
-    const league = 'league';
-    const everyone = 'everyone';
+    const opponent = 'opponent';
 
     function __construct($id, $name, $email, $mobile, $mobile_privacy, $salt, $type = User::player)
     {
@@ -49,9 +47,7 @@ class User
     {
         if (count(self::$mobile_privacy_text) <= 0) {
             self::$mobile_privacy_text['secret'] = 'Keep secret';
-            self::$mobile_privacy_text['division'] = 'Players in division';
-            self::$mobile_privacy_text['league'] = 'Players in league';
-            self::$mobile_privacy_text['everyone'] = 'Show everyone';
+            self::$mobile_privacy_text['opponent'] = 'Show opponent';
         }
         return self::$mobile_privacy_text[$mobile_privacy];
     }
