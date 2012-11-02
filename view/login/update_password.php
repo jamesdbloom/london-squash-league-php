@@ -60,23 +60,23 @@ if (!empty($key) && !empty($email)) {
         <p>
             <label class='password' for="existing_password">Existing Password:</label>
             <input id="existing_password" type="password" name="existing_password" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
-                   pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="10"/>
+                   pattern="^.*(?=.{6,})(?=.*\d)(?=.*(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|))(?=.*[a-zA-Z]).*$" value="" tabindex="10"/>
         </p>
 
         <p>
             <label class='password' for="password_one">New Password:</label>
             <input id="password_one" class='show_validation' type="password" name="password_one" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
-                   pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="20"/>
+                   pattern="^.*(?=.{6,})(?=.*\d)(?=.*(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|))(?=.*[a-zA-Z]).*$" value="" tabindex="20"/>
         </p>
 
         <p>
             <label class='password' for="password_two">Confirm:</label>
             <input id="password_two" class='password-no-match' type="password" name="password_two" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
-                   pattern="^.{2,10}\b(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|)\b.{2,10}$" value="" tabindex="30"
+                   pattern="^.*(?=.{6,})(?=.*\d)(?=.*(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|))(?=.*[a-zA-Z]).*$" value="" tabindex="30"
                    onkeyup="if(this.value == document.getElementById('password_one').value) { this.setAttribute('class', 'password-match'); } else { this.setAttribute('class', 'password-no-match'); }"/>
         </p>
 
-        <p class="form_message">Hint: The password should be at least seven characters long. To make it stronger, use upper and lower case letters, numbers and symbols like ! " ? $ % ^ &amp;</p>
+        <p class="form_message">Hint: The password should be at least seven characters long, include at least one symbol (i.e. ! " ? $ % ^ &) and at least one digit</p>
 
         <p class='submit'>
             <input class='submit primary' type="submit" name="submit" value="Reset Password" tabindex="100"/>
