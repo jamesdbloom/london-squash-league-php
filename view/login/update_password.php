@@ -60,7 +60,7 @@ if (!empty($key) && !empty($email)) {
         <p>
             <label class='password' for="existing_password">Existing Password:</label>
             <input id="existing_password" type="password" name="existing_password" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
-                   pattern="^.*(?=.{6,})(?=.*\d)(?=.*(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|))(?=.*[a-zA-Z]).*$" value="" tabindex="10"/>
+                   value="" tabindex="10"/>
         </p>
 
         <p>
