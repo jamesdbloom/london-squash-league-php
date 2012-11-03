@@ -16,7 +16,7 @@ if (!empty($user)) {
         $match = $leagueData->match_map[$match_id];
 
         if (empty($match)) {
-            $GLOBALS['errors']->add('no_match', '<strong>ERROR</strong>: No match found with id ' . $match_id . '.');
+            $GLOBALS['errors']->add('no_match', 'No match found with id ' . $match_id . '.');
         }
 
         if ($leagueData->user_is_player_in_match($user->id, $match_id)) {

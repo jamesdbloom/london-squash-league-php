@@ -12,7 +12,7 @@ class Page
         print "<!DOCTYPE>";
         print "<html xmlns='http://www.w3.org/1999/xhtml' lang='en'>";
         print "<head>";
-        array_unshift($css_urls, Link::root . 'view/global_2012_08_31_22_10.css');
+        array_unshift($css_urls, Link::root . (Urls::is_beta() ? 'view/global.css' : 'view/global_2012_08_31_22_10.css'));
         print "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>";
         print "<meta name='format-detection' content='telephone=no'>";
         print "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
@@ -40,7 +40,7 @@ class Page
     {
         print "</div>"; // section
         print "</div>"; // main_content
-        print "<div id='footer'><p>© 2012 James D Bloom</p></div>";
+        print "<div id='footer'><p><a href='http://blog.jamesdbloom.com/'>© 2012 James D Bloom</a></p></div>";
         print "</div>"; // container
         ?>
     <!-- google analytics start -->

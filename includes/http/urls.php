@@ -65,6 +65,11 @@ class Urls
         return "https://" . $_SERVER["SERVER_NAME"];
     }
 
+    public static function is_beta()
+    {
+        return strstr($_SERVER["SERVER_NAME"], 'beta');
+    }
+
     public static function webmaster_email()
     {
         return preg_replace('/www./', 'info@', $_SERVER["SERVER_NAME"]);

@@ -65,7 +65,7 @@ class Authentication
     {
         $allow = true;
         if (!$allow) {
-            $GLOBALS['errors']->add('no_password_reset', '<strong>ERROR</strong>: Password reset is not allowed for this user');
+            $GLOBALS['errors']->add('no_password_reset', 'Password reset is not allowed for this user');
         }
         return $allow;
     }

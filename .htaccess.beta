@@ -1,8 +1,0 @@
-SSLRequireSSL
-ErrorDocument 403 /redirect.php
-
-AuthType Basic
-AuthName "protected area"
-AuthUserFile /home/143442/.htpasswd
-AuthGroupFile /home/143442/.htgroup
-Require group squash_admin

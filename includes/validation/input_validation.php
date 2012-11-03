@@ -55,6 +55,16 @@ class InputValidation
             return true;
         }
     }
+
+    public static function is_valid_password($new_password)
+    {
+        $rexPassword = "/^.*(?=.{6,})(?=.*\d)(?=.*(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|))(?=.*[a-zA-Z]).*$/";
+        if (preg_match($rexPassword, $new_password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>

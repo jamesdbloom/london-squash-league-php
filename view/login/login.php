@@ -23,12 +23,24 @@ switch (Parameters::read_request_input(LoginViewHelper::message)) {
 
 if (Form::is_post()) {
     if (!Cookies::test_cookie_exists()) {
-        $GLOBALS['errors']->add('test_cookie', "<strong>ERROR</strong>: Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use this site.");
+        $GLOBALS['errors']->add('test_cookie', "Cookies are blocked or not supported by your browser. You must <a href='http://www.google.com/cookies.html'>enable cookies</a> to use this site.");
     }
+
+    Cookies::remove_cookie(Session::SSO_ID_COOKIE_NAME);
 
     $email = Parameters::read_post_input('email');
     $password = Parameters::read_post_input('password');
-    $session = Session::create_session($email, $password);
+    if (empty($email)) {
+        $GLOBALS['errors']->add('empty_email', 'Please enter an e-mail address');
+    }
+    if (empty($password)) {
+        $GLOBALS['errors']->add('empty_email', 'Please enter a password');
+    }
+
+    if (!$GLOBALS['errors']->has_errors()) {
+        $session = Session::create_session($email, $password);
+    }
+
     if (!$GLOBALS['errors']->has_errors()) {
         // remember user name if successfully logging in
         if (strlen(Parameters::read_post_input('remember_me')) > 0) {

@@ -158,6 +158,10 @@ h2 {
     font: 2em 'EarwigFactoryRegular', Helvetica, arial, freesans, clean, sans-serif;
 }
 
+#footer a {
+    color: #333;
+}
+
 /* links */
 
 .tabs {

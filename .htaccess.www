@@ -1,12 +1,3 @@
-#SSLRequireSSL
-#ErrorDocument 403 /redirect.php
-#
-#AuthType Basic
-#AuthName "protected area"
-#AuthUserFile /home/143442/.htpasswd
-#AuthGroupFile /home/143442/.htgroup
-#Require group squash_admin
-
 #############
 # Force HTTPS
 #############
@@ -31,7 +22,7 @@ ExpiresActive On
 #</FilesMatch>
 
 <FilesMatch "\.(ico|gif|jpe?g|png|js|css)$">
-  ExpiresDefault "access plus 1 second"
+  ExpiresDefault "access plus 1 year"
 </FilesMatch>
 
 <FilesMatch "\.(tff|eot|otf|woff)$">

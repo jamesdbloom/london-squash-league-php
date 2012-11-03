@@ -1,6 +1,6 @@
 <?php
 /** The name of the database */
-define('DB_NAME', 'db143442_squash_beta');
+define('DB_NAME', 'db143442_squash');
 
 /** MySQL database username */
 define('DB_USER', 'db143442_squash');

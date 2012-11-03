@@ -17,20 +17,22 @@ if (!empty($key)) {
 }
 
 if (Form::is_post()) {
-    $password_one = Parameters::read_post_input('password_one');
-    $password_two = Parameters::read_post_input('password_two');
+    $new_password = Parameters::read_post_input('new_password');
+    $password_check = Parameters::read_post_input('password_check');
     $existing_password = Parameters::read_post_input('existing_password');
     if (!empty($email)) {
         UserDAO::update_activation_key($email, '');
     }
-    if (!empty($password_one) && $password_one != $password_two) {
+    if (!empty($new_password) && $new_password != $password_check) {
         $GLOBALS['errors']->add('password_reset_mismatch', 'The passwords do not match.');
     } else {
         $user = UserDAO::get_by_email_and_password($email, $existing_password);
-        if(empty($user)) {
+        if (empty($user)) {
             $GLOBALS['errors']->add('existing_password_incorrect', 'Your existing password is incorrect');
+        } elseif (!InputValidation::is_valid_password($new_password)) {
+            $GLOBALS['errors']->add('invalid_email', 'The password does not match the required format, the password should be at least seven characters long, include at least one symbol (i.e. ! " ? $ % ^ &) and at least one digit');
         } else {
-            UserDAO::update_password($user->email, $password_one);
+            UserDAO::update_password($user->email, $new_password);
         }
 
         $message = 'Password Lost and Changed for user: ' . $email . '\r\n';
@@ -64,16 +66,16 @@ if (!empty($key) && !empty($email)) {
         </p>
 
         <p>
-            <label class='password' for="password_one">New Password:</label>
-            <input id="password_one" class='show_validation' type="password" name="password_one" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+            <label class='password' for="new_password">New Password:</label>
+            <input id="new_password" class='show_validation' type="password" name="new_password" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
                    pattern="^.*(?=.{6,})(?=.*\d)(?=.*(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|))(?=.*[a-zA-Z]).*$" value="" tabindex="20"/>
         </p>
 
         <p>
-            <label class='password' for="password_two">Confirm:</label>
-            <input id="password_two" class='password-no-match' type="password" name="password_two" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
+            <label class='password' for="password_check">Confirm:</label>
+            <input id="password_check" class='password-no-match' type="password" name="password_check" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
                    pattern="^.*(?=.{6,})(?=.*\d)(?=.*(\£|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\-|\_|\[|\]|\{|\}|\<|\>|\~|\`|\+|\=|\,|\.|\;|\:|\/|\?|\|))(?=.*[a-zA-Z]).*$" value="" tabindex="30"
-                   onkeyup="if(this.value == document.getElementById('password_one').value) { this.setAttribute('class', 'password-match'); } else { this.setAttribute('class', 'password-no-match'); }"/>
+                   onkeyup="if(this.value == document.getElementById('new_password').value) { this.setAttribute('class', 'password-match'); } else { this.setAttribute('class', 'password-no-match'); }"/>
         </p>
 
         <p class="form_message">Hint: The password should be at least seven characters long, include at least one symbol (i.e. ! " ? $ % ^ &) and at least one digit</p>
