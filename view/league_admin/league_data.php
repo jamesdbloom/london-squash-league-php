@@ -94,22 +94,34 @@ class LeagueData extends AbstractData
         return $result;
     }
 
-    public function print_user_name($player_id, $fully_qualified = true, $user_id = '', $show_mobile = false)
+    public function print_user_name($player_id, $fully_qualified = true, $user_id = '', $show_contact_details = false)
     {
         $player = $this->player_map[$player_id];
         $user = $this->user_map[$player->user_id];
         $result = "N/A";
         if (!empty($user)) {
+            $mobile = str_replace(' ', '&nbsp;', $user->mobile);
             $result = ($fully_qualified ?
                 $this->print_division_name($player->division_id) . self::name_spacer :
                 "") .
                 ($user->id == $user_id
                     ? ' you '
-                    : $user->name . ($show_mobile && $user->mobile_privacy != User::secret ? "<br/><a href='tel:$user->mobile'>$user->mobile<a/>" : ""));
+                    : $user->name . ($show_contact_details ? ($user->mobile_privacy != User::secret && !empty($mobile) ? "<br/><a href='tel:$mobile'>$mobile<a/>" : "") . "<br/><a href='mailto:$user->email'><span class='hide_on_small_screen'>$user->email</span><span class='display_on_small_screen'>email</span><a/>" : ""));
         } else if (!empty($user_id)) {
             $result = $user_id;
         }
         return $result;
+    }
+
+    public function get_opponent_email($player_one_id, $player_two_id, $user_id)
+    {
+        $email = null;
+        if($player_one_id != $user_id) {
+            $email = $this->user_map[$player_one_id]->email;
+        } else if ($player_two_id != $user_id) {
+            $email = $this->user_map[$player_two_id]->email;
+        }
+        return $email;
     }
 
     public function print_match_name($match_id, $fully_qualified = true, $spacer = self::name_spacer)
@@ -342,7 +354,7 @@ class LeagueData extends AbstractData
                 $this->matches_by_player_id[$match->round_id . '->' . $match->player_one_id] = $match_list_player_one;
 
                 $match_list_player_two = $this->matches_by_player_id[$match->round_id . '->' . $match->player_two_id];
-                if(empty($match_list_player_two)) {
+                if (empty($match_list_player_two)) {
                     $match_list_player_two = array($match);
                 } else {
                     $match_list_player_two[] = $match;

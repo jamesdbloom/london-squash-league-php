@@ -61,6 +61,8 @@ if (!empty($user)) {
     print_form_table_end();
 
     // MATCHES
+    $opponent_email_list = array();
+
     print_table_start('Your Matches');
     print "<tr><th class='division'>Division</th><th class='round hide_on_small_screen'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
     foreach ($accountData->user_match_list as $match) {
@@ -84,8 +86,14 @@ if (!empty($user)) {
                 $score
             )
         );
+        $opponent_email = $accountData->get_opponent_email($match->player_one_id, $match->player_two_id, $user->id);
+        $opponent_email_list[$opponent_email] = $opponent_email;
     }
     print_form_table_end();
+
+    if (count($opponent_email_list) > 0) {
+        print "<br/><div class='standalone_link'><a href='mailto:" . implode(", ", $opponent_email_list) . "'>email all opponents</a></div>";
+    }
 
 //    // CLUBS
 //    print_table_start('Available Clubs');

@@ -19,7 +19,8 @@ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R]
 AddType font/ttf .ttf
 AddType font/eot .eot
 AddType font/otf .otf
-AddType application/x-woff .woff
+AddType application/x-font-woff .woff
+#AddType application/font-woff .woff
 
 ###############
 # Cache Headers
