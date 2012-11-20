@@ -179,6 +179,12 @@ class Session
         return $user && $user->is_administrator();
     }
 
+    public static function is_league_manager($redirect = false)
+    {
+        $user = self::get_user($redirect);
+        return $user && $user->is_league_manager();
+    }
+
     public static function logout()
     {
         $secure_cookie = Cookies::get_cookie_value(self::SSO_ID_COOKIE_NAME);

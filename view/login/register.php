@@ -49,7 +49,7 @@ Page::header(Link::Register);
 
         <p class='select'>
             <label class='mobile_privacy' for='mobile_privacy'>Mobile Privacy:</label>
-            <select id='mobile_privacy' name='mobile_privacy'><?php
+            <select id='mobile_privacy' name='mobile_privacy' required='required'><?php
                 print "<option value=''>Please select...</option>";
                 print "<option value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
                 print "<option value='" . User::opponent . "'>" . User::get_mobile_privacy_text(User::opponent) . "</option>";
@@ -61,7 +61,7 @@ Page::header(Link::Register);
             <?php
             load::load_file('view/league_admin', 'league_data.php');
             $leagueData = new LeagueData();
-            print "<select id='division_id' name='division_id' required='required'>";
+            print "<select id='division_id' name='division_id'>";
             print "<option value=''>Please select...</option>";
             foreach ($leagueData->division_list as $division) {
                 print "<option value='" . $division->id . "'>" . $leagueData->print_division_name($division->id) . "</option>";

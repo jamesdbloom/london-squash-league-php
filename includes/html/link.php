@@ -46,6 +46,9 @@ class Link
     const Account_Create_Controller_Url = 'account/create_controller';
     const Account_Create_Controller = 'Account Create Controller';
 
+    const Print_League_Url = 'league?print=true';
+    const Print_League = "Print League";
+
     #RewriteRule ^administration$ view/admin/administration.php
     const Administration_Url = 'administration';
     const Administration = "Administration";
@@ -130,9 +133,9 @@ class Link
             self::$links[self::Join_A_League] = new Link(self::root . self::Account_Url . '#divisions', self::Join_A_League);
             self::$links[self::Account_Division_Controller] = new Link(self::root . self::Account_Division_Controller_Url, self::Account_Division_Controller);
             self::$links[self::Account_Create_Controller] = new Link(self::root . self::Account_Create_Controller_Url, self::Account_Create_Controller);
-            self::$links[self::Administration] = new Link(self::root . self::Administration_Url, self::Administration, self::hide_on_small_screen);
+            self::$links[self::Administration] = new Link(self::root . self::Administration_Url, self::Administration, self::hide_on_medium_screen);
             self::$links[self::Contact_Us] = new Link(self::root . self::Contact_Us_Url, self::Contact_Us, self::hide_on_small_screen);
-            self::$links[self::Report_Issue] = new Link(self::root . self::Report_Issue_Url, self::Report_Issue, self::hide_on_small_screen);
+            self::$links[self::Report_Issue] = new Link(self::root . self::Report_Issue_Url, self::Report_Issue, self::hide_on_medium_screen);
             self::$links[self::Landing] = new Link(self::root . self::Landing_Url, self::Landing);
             self::$links[self::League] = new Link(self::root . self::League_Url, self::League);
             self::$links[self::League_Admin] = new Link(self::root . self::League_Admin_Url, self::League_Admin);
@@ -144,6 +147,7 @@ class Link
             self::$links[self::Logout] = new Link(self::root . self::Logout_Url, self::Logout);
             self::$links[self::Register] = new Link(self::root . self::Register_Url, self::Register);
             self::$links[self::Retrieve_Password] = new Link(self::root . self::Retrieve_Password_Url, self::Retrieve_Password);
+            self::$links[self::Print_League_Url] = new Link(self::root . self::Print_League_Url, self::Print_League, self::hide_on_small_screen);
             self::$links[self::Update_Password] = new Link(self::root . self::Update_Password_Url, self::Update_Password, self::hide_on_small_screen);
             self::$links[self::Update_User] = new Link(self::root . self::Update_User_Url, self::Update_User, self::hide_on_medium_screen);
             self::$links[self::Enter_Score] = new Link(self::root . self::Enter_Score_Url, self::Enter_Score, self::hide_on_small_screen);

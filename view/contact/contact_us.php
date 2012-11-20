@@ -13,7 +13,7 @@ if (Form::is_post()) {
             <p>Remote Address: '. Parameters::read_request_input('remote_address') .'</p>
         ';
 
-    Email::send_email(Urls::contact_us_email(), $title, $message, Urls::contact_us_email());
+    Email::send_email(Urls::contact_us_email(), $title, $message, Parameters::read_request_input('email'));
 
     Page::header(Link::Contact_Us);
     print "<p class='message'>Your message has been sent someone may contact you for more details</p>";

@@ -70,6 +70,9 @@ class Page
             if (Session::is_administrator()) {
                 array_unshift($links, Link::get_link(Link::Administration));
             }
+            if(Session::is_league_manager()){
+                array_unshift($links, Link::get_link(Link::Print_League_Url));
+            }
             array_unshift($links, Link::get_link(Link::League));
             $links[] = Link::get_link(Link::Report_Issue);
             $links[] = Link::get_link(Link::Contact_Us);

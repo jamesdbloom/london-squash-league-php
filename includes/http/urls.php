@@ -72,17 +72,26 @@ class Urls
 
     public static function webmaster_email()
     {
-        return preg_replace('/www./', 'info@', $_SERVER["SERVER_NAME"]);
+        return Urls::format_email('info');
     }
 
     public static function contact_us_email()
     {
-        return preg_replace('/www./', 'contact_us@', $_SERVER["SERVER_NAME"]);
+        return Urls::format_email('contact_us');
     }
 
     public static function issue_report_email()
     {
-        return preg_replace('/www./', 'issue_report@', $_SERVER["SERVER_NAME"]);
+        return Urls::format_email('issue_report');
+    }
+
+    private static function format_email($prefix)
+    {
+        if (strpos($_SERVER["SERVER_NAME"], 'www') === false) {
+            return preg_replace('/beta./', $prefix . '@', $_SERVER["SERVER_NAME"]);
+        } else {
+            return preg_replace('/www./', $prefix . '@', $_SERVER["SERVER_NAME"]);
+        }
     }
 
     const redirect_to = 'redirect_to';

@@ -19,6 +19,7 @@ class User
 
     const player = 'player';
     const administrator = 'administrator';
+    const league_manager = 'league_manager';
     const secret = 'secret';
     const opponent = 'opponent';
 
@@ -40,7 +41,12 @@ class User
 
     public function is_administrator()
     {
-        return ($this->type == User::administrator || $this->email == 'jamesdbloom@gmail.com' || $this->email == 'andrea.caldera@gmail.com');
+        return ($this->type == User::administrator || $this->email == 'jamesdbloom@gmail.com' || $this->email == 'james.bloom@betfair.com' || $this->email == 'andrea.caldera@gmail.com');
+    }
+
+    public function is_league_manager()
+    {
+        return ($this->type == User::league_manager || $this->email == 'jamesdbloom@gmail.com' || $this->email == 'james.bloom@betfair.com' || $this->email == 'andrea.caldera@gmail.com' || $this->email == 'tracey.evans@gll.org' || $this->email == 'andy@jobs4tennis.com');
     }
 
     public static function get_mobile_privacy_text($mobile_privacy)

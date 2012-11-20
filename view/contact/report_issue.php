@@ -13,7 +13,7 @@ if (Form::is_post()) {
             <p>Bug Description: '. Parameters::read_request_input('bug_description') .'</p>
         ';
 
-    Email::send_email(Urls::issue_report_email(), $title, $message, Urls::issue_report_email());
+    Email::send_email(Urls::issue_report_email(), $title, $message, Parameters::read_request_input('email'));
 
     Page::header(Link::Report_Issue);
     print "<p class='message'>Your issue report has been submitted someone may contact you for more details</p>";
