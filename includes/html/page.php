@@ -12,7 +12,7 @@ class Page
         print "<!DOCTYPE>";
         print "<html xmlns='http://www.w3.org/1999/xhtml' lang='en'>";
         print "<head>";
-        array_unshift($css_urls, Link::root . (Urls::is_beta() ? 'view/global.css' : 'view/global_2012_11_17_19_56.css'));
+        array_unshift($css_urls, Link::root . (Urls::is_beta() ? 'view/global.css' : 'view/global_2012_11_27_22_28.css'));
         print "<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>";
         print "<meta name='format-detection' content='telephone=no'>";
         print "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";

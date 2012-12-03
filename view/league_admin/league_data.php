@@ -87,7 +87,7 @@ class LeagueData extends AbstractData
         $round = $this->round_map[$round_id];
         $result = "&nbsp;";
         if (!empty($round)) {
-            $result = ($fully_qualified ? $this->print_division_name($round->division_id) . $spacer : "") . $round->name;
+            $result = ($fully_qualified ? $this->print_league_name($round->league_id) . $spacer : "") . $round->name;
         } else if (!empty($round_id)) {
             $result = $round_id;
         }
@@ -116,7 +116,7 @@ class LeagueData extends AbstractData
     public function get_opponent_email($player_one_id, $player_two_id, $user_id)
     {
         $email = null;
-        if($player_one_id != $user_id) {
+        if ($player_one_id != $user_id) {
             $email = $this->user_map[$player_one_id]->email;
         } else if ($player_two_id != $user_id) {
             $email = $this->user_map[$player_two_id]->email;
@@ -158,11 +158,13 @@ class LeagueData extends AbstractData
     {
         foreach ($this->round_list as $round) {
             if ($ignore_round_status || $round->is_not_started()) {
-                foreach ($this->players_in_division($round) as $player_one) {
-                    foreach ($this->players_in_division($round) as $player_two) {
-                        if ($this->not_the_same_player($player_one, $player_two)) {
-                            if ($this->no_match_already_exists($round, $player_one, $player_two)) {
-                                $this->match_list[] = MatchDAO::create($player_one->id, $player_two->id, $round->id);
+                foreach ($this->divisions_in_league($round->league_id) as $division) {
+                    foreach ($this->players_in_division($division) as $player_one) {
+                        foreach ($this->players_in_division($division) as $player_two) {
+                            if ($this->not_the_same_player($player_one, $player_two)) {
+                                if ($this->no_match_already_exists($round, $player_one, $player_two)) {
+                                    $this->match_list[] = MatchDAO::create($player_one->id, $player_two->id, $round->id, $division->id);
+                                }
                             }
                         }
                     }
@@ -195,43 +197,22 @@ class LeagueData extends AbstractData
         return $player_one->id != $player_two->id;
     }
 
-    public function players_in_division(Round $round)
+    public function players_in_division(Division $division)
     {
         $players_in_division = array();
         foreach ($this->player_list as $player) {
-            if ($player->division_id == $round->division_id && $player->status == Player::active) {
+            if ($player->division_id == $division->id && $player->status == Player::active) {
                 $players_in_division[] = $player;
             }
         }
         return $players_in_division;
     }
 
-    public function leagues_without_round()
-    {
-        $leagues_without_round = array();
-        foreach ($this->league_list as $league) {
-            $has_round = false;
-            foreach ($this->division_list as $division) {
-                foreach ($this->round_list as $round) {
-                    if ($round->division_id == $division->id && $division->league_id == $league->id) {
-                        $has_round = true;
-                    }
-                }
-            }
-            if (!$has_round) {
-                $leagues_without_round[] = $league;
-            }
-        }
-        return $leagues_without_round;
-    }
-
     public function rounds_in_league($league_id)
     {
         $rounds_in_league = array();
         foreach ($this->round_list as $round) {
-            $division = $this->division_map[$round->division_id];
-            $league = $this->league_map[$division->league_id];
-            if ($league->id == $league_id) {
+            if ($round->league_id == $league_id) {
                 $rounds_in_league[] = $round;
             }
         }
@@ -305,22 +286,22 @@ class LeagueData extends AbstractData
         return $matches_by_round_id;
     }
 
-    public $players_by_round_id = array();
+    public $players_by_division_id = array();
 
-    public function players_by_round_id($round_id)
+    public function players_by_division_id($division_id)
     {
-        if (count($this->players_by_round_id) <= 0) {
-            foreach ($this->round_list as $round) {
-                $players_in_round = array();
+        if (count($this->players_by_division_id) <= 0) {
+            foreach ($this->division_list as $division) {
+                $players_in_division = array();
                 foreach ($this->player_list as $player) {
-                    if ($player->division_id == $round->division_id) {
-                        $players_in_round[] = $player;
+                    if ($player->division_id == $division->id) {
+                        $players_in_division[] = $player;
                     }
                 }
-                $this->players_by_round_id[$round->id] = $players_in_round;
+                $this->players_by_division_id[$division->id] = $players_in_division;
             }
         }
-        return $this->players_by_round_id[$round_id];
+        return $this->players_by_division_id[$division_id];
     }
 
     public $match_by_player_ids = array();

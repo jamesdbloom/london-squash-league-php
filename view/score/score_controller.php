@@ -15,7 +15,7 @@ if (empty($match)) {
     }
 }
 
-if (!preg_match('/^[0-9]{1,2}-[0-9]{1,2}/', $score)) {
+if (!preg_match('/^[0-9]{1,2}-[0-9]{1,2}$/', $score)) {
     $GLOBALS['errors']->add('score_incorrect_format', 'Please enter a score using the format x-x');
 }
 

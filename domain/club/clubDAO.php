@@ -86,6 +86,21 @@ class ClubDAO extends DAO implements Mapper
         return self::get_by_name($name);
     }
 
+    public static function update($id, $name, $address)
+    {
+        $query = "UPDATE " . self::table_name . " SET " .
+            self::name_column . " = :" . self::name_column . ", " .
+            self::address_column . " = :" . self::address_column .
+            " WHERE " .
+            self::id_column . " = :" . self::id_column;
+        $parameters = array(
+            ':' . self::id_column => self::sanitize_value($id),
+            ':' . self::name_column => self::sanitize_value($name),
+            ':' . self::address_column => self::sanitize_value($address),
+        );
+        self::insert_update_delete_create($query, $parameters, 'update club ');
+    }
+
     public static function delete_by_id($id)
     {
         $query = "DELETE FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;

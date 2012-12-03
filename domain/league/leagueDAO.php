@@ -20,7 +20,7 @@ class LeagueDAO extends DAO implements Mapper
             self::id_column . " INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " .
             self::club_id_column . " INT NOT NULL, " .
             self::name_column . " VARCHAR(25), " .
-            "CONSTRAINT foreign_key_" . self::club_id_column . " FOREIGN KEY (" . self::club_id_column . ") REFERENCES " . ClubDAO::table_name . "(" . ClubDAO::id_column . "), " .
+            "CONSTRAINT foreign_key_" . self::club_id_column . " FOREIGN KEY (" . self::club_id_column . ") REFERENCES " . ClubDAO::table_name . "(" . ClubDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
             "CONSTRAINT unique_" . self::club_id_column . "_" . self::name_column . " UNIQUE (" . self::club_id_column . ", " . self::name_column . ") " .
             ")";
         $parameters = array();
@@ -88,6 +88,21 @@ class LeagueDAO extends DAO implements Mapper
         );
         self::insert_update_delete_create($query, $parameters, 'save league ');
         return self::get_by_name($name);
+    }
+
+    public static function update($id, $club_id, $name)
+    {
+        $query = "UPDATE " . self::table_name . " SET " .
+            self::club_id_column . " = :" . self::club_id_column . ", " .
+            self::name_column . " = :" . self::name_column .
+            " WHERE " .
+            self::id_column . " = :" . self::id_column;
+        $parameters = array(
+            ':' . self::id_column => self::sanitize_value($id),
+            ':' . self::club_id_column => self::sanitize_value($club_id),
+            ':' . self::name_column => self::sanitize_value($name),
+        );
+        self::insert_update_delete_create($query, $parameters, 'update league ');
     }
 
     public static function delete_by_id($id)

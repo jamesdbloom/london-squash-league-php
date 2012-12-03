@@ -3,7 +3,7 @@ class Round
 {
     public $id;
 
-    public $division_id;
+    public $league_id;
 
     public $start;
 
@@ -18,10 +18,10 @@ class Round
     const inplay = 'inplay';
     const finished = 'finished';
 
-    function __construct($id, $division_id, $start, $end)
+    function __construct($id, $league_id, $start, $end)
     {
         $this->id = $id;
-        $this->division_id = $division_id;
+        $this->league_id = $league_id;
         $this->start = $start;
         $this->end = $end;
 
@@ -53,7 +53,7 @@ class Round
 
     public function __toString()
     {
-        return 'Id: ' . $this->id . ' Division Id: ' . $this->division_id . ' Start: ' . $this->start . ' End: ' . $this->end;
+        return 'Id: ' . $this->id . ' League Id: ' . $this->league_id . ' Start: ' . $this->start . ' End: ' . $this->end;
     }
 }
 

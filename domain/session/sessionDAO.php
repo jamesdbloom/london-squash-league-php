@@ -24,7 +24,7 @@ class SessionDAO extends DAO implements Mapper
             self::status_column . " VARCHAR(12), " .
             self::created_date_column . " DATETIME, " .
             self::last_activity_date_column . " DATETIME, " .
-            "CONSTRAINT foreign_key_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") " .
+            "CONSTRAINT foreign_key_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT" .
             ")";
         $parameters = array();
         self::insert_update_delete_create($query, $parameters, 'create table ');

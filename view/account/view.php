@@ -26,7 +26,7 @@ if (!empty($user)) {
     // DIVISIONS
     $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();
     print_table_start('Divisions', 'action_table', 'table_title', 'divisions');
-    print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='status hide_on_very_small_screen'>Status</th><th class='division_unqualified'>Division</th><th class='button last'></th></tr>";
+    print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='status hide_on_very_small_screen'>Status</th><th class='division_unqualified'>Division</th><th class='button_column last'></th></tr>";
     foreach ($accountData->user_division_list_ignore_player_status as $division) {
         $league = $accountData->league_map[$division->league_id];
         $player = $accountData->user_division_to_player_map[$division->id];
@@ -48,15 +48,15 @@ if (!empty($user)) {
             print "<option value='" . $division->id . "''>" . $accountData->print_division_name($division->id) . "</option>";
         }
         print "</select>";
-        print "</td><td class='status last hide_on_very_small_screen'></td><td class='button last'><input type='submit' name='register' value='register'></td></tr>";
+        print "</td><td class='status last hide_on_very_small_screen'></td><td class='button_column last'><input type='submit' name='register' value='register'></td></tr>";
     }
     print_form_table_end();
 
     // ROUNDS
     print_table_start('Rounds');
-    print "<tr><th class='division'>Division</th><th class='date'>Start</th><th class='date'>End</th></tr>";
+    print "<tr><th class='league'>League</th><th class='date'>Start</th><th class='date'>End</th></tr>";
     foreach ($accountData->user_round_list as $round) {
-        print_table_row(array('division', 'date', 'date'), array($accountData->print_division_name($round->division_id), date('d-M-Y', $round->start), date('d-M-Y', $round->end)));
+        print_table_row(array('league', 'date', 'date'), array($accountData->print_league_name($round->league_id), date('d-M-Y', $round->start), date('d-M-Y', $round->end)));
     }
     print_form_table_end();
 
@@ -79,7 +79,7 @@ if (!empty($user)) {
         print_table_row(
             array('division', 'round hide_on_small_screen', 'player', 'player', 'score'),
             array(
-                $accountData->print_division_name($round->division_id),
+                $accountData->print_division_name($match->division_id),
                 $round->name,
                 $accountData->print_user_name($match->player_one_id, false, $user->id, true),
                 $accountData->print_user_name($match->player_two_id, false, $user->id, true),

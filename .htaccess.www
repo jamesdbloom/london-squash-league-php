@@ -64,6 +64,7 @@ RewriteRule ^league_admin/?$ view/league_admin/view.php [L]
 RewriteRule ^league_admin/recreate_schema_confirm/?$ view/league_admin/recreate_schema_confirm.php [L]
 RewriteRule ^league_admin/recreate_schema_controller/?$ view/league_admin/recreate_schema_controller.php [L]
 RewriteRule ^league_admin/create_controller/?$ view/league_admin/create_controller.php [L]
+RewriteRule ^league_admin/modify_controller/?$ view/league_admin/modify_controller.php [L]
 RewriteRule ^league_admin/delete_controller/?$ view/league_admin/delete_controller.php [L]
 
 RewriteRule ^login/?$ view/login/login.php [L]

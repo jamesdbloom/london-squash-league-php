@@ -44,7 +44,8 @@ if ($type == 'match') {
     MatchDAO::create(
         Parameters::read_post_input('player_one_id'),
         Parameters::read_post_input('player_two_id'),
-        Parameters::read_post_input('round_id')
+        Parameters::read_post_input('round_id'),
+        Parameters::read_post_input('division_id')
     );
 }
 if ($type == 'create_all_matches') {

@@ -1,5 +1,7 @@
 <?php
 class Form {
+    const selected_string = "selected='selected'";
+
     public static function checked( $checked, $current = true ) {
         return self::checked_selected_helper( $checked, $current, 'checked' );
     }

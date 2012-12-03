@@ -26,8 +26,8 @@ class PlayerDAO extends DAO implements Mapper
             self::division_id_column . " VARCHAR(25), " .
             self::league_id_column . " VARCHAR(25), " .
             self::status_column . " VARCHAR(25), " .
-            "CONSTRAINT foreign_key_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . "), " .
-            "CONSTRAINT foreign_key_" . self::division_id_column . " FOREIGN KEY (" . self::division_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . "), " .
+            "CONSTRAINT foreign_key_" . self::user_id_column . " FOREIGN KEY (" . self::user_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
+            "CONSTRAINT foreign_key_" . self::division_id_column . " FOREIGN KEY (" . self::division_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
             "CONSTRAINT unique_" . self::user_id_column . "_" . self::division_id_column . " UNIQUE (" . self::user_id_column . ", " . self::division_id_column . "), " .
             "CONSTRAINT unique_" . self::user_id_column . "_" . self::league_id_column . " UNIQUE (" . self::user_id_column . ", " . self::league_id_column . ") " .
             ")";

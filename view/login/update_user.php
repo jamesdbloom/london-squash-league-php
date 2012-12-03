@@ -47,8 +47,6 @@ if (!empty($user)) {
         }
     }
 
-    $selected_string = "selected='selected'";
-
     Page::header(Link::Update_User);
     ?>
 
@@ -76,8 +74,8 @@ if (!empty($user)) {
             <label class='mobile_privacy' for='mobile_privacy'>Mobile Privacy:</label>
             <select id='mobile_privacy' name='mobile_privacy'><?php
                 print "<option value=''>Please select...</option>";
-                print "<option ".($mobile_privacy == User::secret ? $selected_string : '') ." value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
-                print "<option ".($mobile_privacy == User::opponent ? $selected_string : '') ." value='" . User::opponent . "'>" . User::get_mobile_privacy_text(User::opponent) . "</option>";
+                print "<option ".($mobile_privacy == User::secret ? Form::selected_string : '') ." value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
+                print "<option ".($mobile_privacy == User::opponent ? Form::selected_string : '') ." value='" . User::opponent . "'>" . User::get_mobile_privacy_text(User::opponent) . "</option>";
                 ?></select>
         </p>
 

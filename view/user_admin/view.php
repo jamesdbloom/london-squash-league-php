@@ -10,7 +10,7 @@ if (Session::is_administrator()) {
 
     // USERS
     print_table_start('Users', 'action_table');
-    print "<tr><th class='name'>Name</th><th class='email hide_on_very_small_screen'>Email</th><th class='mobile row_end_before_hidden_medium_screen'>Mobile</th><th class='mobile_privacy hide_on_medium_screen'>Mobile Privacy</th><th class='button last'></th></tr>";
+    print "<tr><th class='name'>Name</th><th class='email hide_on_very_small_screen'>Email</th><th class='mobile row_end_before_hidden_medium_screen'>Mobile</th><th class='mobile_privacy hide_on_medium_screen'>Mobile Privacy</th><th class='button_column last'></th></tr>";
     foreach ($userData->user_list as $user) {
         print_form(
             Link::root . Link::User_Admin_Delete_Controller_Url,
@@ -28,12 +28,12 @@ if (Session::is_administrator()) {
     print "<option value='" . User::secret . "'>" . User::get_mobile_privacy_text(User::secret) . "</option>";
     print "<option value='" . User::opponent . "'>" . User::get_mobile_privacy_text(User::opponent) . "</option>";
     print "</select></td>";
-    print "<td class='button last'><input type='submit' name='create' value='create'></td></tr>";
+    print "<td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
     // SESSIONS
     print_table_start('Sessions', 'action_table');
-    print "<tr><th class='session'>Id</th><th class='name'>User</th><th class='status hide_on_small_screen'>Status</th><th class='date hide_on_very_small_screen'>Created</th><th class='date'>Last Activity</th><th class='button last'></th></tr>";
+    print "<tr><th class='session'>Id</th><th class='name'>User</th><th class='status hide_on_small_screen'>Status</th><th class='date hide_on_very_small_screen'>Created</th><th class='date'>Last Activity</th><th class='button_column last'></th></tr>";
     foreach ($userData->session_list as $session) {
         print_form(
             Link::root . Link::User_Admin_Delete_Controller_Url,
@@ -50,7 +50,7 @@ if (Session::is_administrator()) {
         }
         print "</select>";
     }
-    print "</td><td class='status last hide_on_small_screen'>&nbsp;</td><td class='date last hide_on_very_small_screen'>&nbsp;</td><td class='date last'>&nbsp;</td><td class='button last'><input type='submit' name='create' value='create'></td></tr>";
+    print "</td><td class='status last hide_on_small_screen'>&nbsp;</td><td class='date last hide_on_very_small_screen'>&nbsp;</td><td class='date last'>&nbsp;</td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
     print "<h2 class='form_title'>Delete Old Sessions</h2>";

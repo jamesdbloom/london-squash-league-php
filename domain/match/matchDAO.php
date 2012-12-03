@@ -27,11 +27,11 @@ class MatchDAO extends DAO implements Mapper
             self::round_id_column . " VARCHAR(25), " .
             self::division_id_column . " VARCHAR(25), " .
             self::score_column . " VARCHAR(25), " .
-            "CONSTRAINT foreign_key_" . self::player_one_id_column . " FOREIGN KEY (" . self::player_one_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . "), " .
-            "CONSTRAINT foreign_key_" . self::player_two_id_column . " FOREIGN KEY (" . self::player_two_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . "), " .
-            "CONSTRAINT foreign_key_" . self::round_id_column . " FOREIGN KEY (" . self::round_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . "), " .
-            "CONSTRAINT foreign_key_" . self::player_one_id_column . "_" . self::division_id_column . " FOREIGN KEY (" . self::player_one_id_column . ", " . self::division_id_column . ") REFERENCES " . PlayerDAO::table_name . "(" . PlayerDAO::user_id_column . ", " . PlayerDAO::division_id_column . "), " .
-            "CONSTRAINT foreign_key_" . self::player_two_id_column . "_" . self::division_id_column . " FOREIGN KEY (" . self::player_two_id_column . ", " . self::division_id_column . ") REFERENCES " . PlayerDAO::table_name . "(" . PlayerDAO::user_id_column . ", " . PlayerDAO::division_id_column . "), " .
+            "CONSTRAINT foreign_key_" . self::player_one_id_column . " FOREIGN KEY (" . self::player_one_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
+            "CONSTRAINT foreign_key_" . self::player_two_id_column . " FOREIGN KEY (" . self::player_two_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
+            "CONSTRAINT foreign_key_" . self::round_id_column . " FOREIGN KEY (" . self::round_id_column . ") REFERENCES " . DivisionDAO::table_name . "(" . DivisionDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
+            "CONSTRAINT foreign_key_" . self::player_one_id_column . "_" . self::division_id_column . " FOREIGN KEY (" . self::player_one_id_column . ", " . self::division_id_column . ") REFERENCES " . PlayerDAO::table_name . "(" . PlayerDAO::user_id_column . ", " . PlayerDAO::division_id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
+            "CONSTRAINT foreign_key_" . self::player_two_id_column . "_" . self::division_id_column . " FOREIGN KEY (" . self::player_two_id_column . ", " . self::division_id_column . ") REFERENCES " . PlayerDAO::table_name . "(" . PlayerDAO::user_id_column . ", " . PlayerDAO::division_id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
             "CONSTRAINT unique_" . self::player_one_id_column . "_" . self::player_two_id_column . "_" . self::round_id_column . " UNIQUE (" . self::player_one_id_column . ", " . self::player_two_id_column . ", " . self::round_id_column . ") " .
             ")";
         $parameters = array();
@@ -98,9 +98,8 @@ class MatchDAO extends DAO implements Mapper
         return self::load_object($query, $parameters, new self(), 'load player by email ');
     }
 
-    public static function create($player_one_id, $player_two_id, $round_id)
+    public static function create($player_one_id, $player_two_id, $round_id, $division_id)
     {
-        $division_id = RoundDAO::get_by_id($round_id)->division_id;
         if ($player_one_id != $player_two_id) {
             $query = "INSERT INTO " . self::table_name . "(" .
                 self::player_one_id_column . "," .

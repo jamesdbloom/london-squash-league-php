@@ -15,7 +15,22 @@ function print_form($action, $classes, $values, $field_ids = array(), $field_val
     foreach (array_keys($classes) as $key) {
         print "<td class='$classes[$key]'>" . (!empty($values[$key]) ? $values[$key] : "&nbsp;") . "</td>";
     }
-    print "<td class='button last'><input type='submit' name='$button' value='$button'></td>";
+    print "<td class='button_column last'><input type='submit' name='$button' value='$button'></td>";
+    print "</tr>";
+    print "</form>";
+}
+
+function print_form_with_modify($action, $classes, $values, $field_ids = array(), $field_values = array(), $modify_view = '', $modify_view_id = '', $button = 'delete')
+{
+    print "<form method='post' action='$action'>";
+    foreach (array_keys($field_ids) as $key) {
+        print "<input name='$field_ids[$key]' type='hidden' value='" . $field_values[$key] . "'>";
+    }
+    print "<tr>";
+    foreach (array_keys($classes) as $key) {
+        print "<td class='$classes[$key]'>" . (!empty($values[$key]) ? $values[$key] : "&nbsp;") . "</td>";
+    }
+    print "<td class='button_column last'><input type='submit' name='$button' value='$button'>" . (!empty($modify_view) ? "<a class='button' href='" . Link::root . $modify_view . '?id=' . $modify_view_id . "'>Modify</a>" : '') . "</td>";
     print "</tr>";
     print "</form>";
 }
