@@ -1,0 +1,43 @@
+body {
+    font-size: 0.80em;
+    background-color: #fff;
+}
+
+#header {
+    display: none;
+}
+
+.tabs {
+    display: none;
+}
+
+#container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.section {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.standalone_link {
+    display: none;
+}
+
+.message {
+    display: none;
+}
+
+.table_message {
+    page-break-before: always;
+    font-size: 1em;
+}
+
+#container table {
+    width: 100%;
+}
+
+#footer p {
+    display: none;
+}

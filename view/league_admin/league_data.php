@@ -219,10 +219,13 @@ class LeagueData extends AbstractData
         return $rounds_in_league;
     }
 
-    public function divisions_in_league($league_id)
+    public function divisions_in_league($league_id, $division_list = null)
     {
+        if (empty($division_list)) {
+            $division_list = $this->division_list;
+        }
         $divisions_in_league = array();
-        foreach ($this->division_list as $division) {
+        foreach ($division_list as $division) {
             $league = $this->league_map[$division->league_id];
             if ($league->id == $league_id) {
                 $divisions_in_league[] = $division;
@@ -271,19 +274,19 @@ class LeagueData extends AbstractData
         return false;
     }
 
-    public function matches_by_round_id()
+    public function matches_by_division_id()
     {
-        $matches_by_round_id = array();
-        foreach ($this->round_list as $round) {
+        $matches_by_division_id = array();
+        foreach ($this->division_list as $division) {
             $matches_in_round = array();
             foreach ($this->match_list as $match) {
-                if ($match->round_id == $round->id) {
+                if ($match->division_id == $division->id) {
                     $matches_in_round[] = $match;
                 }
             }
-            $matches_by_round_id[$round->id] = $matches_in_round;
+            $matches_by_division_id[$division->id] = $matches_in_round;
         }
-        return $matches_by_round_id;
+        return $matches_by_division_id;
     }
 
     public $players_by_division_id = array();
@@ -294,7 +297,7 @@ class LeagueData extends AbstractData
             foreach ($this->division_list as $division) {
                 $players_in_division = array();
                 foreach ($this->player_list as $player) {
-                    if ($player->division_id == $division->id) {
+                    if ($player->division_id == $division->id && $player->is_active()) {
                         $players_in_division[] = $player;
                     }
                 }
