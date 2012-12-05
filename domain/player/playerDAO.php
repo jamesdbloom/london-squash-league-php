@@ -14,6 +14,8 @@ class PlayerDAO extends DAO implements Mapper
     const league_id_column = 'LEAGUE_ID';
     const status_column = 'STATUS';
 
+    //
+
     public static function create_player_schema()
     {
         $query = "DROP TABLE IF EXISTS " . self::table_name;
