@@ -2,7 +2,7 @@
 require_once('../../load.php');
 
 Page::header('Home');
-$user = Session::get_user(true);
+$user = Session::get_user(false);
 
 if (!empty($user)) {
     print "<ol class='link_list'>";
