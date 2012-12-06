@@ -25,7 +25,6 @@ if (!empty($user)) {
     print "<ol class='link_list'>";
     print "<li>" . Link::get_link(Link::Register, false, "1. " . Link::Register) . "</li>";
     print "<li>" . Link::get_link(Link::Join_A_League, false, "2. " . Link::Join_A_League) . "</li>";
-    print "<li>" . Link::get_link(Link::Login) . "</li>";
     print "</ol>";
     load::include_file('view/login', 'login_form.php');
 }

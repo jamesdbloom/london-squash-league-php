@@ -530,7 +530,7 @@ input[type="checkbox"] {
 .delete_sessions_form {
     width: 80%;
     margin-top: 2em;
-    margin-bottom: 2.75em;
+    overflow: hidden;
 }
 
 .report_issue_form,
