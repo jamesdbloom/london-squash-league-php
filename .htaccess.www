@@ -60,6 +60,7 @@ RewriteRule ^report_issue/?$ view/contact/report_issue.php [L]
 RewriteRule ^$ /view/landing/index.php [L]
 
 RewriteRule ^league/?$ view/league/view.php [L]
+RewriteRule ^ranking/?$ view/league/ranking.php [L]
 
 RewriteRule ^league_admin/?$ view/league_admin/view.php [L]
 RewriteRule ^league_admin/recreate_schema_confirm/?$ view/league_admin/recreate_schema_confirm.php [L]

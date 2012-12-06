@@ -67,6 +67,9 @@ class Link
     #RewriteRule ^league/?$ view/league/view.php [L]
     const League_Url = 'league';
     const League = "View League";
+    #RewriteRule ^ranking/?$ view/league/ranking.php [L]
+    const Ranking_Url = 'ranking';
+    const Ranking = "Player Ranking";
 
     #RewriteRule ^league_admin/modify_club?$ view/league_admin/modify_club_view.php [L]
     const League_Admin_Modify_Club_Url = 'league_admin/modify_club';
@@ -153,6 +156,7 @@ class Link
             self::$links[self::Report_Issue] = new Link(self::root . self::Report_Issue_Url, self::Report_Issue, self::hide_on_medium_screen);
             self::$links[self::Landing] = new Link(self::root . self::Landing_Url, self::Landing);
             self::$links[self::League] = new Link(self::root . self::League_Url, self::League);
+            self::$links[self::Ranking] = new Link(self::root . self::Ranking_Url, self::Ranking, self::hide_on_small_screen);
             self::$links[self::League_Admin] = new Link(self::root . self::League_Admin_Url, self::League_Admin);
             self::$links[self::League_Admin_Recreate_Tables] = new Link(self::root . self::League_Admin_Recreate_Tables_Url, self::League_Admin_Recreate_Tables, self::hide_on_medium_screen);
             self::$links[self::League_Admin_Recreate_Tables_Controller] = new Link(self::root . self::League_Admin_Recreate_Tables_Controller_Url, self::League_Admin_Recreate_Tables_Controller);
@@ -163,7 +167,7 @@ class Link
             self::$links[self::Logout] = new Link(self::root . self::Logout_Url, self::Logout);
             self::$links[self::Register] = new Link(self::root . self::Register_Url, self::Register);
             self::$links[self::Retrieve_Password] = new Link(self::root . self::Retrieve_Password_Url, self::Retrieve_Password);
-            self::$links[self::Print_League_Url] = new Link(self::root . self::Print_League_Url, self::Print_League, self::hide_on_small_screen);
+            self::$links[self::Print_League] = new Link(self::root . self::Print_League_Url, self::Print_League, self::hide_on_small_screen);
             self::$links[self::Update_Password] = new Link(self::root . self::Update_Password_Url, self::Update_Password, self::hide_on_small_screen);
             self::$links[self::Update_User] = new Link(self::root . self::Update_User_Url, self::Update_User, self::hide_on_medium_screen);
             self::$links[self::Enter_Score] = new Link(self::root . self::Enter_Score_Url, self::Enter_Score, self::hide_on_small_screen);

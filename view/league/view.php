@@ -8,7 +8,6 @@ if (!empty($user)) {
     load::load_file('view/admin', 'form_output.php');
     load::load_file('view/account', 'account_data.php');
 
-
     $league_id = Parameters::read_request_input('league_id');
     $finished = Parameters::read_request_input('finished', 'false');
     $print_league = (Parameters::read_request_input('print') === 'true' && $user->is_league_manager());

@@ -140,14 +140,14 @@ class PlayerDAO extends DAO implements Mapper
         self::insert_update_delete_create($query, $parameters, 'update player status by division id and user id ');
     }
 
-    public function map(array $player_row)
+    public function map(array $ranking_row)
     {
         return new Player(
-            $player_row[self::id_column],
-            $player_row[self::user_id_column],
-            $player_row[self::division_id_column],
-            $player_row[self::league_id_column],
-            $player_row[self::status_column]
+            $ranking_row[self::id_column],
+            $ranking_row[self::user_id_column],
+            $ranking_row[self::division_id_column],
+            $ranking_row[self::league_id_column],
+            $ranking_row[self::status_column]
         );
     }
 }
