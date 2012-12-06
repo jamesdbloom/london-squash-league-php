@@ -11,6 +11,7 @@ if (!empty($user)) {
 
     Page::header(Link::Ranking);
 
+    print "<p class='message'>This page displays the ranking for each league on a scale from 0 to 100.  The ranking is calculated based on how many matches you win, draw and loose.  More details will follow soon showing how this ranking is calculated and how the ranking is used to determine which division you will be in.</p>";
     foreach (LeagueDAO::get_all() as $league) {
         $rankings = RankingDAO::get_all_by_League($league->id);
         print "<h2 class='table_message'>" . ClubDAO::get_by_id($league->club_id)->name . " &rsaquo; " . $league->name . "</h2>";
@@ -22,7 +23,7 @@ if (!empty($user)) {
             }
             print "</table>";
         } else {
-            print "<p class='table_title'>no scores entered</p>";
+            print "<p class='table_title'>no scores entered for this round yet</p>";
         }
     }
 
