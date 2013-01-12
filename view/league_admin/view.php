@@ -50,31 +50,6 @@ if (Session::is_administrator()) {
     print "</td><td class='league last'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
-    // DIVISIONS
-    print_table_start('Divisions', 'action_table');
-    print "<tr><th class='league'>League</th><th class='division'>Division</th><th class='button_column last'></th></tr>";
-    foreach ($leagueData->division_list as $division) {
-        print_form_with_modify(
-            Link::root . Link::League_Admin_Delete_Controller_Url,
-            array('league', 'division'), array($leagueData->print_league_name($division->league_id), $division->name),
-            array('division_id'), array($division->id),
-            Link::League_Admin_Modify_Division_Url, $division->id
-        );
-    }
-    print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'division');
-    print "<tr class='create_row'><td class='league last'>";
-    if (count($leagueData->league_list) > 0) {
-        print "<select name='league_id'>";
-        foreach ($leagueData->league_list as $league) {
-            print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>";
-        }
-        print "</select>";
-    } else {
-        print "&nbsp;";
-    }
-    print "</td><td class='division last'><input class='show_validation' name='name' type='text' pattern='.{1,25}' required='required'></td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
-    print_form_table_end();
-
     // ROUNDS
     print_table_start('Rounds', 'action_table');
     print "<tr><th class='division'>League</th><th class='status hide_on_small_screen'>Status</th><th class='date'>Start</th><th class='date'>End</th><th class='button_column last'></th></tr>";
@@ -88,7 +63,7 @@ if (Session::is_administrator()) {
     }
     $leagues = $leagueData->league_list;
     if (count($leagues) > 0) {
-        print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'all_rounds_for_league');
+        print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'round');
         print "<tr class='create_row'><td class='division last'>";
         print "<select name='league_id'>";
         foreach ($leagues as $league) {
@@ -99,6 +74,31 @@ if (Session::is_administrator()) {
         print "</form>";
     }
     print "</table>";
+
+    // DIVISIONS
+    print_table_start('Divisions', 'action_table');
+    print "<tr><th class='league'>League</th><th class='round'>Round</th><th class='division'>Division</th><th class='button_column last'></th></tr>";
+    foreach ($leagueData->division_list as $division) {
+        print_form_with_modify(
+            Link::root . Link::League_Admin_Delete_Controller_Url,
+            array('league', 'round', 'division'), array($leagueData->print_league_name($division->league_id), $leagueData->print_round_name($division->round_id, false), $division->name),
+            array('division_id'), array($division->id),
+            Link::League_Admin_Modify_Division_Url, $division->id
+        );
+    }
+    print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'division');
+    print "<tr class='create_row'><td class='round last' colspan='2'>";
+    if (count($leagueData->league_list) > 0) {
+        print "<select name='round_id'>";
+        foreach ($leagueData->round_list as $round) {
+            print "<option value='" . $round->id . "''>" . $leagueData->print_round_name($round->id) . "</option>";
+        }
+        print "</select>";
+    } else {
+        print "&nbsp;";
+    }
+    print "</td><td class='division last'><input class='show_validation' name='name' type='text' pattern='.{1,25}' required='required'></td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
+    print_form_table_end();
 
     // PLAYERS
     print_table_start('Players', 'action_table');

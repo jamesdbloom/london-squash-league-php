@@ -23,5 +23,5 @@ define('RANDOM_SEED', 'SlE59NZhwz5RzTzB6hFpg ZBD02wMP1dDdnYqHQ7zLDP');
 if ( !defined('ROOT_PATH') )
     define('ROOT_PATH', dirname(__FILE__) . '/');
 
-define('DEBUG', false);
-define('SHOW_QUERIES', false);
+define('DEBUG', true);
+define('SHOW_QUERIES', true);

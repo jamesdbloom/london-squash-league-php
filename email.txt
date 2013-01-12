@@ -1,0 +1,18 @@
+jamesdbloom@gmail.com, j.townshend@mmu.ac.uk, swantonray@gmail.com, catherinemlittle@gmail.com, marco.cioni@haymarket.com, david@beguier.com, jk@nowmedical.co.uk, robert.hotchkiss@cw.com, email@paultaylor.me, robin.bruce@gmail.com, robin.bruce@gmail.com, jwtrundle@gmail.com, jardine.finn@lbhf.gov.uk, philipmharrison2@gmail.com, jonathan.blake@emimusic.com, timvannispen@gmail.com, k.heeley@savethechildren.org.uk, pkim@arpllp.com, friedbergdvah@hotmail.com, amyjunerattray@gmail.com, muxieb2@hotmail.com, andrea.caldera@gmail.com, rebecca.long@gll.org, jpakennedy@tiscali.co.uk, matt@savioursnacks.com, jonathanbouldin@hotmail.com, bruninha.marchesi.p@gmail.com, greg.huszcza@hfbp.co.uk, trovers@gmail.com, dan@dsmrisksolutions.co.uk, nmalde@bechtel.com, nmalde@bechtel.com, pjmon@hotmail.co.uk, rlpile@gmail.com, james.bloom@betfair.com, scott.hands@cw.com, morley_daniel@yahoo.co.uk, tracey.evans@gll.org, james.rachael@gmail.com, andy.smith31@gmail.com, writetoajith@gmail.com, alistair.cossins@disney.com, brwoodnz@gmail.com, mh3488@gmail.com, benjamin.j.cochrane@gmail.com, benoit.obadia@gmail.com, pstack04@hotmail.com, craigkenworthy@hotmail.com, tpearce@sebastianconran.com, joe@karenandjoe.co.uk, tarynarmitage@gmail.com, joel.milnes1@gmail.com
+
+Hi All,
+
+I am working on writing the code to auto manage the number of players in the divisions and promote and demote players.  Unfortunately this has taken longer than I expected. I have therefore extended the closing date for the current league until Jan 15th to give me time to complete this logic.
+
+The next league will start by Jan 17th at the lastest.
+
+The features that are currently under development and will be completed by the start of the next league are:
+1. player ranking based on number of matches won and score in each match
+2. players will be added to each division (promoted / demoted) based on their overall ranking
+3. division will be created automatically based on the number of players so that player will be evenly distributed across division ensuring each division has a sensible number of players
+
+I appreciate your patience while I get this new league site up and running in my personal time.
+
+Thanks,
+
+James Bloom

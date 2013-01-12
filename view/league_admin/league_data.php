@@ -274,19 +274,21 @@ class LeagueData extends AbstractData
         return false;
     }
 
+    public $matches_by_division_id = array();
+
     public function matches_by_division_id()
     {
-        $matches_by_division_id = array();
-        foreach ($this->division_list as $division) {
-            $matches_in_round = array();
+        if (count($this->matches_by_division_id) <= 0) {
             foreach ($this->match_list as $match) {
-                if ($match->division_id == $division->id) {
-                    $matches_in_round[] = $match;
+                $matches_in_division = $this->matches_by_division_id[$match->division_id];
+                if (empty($matches_in_division)) {
+                    $matches_in_division = array();
+                    $this->matches_by_division_id[$match->division_id] = $matches_in_division;
                 }
+                $matches_in_division[] = $match;
             }
-            $matches_by_division_id[$division->id] = $matches_in_round;
         }
-        return $matches_by_division_id;
+        return $this->matches_by_division_id;
     }
 
     public $players_by_division_id = array();
@@ -294,14 +296,13 @@ class LeagueData extends AbstractData
     public function players_by_division_id($division_id)
     {
         if (count($this->players_by_division_id) <= 0) {
-            foreach ($this->division_list as $division) {
-                $players_in_division = array();
-                foreach ($this->player_list as $player) {
-                    if ($player->division_id == $division->id && $player->is_active()) {
-                        $players_in_division[] = $player;
-                    }
+            foreach ($this->player_list as $player) {
+                $players_in_division = $this->players_by_division_id[$player->division_id];
+                if (empty($players_in_division)) {
+                    $players_in_division = array();
+                    $this->players_by_division_id[$player->division_id] = $players_in_division;
                 }
-                $this->players_by_division_id[$division->id] = $players_in_division;
+                $players_in_division[] = $player;
             }
         }
         return $this->players_by_division_id[$division_id];

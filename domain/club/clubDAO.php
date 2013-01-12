@@ -37,14 +37,10 @@ class ClubDAO extends DAO implements Mapper
         $query =
             "SELECT DISTINCT " . ClubDAO::table_name . ".* " .
                 " FROM " . ClubDAO::table_name .
-                " INNER JOIN (" . LeagueDAO::table_name .
-                "   INNER JOIN (" . DivisionDAO::table_name .
-                "     INNER JOIN " . PlayerDAO::table_name .
-                "     ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column . ")" .
-                "   ON " . LeagueDAO::table_name . "." . LeagueDAO::id_column . " = " . DivisionDAO::table_name . "." . DivisionDAO::league_id_column . ")" .
-                " ON " . ClubDAO::table_name . "." . ClubDAO::id_column . " = " . LeagueDAO::table_name . "." . LeagueDAO::club_id_column .
-                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column .
-                " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' ";
+                " INNER JOIN " . LeagueDAO::table_name . " ON " . ClubDAO::table_name   . "." . ClubDAO::id_column   . " = " . LeagueDAO::table_name . "." . LeagueDAO::club_id_column   .
+                " INNER JOIN " . PlayerDAO::table_name . " ON " . LeagueDAO::table_name . "." . LeagueDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::league_id_column .
+                " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :"  . PlayerDAO::user_id_column .
+                " AND "   . PlayerDAO::table_name . "." . PlayerDAO::status_column  . " <> '" . Player::inactive . "' "   ;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),
         );
