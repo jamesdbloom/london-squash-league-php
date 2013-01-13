@@ -52,16 +52,9 @@ class AccountData extends LeagueData
         }
     }
 
-    public function divisions_in_unregistered_leagues()
+    public function unregistered_leagues()
     {
-        $unregistered_divisions = array_diff($this->division_list, $this->user_division_list_ignore_player_status);
-        foreach (array_keys($unregistered_divisions) as $key) {
-            $league = $this->user_league_map_ignore_player_status[$unregistered_divisions[$key]->league_id];
-            if (!empty($league)) {
-                unset($unregistered_divisions[$key]);
-            }
-        }
-        return $unregistered_divisions;
+        return array_diff($this->league_list, $this->user_league_list_ignore_player_status);
     }
 }
 

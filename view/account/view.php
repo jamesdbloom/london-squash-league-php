@@ -24,7 +24,7 @@ if (!empty($user)) {
     print "<div class='standalone_link'>" . Link::get_link(Link::Update_User) . "</div>";
 
     // DIVISIONS
-    $unregistered_divisions = $accountData->divisions_in_unregistered_leagues();
+    $unregistered_divisions = $accountData->unregistered_leagues();
     print_table_start('Divisions', 'action_table', 'table_title', 'divisions');
     print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='status hide_on_very_small_screen'>Status</th><th class='division_unqualified'>Division</th><th class='button_column last'></th></tr>";
     foreach ($accountData->user_division_list_ignore_player_status as $division) {
@@ -42,13 +42,13 @@ if (!empty($user)) {
     print_create_form_start(Link::root . Link::Account_Create_Controller_Url, 'player');
     print "<input name='user_id' type='hidden' value='" . $user->id . "'>";
     if (count($unregistered_divisions) > 0) {
-        print "<tr class='create_row'><td colspan='3' class='name last'>";
-        print "<select name='division_id'>";
-        foreach ($unregistered_divisions as $division) {
-            print "<option value='" . $division->id . "''>" . $accountData->print_division_name($division->id) . "</option>";
+        print "<tr class='create_row'><td colspan='4' class='name last'>";
+        print "<select name='league_id'>";
+        foreach ($unregistered_divisions as $league) {
+            print "<option value='" . $league->id . "''>" . $accountData->print_league_name($league->id) . "</option>";
         }
         print "</select>";
-        print "</td><td class='status last hide_on_very_small_screen'></td><td class='button_column last'><input type='submit' name='register' value='register'></td></tr>";
+        print "</td><td class='button_column last'><input type='submit' name='register' value='register'></td></tr>";
     }
     print_form_table_end();
 

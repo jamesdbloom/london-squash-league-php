@@ -75,7 +75,7 @@ if (!empty($user)) {
 
     $matches_by_division_id = $leagueData->matches_by_division_id;
     foreach ($rounds as $round) {
-        $divisions_in_league = $leagueData->divisions_in_round($round->id);
+        $divisions_in_league = (empty($league_id) ? $leagueData->divisions_in_round($round->id, $division_list) : $leagueData->divisions_in_round($round->id));
 
         if (!$print_league) {
             // DIVISIONS
@@ -114,15 +114,16 @@ if (!empty($user)) {
 
         // MATCHES
         foreach ($divisions_in_league as $division) {
-            if ($start_date != $round->start && $end_date != $round->end) {
-                print "<p class='table_subtitle'>" . $round->name . "</p>";
-                $start_date = $round->start;
-                $end_date = $round->end;
-            }
 
             $players_by_division_id = $leagueData->players_by_division_id($division->id);
 
-            if (count($players_by_division_id) > 0) {
+            if (count($matches_by_division_id[$division->id]) > 0) {
+                if ($start_date != $round->start && $end_date != $round->end) {
+                    print "<p class='table_subtitle'>" . $round->name . "</p>";
+                    $start_date = $round->start;
+                    $end_date = $round->end;
+                }
+
                 // small screen - start
                 print_table_start($leagueData->print_division_name($division->id), 'small_screen', 'table_message small_screen', $division->id . "_small");
                 print "<tr><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
