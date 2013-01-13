@@ -12,7 +12,16 @@ class PlayerDAO extends DAO implements Mapper
     const user_id_column = 'USER_ID';
     const division_id_column = 'DIVISION_ID';
     const league_id_column = 'LEAGUE_ID';
+    const seed_column = 'SEED';
     const status_column = 'STATUS';
+
+//     // 1: backup round table
+//     DROP TABLE PLAYER_BACKUP;
+//     CREATE TABLE PLAYER_BACKUP LIKE PLAYER;
+//     INSERT PLAYER_BACKUP SELECT * FROM PLAYER;
+//     // 2: add column and reference constraint
+//     ALTER TABLE PLAYER ADD COLUMN SEED VARCHAR(5);
+//     UPDATE PLAYER SET SEED = (SELECT DIVISION.NAME FROM DIVISION WHERE PLAYER.DIVISION_ID = DIVISION.DIVISION_ID);
 
     public static function create_player_schema()
     {
@@ -45,7 +54,7 @@ class PlayerDAO extends DAO implements Mapper
             "ORDER BY " .
             ClubDAO::table_name . "." . ClubDAO::name_column . ", " .
             LeagueDAO::table_name . "." . LeagueDAO::name_column . ", " .
-            DivisionDAO::table_name . "." . DivisionDAO::name_column . ", " .
+            self::table_name . "." . self::seed_column . ", " .
             UserDAO::table_name . "." . UserDAO::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of players ');
@@ -144,6 +153,7 @@ class PlayerDAO extends DAO implements Mapper
             $ranking_row[self::user_id_column],
             $ranking_row[self::division_id_column],
             $ranking_row[self::league_id_column],
+            $ranking_row[self::seed_column],
             $ranking_row[self::status_column]
         );
     }

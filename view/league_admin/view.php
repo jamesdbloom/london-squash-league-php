@@ -54,6 +54,7 @@ if (Session::is_administrator()) {
     print_table_start('Rounds', 'action_table');
     print "<tr><th class='division'>League</th><th class='status hide_on_small_screen'>Status</th><th class='date'>Start</th><th class='date'>End</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->round_list as $round) {
+        $leagueData->create_divisions_for_round($round->id);
         print_form_with_modify(
             Link::root . Link::League_Admin_Delete_Controller_Url,
             array('division', 'status hide_on_small_screen', 'date', 'date'), array($leagueData->print_league_name($round->league_id), $round->status, date('d-M-Y', $round->start), date('d-M-Y', $round->end)),
@@ -101,6 +102,7 @@ if (Session::is_administrator()) {
     print_form_table_end();
 
     // PLAYERS
+    $number_of_players = 0;
     print_table_start('Players', 'action_table');
     print "<tr><th class='division'>Division</th><th class='name'>User</th><th class='status'>Status</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->player_list as $player) {
@@ -109,6 +111,9 @@ if (Session::is_administrator()) {
             array('division', 'name', 'status'), array($leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false), $player->status),
             array('player_id'), array($player->id)
         );
+        if($player->id > $number_of_players) {
+           $number_of_players = $player->id;
+        }
     }
     print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'player');
     print "<tr class='create_row'><td class='division last'>";
@@ -139,11 +144,12 @@ if (Session::is_administrator()) {
     print "</td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
+    print "<p class='num_of_players'>Number of Players: $number_of_players</p>";
 
     // MATCHES
     print "<h2 class='table_title'>Matches</h2>";
     foreach ($leagueData->round_list as $round_table) {
-        foreach ($leagueData->divisions_in_league($round_table->league_id) as $division) {
+        foreach ($leagueData->divisions_in_round($round_table->id) as $division) {
             print_table_start($leagueData->print_division_name($division->id), 'action_table', 'table_subtitle');
             print "<tr><th class='round'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='button_column last'></th></tr>";
             foreach ($leagueData->match_list as $match) {

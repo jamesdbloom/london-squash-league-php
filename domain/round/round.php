@@ -53,7 +53,7 @@ class Round
 
     public function __toString()
     {
-        return 'Id: ' . $this->id . ' League Id: ' . $this->league_id . ' Start: ' . $this->start . ' End: ' . $this->end;
+        return 'Id: ' . $this->id . ' League Id: ' . $this->league_id . ' Name: ' . $this->name;
     }
 }
 

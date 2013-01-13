@@ -1,12 +1,12 @@
 <?php
 
-print "<table>";
-print "<tr><th>sum</th><th>size</th><th>a</th><th>b</th></tr>";
-for ($sum = 70; $sum >= 5; $sum--) {
-    $divisionSizeCharacteristics = DivisionSizeCharacteristics::calculationDivisionSizeCharacteristics($sum);
-    print "<tr><th class='sum'>$sum</th><th class='size'>$divisionSizeCharacteristics->divisionSize</th><th class='a'>$divisionSizeCharacteristics->noOfFullSizeDivisions</th><th class='b'>$divisionSizeCharacteristics->noOfSmallerDivisions</th></tr>\n";
-}
-print "</table>";
+//print "<table>";
+//print "<tr><th>sum</th><th>size</th><th>a</th><th>b</th></tr>";
+//for ($sum = 70; $sum >= 5; $sum--) {
+//    $divisionSizeCharacteristics = DivisionSizeCharacteristics::calculationDivisionSizeCharacteristics($sum);
+//    print "<tr><th class='sum'>$sum</th><th class='size'>$divisionSizeCharacteristics->divisionSize</th><th class='a'>$divisionSizeCharacteristics->noOfFullSizeDivisions</th><th class='b'>$divisionSizeCharacteristics->noOfSmallerDivisions</th></tr>\n";
+//}
+//print "</table>";
 
 class DivisionSizeCharacteristics
 {
@@ -24,7 +24,12 @@ class DivisionSizeCharacteristics
         $this->noOfSmallerDivisions = $noOfSmallerDivisions;
     }
 
-    static function calculationDivisionSizeCharacteristics($sum)
+    public function __toString()
+    {
+        return 'Division Size: ' . $this->divisionSize . ' No Of Full Size Divisions: ' . $this->noOfFullSizeDivisions . ' No Of Smaller Divisions: ' . $this->noOfSmallerDivisions;
+    }
+
+    static public function calculationDivisionSizeCharacteristics($sum)
     {
         $divisionSizeValues = self::calculateDivisionSize($sum, array(8, 7, 6));
         if (empty($divisionSizeValues)) {
@@ -39,7 +44,7 @@ class DivisionSizeCharacteristics
         return $divisionSizeValues;
     }
 
-    static function calculateDivisionSize($sum, $allowedSizes)
+    static private function calculateDivisionSize($sum, $allowedSizes)
     {
         for ($i = 0; $i <= DivisionSizeCharacteristics::MAX_DIVISIONS; $i++) {
             for ($j = 1; $j <= (DivisionSizeCharacteristics::MAX_DIVISIONS - $i); $j++) {

@@ -142,6 +142,7 @@ GROUP BY P1_ID ORDER BY POINTS DESC, DIVISION, NAME) AS GROUPED;";
             $ranking_row[self::email_column],
             $ranking_row[self::division_column],
             $ranking_row[self::league_column],
+            $ranking_row[self::points_column],
             $ranking_row[self::relative_column]
         );
     }

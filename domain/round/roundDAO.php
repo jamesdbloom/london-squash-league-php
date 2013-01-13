@@ -269,7 +269,7 @@ WHERE ROUND.START <= NOW() AND ROUND.END >= NOW() AND M.SCORE IS NOT NULL) SCORE
             "ORDER BY " .
             ClubDAO::table_name . "." . ClubDAO::name_column . ", " .
             LeagueDAO::table_name . "." . LeagueDAO::name_column . ", " .
-            self::start_column;
+            self::start_column . " DESC";
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of rounds ');
     }
@@ -314,7 +314,7 @@ WHERE ROUND.START <= NOW() AND ROUND.END >= NOW() AND M.SCORE IS NOT NULL) SCORE
             ':' . self::start_column => date('Y-m-d H:i:s', strtotime(self::sanitize_value($start))),
             ':' . self::end_column => date('Y-m-d H:i:s', strtotime(self::sanitize_value($end))),
         );
-        self::insert_update_delete_create($query, $parameters, 'save round ');
+        return self::insert_update_delete_create($query, $parameters, 'save round ');
     }
 
     public static function update($id, $league_id, $start, $end)

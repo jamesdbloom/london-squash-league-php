@@ -801,6 +801,11 @@ table + .table_subtitle {
     padding: 1%
 }
 
+.num_of_players {
+    padding: 1% 0% 2% 0%;
+    font-size: 1.5em;
+}
+
 /* message */
 
 .message {

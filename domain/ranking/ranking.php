@@ -13,19 +13,20 @@ class Ranking
 
     public $relative_position;
 
-    function __construct($player_id, $name, $email, $division, $league, $relative_position)
+    function __construct($player_id, $name, $email, $division, $league, $points, $relative_position)
     {
         $this->player_id = $player_id;
         $this->name = $name;
         $this->email = $email;
         $this->division = $division;
         $this->league = $league;
+        $this->points = $points;
         $this->relative_position = $relative_position;
     }
 
     public function __toString()
     {
-        return 'Player Id: ' . $this->player_id . ' Name: ' . $this->name . ' Email: ' . $this->email . ' Division: ' . $this->division . ' League: ' . $this->league . ' Relative Position: ' . $this->relative_position;
+        return 'Player Id: ' . $this->player_id . ' Name: ' . $this->name . ' Email: ' . $this->email . ' Division: ' . $this->division . ' League: ' . $this->league . ' Points: ' . $this->points . ' Relative Position: ' . $this->relative_position;
     }
 }
 

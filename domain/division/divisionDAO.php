@@ -11,11 +11,11 @@ class DivisionDAO extends DAO implements Mapper
     const round_id_column = 'ROUND_ID';
     const name_column = 'NAME';
 
-    // 1: backup round table
+//     // 1: backup round table
 //     DROP TABLE DIVISION_BACKUP;
 //     CREATE TABLE DIVISION_BACKUP LIKE DIVISION;
 //     INSERT DIVISION_BACKUP SELECT * FROM DIVISION;
-    // 2: add column and reference constraint
+//     // 2: add column and reference constraint
 //     ALTER TABLE DIVISION ADD COLUMN ROUND_ID INT NOT NULL;
 //     ALTER TABLE DIVISION ADD CONSTRAINT foreign_key_ROUND_ID FOREIGN KEY (ROUND_ID) REFERENCES ROUND(ROUND_ID);
 //     UPDATE DIVISION SET DIVISION.ROUND_ID = (SELECT ROUND.ROUND_ID FROM ROUND WHERE ROUND.LEAGUE_ID = DIVISION.LEAGUE_ID);
@@ -46,8 +46,13 @@ class DivisionDAO extends DAO implements Mapper
         $query =
             "SELECT DISTINCT " . self::table_name . ".* FROM " . self::table_name . " " .
                 "JOIN " . LeagueDAO::table_name . " USING (" . self::league_id_column . ") " .
+                "JOIN " . RoundDAO::table_name . " USING (" . self::round_id_column . ") " .
                 "JOIN " . ClubDAO::table_name . " USING (" . LeagueDAO::club_id_column . ") " .
-                "ORDER BY " . ClubDAO::table_name . "." . ClubDAO::name_column . ", " . LeagueDAO::table_name . "." . LeagueDAO::name_column . ", " . self::table_name . "." . self::name_column;
+                "ORDER BY " .
+                ClubDAO::table_name . "." . ClubDAO::name_column . ", " .
+                RoundDAO::table_name . "." . RoundDAO::start_column . " DESC, " .
+                LeagueDAO::table_name . "." . LeagueDAO::name_column . ", " .
+                self::table_name . "." . self::name_column;
         $parameters = array();
         return self::load_all_objects($query, $parameters, new self(), 'load list of divisions ');
     }

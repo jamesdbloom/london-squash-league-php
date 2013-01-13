@@ -89,6 +89,7 @@ class DAO
             }
             $GLOBALS['errors']->add('dao_error', $message);
         }
+        return self::$db->lastInsertId();
     }
 
     protected static function sanitize_email($email)
