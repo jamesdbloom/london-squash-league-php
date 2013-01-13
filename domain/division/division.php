@@ -19,7 +19,7 @@ class Division
 
     public function __toString()
     {
-        return 'Id: ' . $this->id . ' League Id: ' . $this->league_id . ' Round Id: ' . $this->round_id . ' Name: ' . $this->name;
+        return 'Id: ' . $this->id . ' League Id: ' . $this->league_id . ' Round Id: ' . $this->round_id . ' Name: ' . $this->name . '<br/>';
     }
 }
 

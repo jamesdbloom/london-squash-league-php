@@ -106,8 +106,7 @@ class DivisionDAO extends DAO implements Mapper
             ':' . self::round_id_column => self::sanitize_value($round_id),
             ':' . self::name_column => self::sanitize_value($name),
         );
-        self::insert_update_delete_create($query, $parameters, 'save division ');
-        return self::get_by_name($name);
+        return self::insert_update_delete_create($query, $parameters, 'save division ');
     }
 
     public static function update($id, $league_id, $round_id, $name)

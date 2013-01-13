@@ -73,9 +73,9 @@ if (!empty($user)) {
     $start_date = '';
     $end_date = '';
 
-    $matches_by_division_id = $leagueData->matches_by_division_id();
+    $matches_by_division_id = $leagueData->matches_by_division_id;
     foreach ($rounds as $round) {
-        $divisions_in_league = (empty($league_id) ? $leagueData->divisions_in_league($round->league_id, $division_list) : $leagueData->divisions_in_league($league_id));
+        $divisions_in_league = $leagueData->divisions_in_round($round->id);
 
         if (!$print_league) {
             // DIVISIONS

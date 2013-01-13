@@ -13,7 +13,7 @@ class LoginViewHelper
     const registered = 'registered';
     const retrieve_password = 'retrieve_password';
 
-    public static function validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $division_id)
+    public static function validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $league_id)
     {
         // Check the human_name
         if (empty($human_name)) {
@@ -35,7 +35,7 @@ class LoginViewHelper
         if (!$GLOBALS['errors']->has_errors()) {
             $password = Authentication::generate_password(12, true);
             $user = UserDAO::create($human_name, $password, $email, $mobile, Authentication::generate_password(20, true), $mobile_privacy);
-            PlayerDAO::create($user->id, $division_id);
+            PlayerDAO::create($user->id, $league_id);
             if (empty($user)) {
                 $GLOBALS['errors']->add('registration_failure', sprintf('Couldn&#8217;t register you... please contact <a href="mailto:%s">%s</a>', Urls::webmaster_email(), Urls::webmaster_email()));
             } else {

@@ -54,7 +54,6 @@ if (Session::is_administrator()) {
     print_table_start('Rounds', 'action_table');
     print "<tr><th class='division'>League</th><th class='status hide_on_small_screen'>Status</th><th class='date'>Start</th><th class='date'>End</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->round_list as $round) {
-        $leagueData->create_divisions_for_round($round->id);
         print_form_with_modify(
             Link::root . Link::League_Admin_Delete_Controller_Url,
             array('division', 'status hide_on_small_screen', 'date', 'date'), array($leagueData->print_league_name($round->league_id), $round->status, date('d-M-Y', $round->start), date('d-M-Y', $round->end)),
@@ -207,6 +206,7 @@ if (Session::is_administrator()) {
     print "<p class='submit'><input class='submit' type='submit' name='create' value='create'></p>";
     print "</div></form><br/>";
 
+// commented code below is idea to make outputting tables simpler and less code
 
 //print choose_players($listViewData, 'player_two_id', 'print_user_name');
 

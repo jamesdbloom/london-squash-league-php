@@ -48,9 +48,11 @@ class MatchDAO extends DAO implements Mapper
             " ON " . PlayerDAO::table_name . "_ONE." . PlayerDAO::user_id_column . " = " . UserDAO::table_name . "_ONE." . UserDAO::id_column . " " .
             "JOIN " . UserDAO::table_name . " AS " . UserDAO::table_name . "_TWO" .
             " ON " . PlayerDAO::table_name . "_TWO." . PlayerDAO::user_id_column . " = " . UserDAO::table_name . "_TWO." . UserDAO::id_column . " " .
+            "JOIN " . RoundDAO::table_name . " ON " . self::table_name . "." . self::round_id_column . " = " . RoundDAO::table_name . "." . RoundDAO::id_column . " " .
             " WHERE " . PlayerDAO::table_name . "_ONE." . PlayerDAO::status_column . " <> '" . Player::inactive . "' " .
             " AND " . PlayerDAO::table_name . "_TWO." . PlayerDAO::status_column . " <> '" . Player::inactive . "' " .
             "ORDER BY " .
+            RoundDAO::table_name . "." . RoundDAO::start_column . " DESC, " .
             UserDAO::table_name . "_ONE" . "." . UserDAO::name_column . ", " .
             UserDAO::table_name . "_TWO" . "." . UserDAO::name_column;
         $parameters = array();
@@ -69,7 +71,7 @@ class MatchDAO extends DAO implements Mapper
                 " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column .
                 " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' " .
                 "ORDER BY " .
-                RoundDAO::table_name . "." . RoundDAO::end_column . ", " .
+                RoundDAO::table_name . "." . RoundDAO::end_column . " DESC, " .
                 RoundDAO::table_name . "." . RoundDAO::start_column;
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),

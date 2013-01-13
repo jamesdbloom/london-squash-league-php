@@ -30,7 +30,7 @@ class Match
             . ' Player Two Id: ' . $this->player_two_id
             . ' Score: ' . $this->score
             . ' Round Id: ' . $this->round_id
-            . ' Division Id: ' . $this->division_id;
+            . ' Division Id: ' . $this->division_id . '<br/>';
     }
 }
 

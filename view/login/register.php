@@ -11,8 +11,8 @@ if (Form::is_post()) {
     $email = Parameters::read_post_input('email');
     $mobile = Parameters::read_post_input('mobile');
     $mobile_privacy = Parameters::read_post_input('mobile_privacy');
-    $division_id = Parameters::read_post_input('division_id');
-    LoginViewHelper::validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $division_id);
+    $league_id = Parameters::read_post_input('league_id');
+    LoginViewHelper::validate_and_create_user($human_name, $email, $mobile, $mobile_privacy, $league_id);
 
     if (!$GLOBALS['errors']->has_errors()) {
         Headers::set_redirect_header(Link::root . Link::Login_Url . "?" . LoginViewHelper::message . "=" . LoginViewHelper::registered);
@@ -57,14 +57,14 @@ Page::header(Link::Register);
         </p>
 
         <p>
-            <label class='division' for='division_id'>League & Division:</label>
+            <label class='division' for='league_id'>League:</label>
             <?php
             load::load_file('view/league_admin', 'league_data.php');
             $leagueData = new LeagueData();
-            print "<select id='division_id' name='division_id'>";
+            print "<select id='league_id' name='division_id'>";
             print "<option value=''>Please select...</option>";
-            foreach ($leagueData->division_list as $division) {
-                print "<option value='" . $division->id . "'>" . $leagueData->print_division_name($division->id) . "</option>";
+            foreach ($leagueData->league_list as $league) {
+                print "<option value='" . $league->id . "'>" . $leagueData->print_league_name($league->id) . "</option>";
             }
             print '</select>';
             ?>

@@ -98,9 +98,8 @@ class PlayerDAO extends DAO implements Mapper
         return self::load_object($query, $parameters, new self(), 'load player by id ');
     }
 
-    public static function create($user_id, $division_id, $status = Player::active)
+    public static function create($user_id, $league_id, $status = Player::active)
     {
-        $league_id = DivisionDAO::get_by_id($division_id)->league_id;
         $query = "INSERT INTO " . self::table_name . "(" .
             self::user_id_column . "," .
             self::division_id_column . "," .
@@ -114,7 +113,6 @@ class PlayerDAO extends DAO implements Mapper
             ")";
         $parameters = array(
             ':' . self::user_id_column => self::sanitize_value($user_id),
-            ':' . self::division_id_column => self::sanitize_value($division_id),
             ':' . self::league_id_column => self::sanitize_value($league_id),
             ':' . self::status_column => self::sanitize_value($status),
         );
@@ -130,6 +128,19 @@ class PlayerDAO extends DAO implements Mapper
             ':' . self::id_column => $id,
         );
         self::insert_update_delete_create($query, $parameters, 'delete player by id ');
+    }
+
+    public static function update_division_id($id, $division_id)
+    {
+        $query =
+            "UPDATE " . self::table_name .
+                " SET " . self::division_id_column . " = :" . self::division_id_column .
+                " WHERE " . self::id_column . " = :" . self::id_column;
+        $parameters = array(
+            ':' . self::id_column => $id,
+            ':' . self::division_id_column => $division_id,
+        );
+        self::insert_update_delete_create($query, $parameters, 'update player division id by id ');
     }
 
     public static function update_status_by_division_id_and_user_id($division_id, $user_id, $status)

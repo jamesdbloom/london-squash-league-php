@@ -31,7 +31,7 @@ if ($type == 'round') {
         Parameters::read_post_input('end')
     );
     $leagueData = new LeagueData();
-    $leagueData->create_divisions_for_round($round_id);
+    $leagueData->create_divisions_for_new_round($round_id);
 }
 if ($type == 'match') {
     MatchDAO::create(

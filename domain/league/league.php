@@ -16,7 +16,7 @@ class League
 
     public function __toString()
     {
-        return 'Id: ' . $this->id . ' Club Id: ' . $this->club_id . ' Name: ' . $this->name;
+        return 'Id: ' . $this->id . ' Club Id: ' . $this->club_id . ' Name: ' . $this->name . '<br/>';
     }
 }
 

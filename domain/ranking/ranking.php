@@ -26,7 +26,7 @@ class Ranking
 
     public function __toString()
     {
-        return 'Player Id: ' . $this->player_id . ' Name: ' . $this->name . ' Email: ' . $this->email . ' Division: ' . $this->division . ' League: ' . $this->league . ' Points: ' . $this->points . ' Relative Position: ' . $this->relative_position;
+        return 'Player Id: ' . $this->player_id . ' Name: ' . $this->name . ' Email: ' . $this->email . ' Division: ' . $this->division . ' League: ' . $this->league . ' Points: ' . $this->points . ' Relative Position: ' . $this->relative_position . '<br/>';
     }
 }
 

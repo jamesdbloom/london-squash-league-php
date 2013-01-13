@@ -45,6 +45,7 @@ class LeagueData extends AbstractData
 
         $this->player_by_user_id_map = $this->list_to_map($this->player_list, 'user_id');
         $this->player_by_status_map = $this->list_to_map($this->player_list, 'status');
+        $this->matches_by_division_id = $this->list_to_map($this->match_list, 'division_id');
     }
 
     public function print_club_name($club_id)
@@ -155,7 +156,7 @@ class LeagueData extends AbstractData
         }
     }
 
-    public function create_divisions_for_round($round_id)
+    public function create_divisions_for_new_round($round_id)
     {
         $round = $this->round_map[$round_id];
         $rankings = RankingDAO::get_all_by_League($round->league_id);
@@ -191,10 +192,19 @@ class LeagueData extends AbstractData
             $divisions[] = array_splice($player_order, 0, ($divisionSizeCharacteristics->divisionSize - 1));
         }
 
-        foreach($divisions as $division) {
-            print 'Division Size ' . count($division) . '<br/>';
-            foreach($division as $player) {
-                print $player;
+        foreach ($divisions as $index => $division_players) {
+            $division_id = DivisionDAO::create($round->league_id, $round_id, ($index + 1));
+            foreach ($division_players as $player) {
+                PlayerDAO::update_division_id($player->id, $division_id);
+            }
+            foreach ($division_players as $player_one) {
+                foreach ($division_players as $player_two) {
+                    if ($this->not_the_same_player($player_one, $player_two)) {
+                        if ($this->no_match_already_exists($round, $player_one, $player_two)) {
+                            $this->match_list[] = MatchDAO::create($player_one->id, $player_two->id, $round->id, $division_id);
+                        }
+                    }
+                }
             }
         }
     }
@@ -333,33 +343,22 @@ class LeagueData extends AbstractData
         return false;
     }
 
-    public $matches_by_division_id = array();
-
-    public function matches_by_division_id()
-    {
-        if (count($this->matches_by_division_id) <= 0) {
-            foreach ($this->match_list as $match) {
-                $matches_in_division = $this->matches_by_division_id[$match->division_id];
-                if (empty($matches_in_division)) {
-                    $matches_in_division = array();
-                    $this->matches_by_division_id[$match->division_id] = $matches_in_division;
-                }
-                $matches_in_division[] = $match;
-            }
-        }
-        return $this->matches_by_division_id;
-    }
-
     public $players_by_division_id = array();
 
     public function players_by_division_id($division_id)
     {
         if (count($this->players_by_division_id) <= 0) {
-            foreach ($this->player_list as $player) {
-                if (empty($this->players_by_division_id[$player->division_id])) {
-                    $this->players_by_division_id[$player->division_id] = array();
+            foreach ($this->division_list as $division) {
+                if (!is_array($this->matches_by_division_id[$division->id])) {
+                    $match = $this->matches_by_division_id[$division->id];
+                    $this->players_by_division_id[$division->id][$match->player_one_id] = $this->player_map[$match->player_one_id];
+                    $this->players_by_division_id[$division->id][$match->player_two_id] = $this->player_map[$match->player_two_id];
+                } else {
+                    foreach ($this->matches_by_division_id[$division->id] as $match) {
+                        $this->players_by_division_id[$division->id][$match->player_one_id] = $this->player_map[$match->player_one_id];
+                        $this->players_by_division_id[$division->id][$match->player_two_id] = $this->player_map[$match->player_two_id];
+                    }
                 }
-                $this->players_by_division_id[$player->division_id][] = $player;
             }
         }
         return $this->players_by_division_id[$division_id];
