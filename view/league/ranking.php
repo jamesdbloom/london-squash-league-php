@@ -23,7 +23,7 @@ if (!empty($user)) {
             }
             print "</table>";
         } else {
-            print "<p class='table_title'>no scores entered for this round yet</p>";
+            print "<p class='message'>no scores entered for this round yet</p>";
         }
     }
 

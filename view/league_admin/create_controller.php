@@ -41,10 +41,12 @@ if ($type == 'match') {
         Parameters::read_post_input('division_id')
     );
 }
-if ($type == 'create_all_matches') {
-    $leagueData = new LeagueData();
-    $leagueData->create_matches(Parameters::read_post_input('ignore_round_status'));
-}
+// commented ability to create matches separately from creating a new round
+
+//if ($type == 'create_all_matches') {
+//    $leagueData = new LeagueData();
+//    $leagueData->create_matches(Parameters::read_post_input('ignore_round_status'));
+//}
 if ($type == 'player') {
     PlayerDAO::create(
         Parameters::read_post_input('user_id'),

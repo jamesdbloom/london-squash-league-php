@@ -199,12 +199,14 @@ if (Session::is_administrator()) {
         }
     }
 
-    print "<h2 class='table_title'>Create All Matches</h2>";
-    print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'create_all_matches');
-    print "<div class='create_all_matches_form'>";
-    print "<p><label class='ignore_round_status' for='ignore_round_status'>Ignore Round Status:</label><input id='ignore_round_status' name='ignore_round_status' type='checkbox' /></p>";
-    print "<p class='submit'><input class='submit' type='submit' name='create' value='create'></p>";
-    print "</div></form><br/>";
+// commented ability to create matches separately from creating a new round
+
+//    print "<h2 class='table_title'>Create All Matches</h2>";
+//    print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'create_all_matches');
+//    print "<div class='create_all_matches_form'>";
+//    print "<p><label class='ignore_round_status' for='ignore_round_status'>Ignore Round Status:</label><input id='ignore_round_status' name='ignore_round_status' type='checkbox' /></p>";
+//    print "<p class='submit'><input class='submit' type='submit' name='create' value='create'></p>";
+//    print "</div></form><br/>";
 
 // commented code below is idea to make outputting tables simpler and less code
 

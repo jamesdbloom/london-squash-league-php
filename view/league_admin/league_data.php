@@ -208,25 +208,26 @@ class LeagueData extends AbstractData
             }
         }
     }
+// commented ability to create matches separately from creating a new round
 
-    public function create_matches($ignore_round_status = false)
-    {
-        foreach ($this->round_list as $round) {
-            if ($ignore_round_status || $round->is_not_started()) {
-                foreach ($this->divisions_in_round($round->id) as $division) {
-                    foreach ($this->players_in_division($division) as $player_one) {
-                        foreach ($this->players_in_division($division) as $player_two) {
-                            if ($this->not_the_same_player($player_one, $player_two)) {
-                                if ($this->no_match_already_exists($round, $player_one, $player_two)) {
-                                    $this->match_list[] = MatchDAO::create($player_one->id, $player_two->id, $round->id, $division->id);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+//    public function create_matches($ignore_round_status = false)
+//    {
+//        foreach ($this->round_list as $round) {
+//            if ($ignore_round_status || $round->is_not_started()) {
+//                foreach ($this->divisions_in_round($round->id) as $division) {
+//                    foreach ($this->players_in_division($division) as $player_one) {
+//                        foreach ($this->players_in_division($division) as $player_two) {
+//                            if ($this->not_the_same_player($player_one, $player_two)) {
+//                                if ($this->no_match_already_exists($round, $player_one, $player_two)) {
+//                                    $this->match_list[] = MatchDAO::create($player_one->id, $player_two->id, $round->id, $division->id);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     public function no_match_already_exists(Round $round, Player $player_one, Player $player_two)
     {

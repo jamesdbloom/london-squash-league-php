@@ -117,8 +117,9 @@ class PlayerDAO extends DAO implements Mapper
             ':' . self::status_column => self::sanitize_value($status),
         );
         self::insert_update_delete_create($query, $parameters, 'save player ');
-        $league_data = new LeagueData();
-        $league_data->create_matches(Parameters::read_post_input('ignore_round_status'));
+//      commented ability to create matches separately from creating a new round
+//      $league_data = new LeagueData();
+//      $league_data->create_matches(Parameters::read_post_input('ignore_round_status'));
     }
 
     public static function delete_by_id($id)
