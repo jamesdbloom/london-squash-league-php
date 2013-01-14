@@ -16,7 +16,7 @@ class PlayerDAO extends DAO implements Mapper
     const status_column = 'STATUS';
 
 //     // 1: backup round table
-//     DROP TABLE PLAYER_BACKUP;
+//     DROP TABLE IF EXISTS PLAYER_BACKUP;
 //     CREATE TABLE PLAYER_BACKUP LIKE PLAYER;
 //     INSERT PLAYER_BACKUP SELECT * FROM PLAYER;
 //     // 2: add column and reference constraint

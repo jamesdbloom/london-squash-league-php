@@ -12,7 +12,7 @@ class RoundDAO extends DAO implements Mapper
     const end_column = 'END';
 
     // 1: backup round table
-//     DROP TABLE ROUND_BACKUP;
+//     DROP TABLE IF EXISTS ROUND_BACKUP;
 //     CREATE TABLE ROUND_BACKUP LIKE ROUND;
 //     INSERT ROUND_BACKUP SELECT * FROM ROUND;
     // 2: add column and reference constraint
@@ -20,7 +20,7 @@ class RoundDAO extends DAO implements Mapper
 //     ALTER TABLE ROUND ADD CONSTRAINT foreign_key_LEAGUE_ID FOREIGN KEY (LEAGUE_ID) REFERENCES LEAGUE(LEAGUE_ID);
 //     UPDATE ROUND SET ROUND.LEAGUE_ID = (SELECT DIVISION.LEAGUE_ID FROM DIVISION WHERE DIVISION.DIVISION_ID = ROUND.DIVISION_ID);
     // 3: copy new data to temp table
-//     DROP TABLE ROUND_NEW;
+//     DROP TABLE IF EXISTS ROUND_NEW;
 //     CREATE TABLE ROUND_NEW LIKE ROUND;
 //     ALTER TABLE ROUND_NEW ADD CONSTRAINT foreign_key_LEAGUE_ID FOREIGN KEY (LEAGUE_ID) REFERENCES LEAGUE(LEAGUE_ID) ON UPDATE CASCADE ON DELETE RESTRICT;
 //     ALTER TABLE ROUND_NEW ADD CONSTRAINT unique_LEAGUE_ID_START UNIQUE (LEAGUE_ID, START);
@@ -28,7 +28,7 @@ class RoundDAO extends DAO implements Mapper
 //     ALTER TABLE ROUND_NEW DROP COLUMN DIVISION_ID;
 //     INSERT ROUND_NEW (START,END,LEAGUE_ID) SELECT START,END,LEAGUE_ID from ROUND GROUP BY START,END,LEAGUE_ID ORDER BY START,LEAGUE_ID,END;
     // 4: map old id to new id
-//     DROP TABLE MATCHES_BACKUP;
+//     DROP TABLE IF EXISTS MATCHES_BACKUP;
 //     CREATE TABLE MATCHES_BACKUP LIKE MATCHES;
 //     INSERT MATCHES_BACKUP SELECT * FROM MATCHES;
 //     ALTER TABLE MATCHES DROP INDEX unique_PLAYER_ONE_ID_PLAYER_TWO_ID_ROUND_ID;
@@ -293,7 +293,7 @@ WHERE ROUND.START <= NOW() AND ROUND.END >= NOW() AND M.SCORE IS NOT NULL) SCORE
     {
         $query = "SELECT * FROM " . self::table_name . " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
-            ':' . self::id_column => $id,
+            ':' . self::id_column => self::sanitize_value($id),
         );
         return self::load_object($query, $parameters, new self(), 'load round by id ');
     }

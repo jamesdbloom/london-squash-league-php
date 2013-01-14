@@ -12,7 +12,7 @@ class DivisionDAO extends DAO implements Mapper
     const name_column = 'NAME';
 
 //     // 1: backup round table
-//     DROP TABLE DIVISION_BACKUP;
+//     DROP TABLE IF EXISTS DIVISION_BACKUP;
 //     CREATE TABLE DIVISION_BACKUP LIKE DIVISION;
 //     INSERT DIVISION_BACKUP SELECT * FROM DIVISION;
 //     // 2: add column and reference constraint
