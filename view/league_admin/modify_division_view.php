@@ -10,7 +10,7 @@ if (Session::is_administrator()) {
     $division = DivisionDAO::get_by_id($id);
 
     if (empty($division)) {
-        $GLOBALS['errors']->add('no_match', 'No league found with id ' . $id . '.');
+        $GLOBALS['errors']->add('no_match', 'No division found with id ' . $id . '.');
     }
 
     Page::header(Link::League_Admin_Modify_Division, array(), '', '', array(Link::get_link(Link::League_Admin_Modify_Division)));
@@ -25,8 +25,19 @@ if (Session::is_administrator()) {
         print "<p><label class='league_id' for='league_id'>League:</label>";
         if (count($leagueData->league_list) > 0) {
             print "<select name='league_id'>";
-            foreach ($leagueData->league_list as $league) {
-                print "<option " . ($league->id == $division->league_id ? Form::selected_string : '') . " value='" . $league->id . "''>$league->name</option>";
+            foreach ($leagueData->league_list as $round) {
+                print "<option " . ($round->id == $division->league_id ? Form::selected_string : '') . " value='" . $round->id . "''>$round->name</option>";
+            }
+            print "</select>";
+        } else {
+            print "&nbsp;";
+        }
+        print "</p>";
+        print "<p><label class='round_id' for='round_id'>Round:</label>";
+        if (count($leagueData->round_list) > 0) {
+            print "<select name='round_id'>";
+            foreach ($leagueData->round_list as $round) {
+                print "<option " . ($round->id == $division->round_id ? Form::selected_string : '') . " value='" . $round->id . "''>$round->name</option>";
             }
             print "</select>";
         } else {

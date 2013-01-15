@@ -105,10 +105,11 @@ if (Session::is_administrator()) {
     print_table_start('Players', 'action_table');
     print "<tr><th class='division'>Division</th><th class='name'>User</th><th class='status'>Status</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->player_list as $player) {
-        print_form(
+        print_form_with_modify(
             Link::root . Link::League_Admin_Delete_Controller_Url,
-            array('division', 'name', 'status'), array($leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false), $player->status),
-            array('player_id'), array($player->id)
+            array('division', 'name', 'status'), array($leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false, '', true), $player->status),
+            array('player_id'), array($player->id),
+            Link::League_Admin_Modify_Player_Url, $player->id
         );
         if($player->id > $number_of_players) {
            $number_of_players = $player->id;

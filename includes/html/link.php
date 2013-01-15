@@ -83,6 +83,9 @@ class Link
     #RewriteRule ^league_admin/modify_round?$ view/league_admin/modify_round_view.php [L]
     const League_Admin_Modify_Round_Url = 'league_admin/modify_round';
     const League_Admin_Modify_Round = "Modify Round";
+    #RewriteRule ^league_admin/modify_player?$ view/league_admin/modify_player_view.php [L]
+    const League_Admin_Modify_Player_Url = 'league_admin/modify_player';
+    const League_Admin_Modify_Player = "Modify Player";
     #RewriteRule ^league_admin/?$ view/league_admin/view.php [L]
     const League_Admin_Url = 'league_admin';
     const League_Admin = "Leagues";

@@ -46,6 +46,7 @@ class LeagueData extends AbstractData
         $this->player_by_user_id_map = $this->list_to_map($this->player_list, 'user_id');
         $this->player_by_status_map = $this->list_to_map($this->player_list, 'status');
         $this->matches_by_division_id = $this->list_to_map($this->match_list, 'division_id');
+        $this->matches_by_round_id = $this->list_to_map($this->match_list, 'round_id');
     }
 
     public function print_club_name($club_id)
@@ -139,6 +140,26 @@ class LeagueData extends AbstractData
         return $result;
     }
 
+    public function print_player_one_name($match_id)
+    {
+        $match = $this->match_map[$match_id];
+        $player_one = $this->player_map[$match->player_one_id];
+        if (!empty($match)) {
+            return self::print_user_name($player_one->id, false);
+        }
+        return '';
+    }
+
+    public function print_player_two_name($match_id)
+    {
+        $match = $this->match_map[$match_id];
+        $player_two = $this->player_map[$match->player_two_id];
+        if (!empty($match)) {
+            return self::print_user_name($player_two->id, false);
+        }
+        return '';
+    }
+
     public function print_opponents_mobile($match_id, $user_id)
     {
         $match = $this->match_map[$match_id];
@@ -156,58 +177,119 @@ class LeagueData extends AbstractData
         }
     }
 
+    public function calculate_ranking($round_id)
+    {
+        $player_scores = array();
+        $player_divisions = array();
+        foreach ($this->matches_by_round_id[$round_id] as $match) {
+            if (!empty($match->score)) {
+                $division = $this->division_map[$match->division_id]->name;
+                list($player_one_score, $player_two_score) = explode("-", $match->score);
+
+                if ($player_one_score > $player_two_score) {
+                    $player_one_match_points = 3 / $division + $player_one_score * 0.1;
+                    $player_two_match_points = 1 / $division + $player_two_score * 0.1;
+                } else if ($player_two_score > $player_one_score) {
+                    $player_one_match_points = 1 / $division + $player_one_score * 0.1;
+                    $player_two_match_points = 3 / $division + $player_two_score * 0.1;
+                } else {
+                    $player_one_match_points = 2 / $division + $player_one_score * 0.1;
+                    $player_two_match_points = 2 / $division + $player_two_score * 0.1;
+                }
+
+                if (!empty($player_scores[$match->player_one_id])) {
+                    $player_scores[$match->player_one_id] += $player_one_match_points;
+                } else {
+                    $player_scores[$match->player_one_id] = $player_one_match_points;
+                }
+                if (!empty($player_scores[$match->player_one_id])) {
+                    $player_scores[$match->player_two_id] += $player_two_match_points;
+                } else {
+                    $player_scores[$match->player_two_id] = $player_two_match_points;
+                }
+
+                $player_divisions[$match->player_one_id] = $match->division_id;
+                $player_divisions[$match->player_two_id] = $match->division_id;
+            }
+        }
+        arsort($player_scores);
+        reset($player_scores);
+        $highest_score = current($player_scores);
+        $rankings = array();
+        foreach ($player_scores as $player_id => $points) {
+            $player = $this->player_map[$player_id];
+            $user = $this->user_map[$player->user_id];
+            $division = $this->division_map[$player_divisions[$player_id]];
+            $league = $this->league_list[$player->league_id];
+
+            $rankings[] = new Ranking($player_id, $user->name, $user->email, $division->name, $league->name, $points, round(($points / $highest_score) * 100));
+        }
+
+        return $rankings;
+    }
+
     public function create_divisions_for_new_round($round_id)
     {
-        $round = $this->round_map[$round_id];
-        $rankings = RankingDAO::get_all_by_League($round->league_id);
-        $ranking_map = $this->list_to_map($rankings, 'player_id');
+        $new_round = $this->round_map[$round_id];
+        $previous_end_date = strtotime(' -1 day', strtotime(date('d-M-Y', $new_round->start)));
+        foreach ($this->round_list as $round) {
+            if ($round->league_id == $new_round->league_id && date('d-M-Y', $round->end) == date('d-M-Y', $previous_end_date)) {
+                $previous_round = $round;
+                break;
+            }
+        }
+        if (!empty($previous_round)) {
+            $rankings = $this->calculate_ranking($previous_round->id);
+            $ranking_map = $this->list_to_map($rankings, 'player_id');
 
-        $numOfPlayers = 0;
+            $numOfPlayers = 0;
 
-        $active_league_players = array();
-        foreach ($this->player_by_status_map[Player::active] as $active_player) {
-            $ranking = $ranking_map[$active_player->id];
-            if ($active_player->league_id == $round->league_id) {
-                $numOfPlayers++;
-                if (empty($ranking)) {
-                    $active_league_players[] = $active_player;
+            $active_league_players = array();
+            foreach ($this->player_by_status_map[Player::active] as $active_player) {
+                $ranking = $ranking_map[$active_player->id];
+                if ($active_player->league_id == $new_round->league_id) {
+                    $numOfPlayers++;
+                    if (empty($ranking)) {
+                        $active_league_players[] = $active_player;
+                    }
                 }
             }
-        }
 
-        $player_order = array();
-        foreach ($rankings as $ranking) {
-            $player_order[] = $this->player_map[$ranking->player_id];
-        }
-        foreach ($active_league_players as $active_player) {
-            $player_order[] = $active_player;
-        }
-
-        $divisions = array();
-        $divisionSizeCharacteristics = DivisionSizeCharacteristics::calculationDivisionSizeCharacteristics($numOfPlayers);
-        for ($division = 0; $division < $divisionSizeCharacteristics->noOfFullSizeDivisions; $division++) {
-            $divisions[] = array_splice($player_order, 0, $divisionSizeCharacteristics->divisionSize);
-        }
-        for ($division = 0; $division < $divisionSizeCharacteristics->noOfSmallerDivisions; $division++) {
-            $divisions[] = array_splice($player_order, 0, ($divisionSizeCharacteristics->divisionSize - 1));
-        }
-
-        foreach ($divisions as $index => $division_players) {
-            $division_id = DivisionDAO::create($round->league_id, $round_id, ($index + 1));
-            foreach ($division_players as $player) {
-                PlayerDAO::update_division_id($player->id, $division_id);
+            $player_order = array();
+            foreach ($rankings as $ranking) {
+                $player_order[] = $this->player_map[$ranking->player_id];
             }
-            foreach ($division_players as $player_one) {
-                foreach ($division_players as $player_two) {
-                    if ($this->not_the_same_player($player_one, $player_two)) {
-                        if ($this->no_match_already_exists($round, $player_one, $player_two)) {
-                            $this->match_list[] = MatchDAO::create($player_one->id, $player_two->id, $round->id, $division_id);
+            foreach ($active_league_players as $active_player) {
+                $player_order[] = $active_player;
+            }
+
+            $divisions = array();
+            $divisionSizeCharacteristics = DivisionSizeCharacteristics::calculationDivisionSizeCharacteristics($numOfPlayers);
+            for ($division = 0; $division < $divisionSizeCharacteristics->noOfFullSizeDivisions; $division++) {
+                $divisions[] = array_splice($player_order, 0, $divisionSizeCharacteristics->divisionSize);
+            }
+            for ($division = 0; $division < $divisionSizeCharacteristics->noOfSmallerDivisions; $division++) {
+                $divisions[] = array_splice($player_order, 0, ($divisionSizeCharacteristics->divisionSize - 1));
+            }
+
+            foreach ($divisions as $index => $division_players) {
+                $division_id = DivisionDAO::create($new_round->league_id, $round_id, ($index + 1));
+                foreach ($division_players as $player) {
+                    PlayerDAO::update_division_id($player->id, $division_id);
+                }
+                foreach ($division_players as $player_one) {
+                    foreach ($division_players as $player_two) {
+                        if ($this->not_the_same_player($player_one, $player_two)) {
+                            if ($this->no_match_already_exists($new_round, $player_one, $player_two)) {
+                                $this->match_list[] = MatchDAO::create($player_one->id, $player_two->id, $new_round->id, $division_id);
+                            }
                         }
                     }
                 }
             }
         }
     }
+
 // commented ability to create matches separately from creating a new round
 
 //    public function create_matches($ignore_round_status = false)

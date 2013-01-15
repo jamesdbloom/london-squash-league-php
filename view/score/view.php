@@ -25,7 +25,7 @@ if (!empty($user)) {
 
             if (!$GLOBALS['errors']->has_errors()) {
                 print "<h2 class='form_subtitle'><p class='enter_score_subtitle'>" . $leagueData->print_match_name($match_id, true, LeagueData::name_spacer . "</p><p class='enter_score_subtitle'>") . "</p></h2>";
-                print "<p class='message'>Please enter the score for your match <strong>" . $leagueData->print_match_name($match_id, false) . "</strong><br/><br/>Note: please use format x-x</p>";
+                print "<p class='message'>Please enter the score for your match <strong>" . $leagueData->print_match_name($match_id, false) . "</strong><br/><br/>Note: please use format x-y where x is the number of games won by " . $leagueData->print_player_one_name($match_id) . " and y is the number of games won by " . $leagueData->print_player_two_name($match_id) . "</p>";
                 print "<form method='post' action='" . Link::root . Link::Enter_Score_Controller_Url . "'><div class='delete_sessions_form'>";
                 print "<input type='hidden' name='" . Urls::redirect_to . "' value='" . Parameters::read_header('HTTP_REFERER', Link::root . Link::League_Url) . "'/>";
                 print "<input type='hidden' name='match_id' value='$match_id'/>";

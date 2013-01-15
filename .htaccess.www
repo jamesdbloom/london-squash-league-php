@@ -71,6 +71,7 @@ RewriteRule ^league_admin/modify_club?$ view/league_admin/modify_club_view.php [
 RewriteRule ^league_admin/modify_division?$ view/league_admin/modify_division_view.php [L]
 RewriteRule ^league_admin/modify_league?$ view/league_admin/modify_league_view.php [L]
 RewriteRule ^league_admin/modify_round?$ view/league_admin/modify_round_view.php [L]
+RewriteRule ^league_admin/modify_player?$ view/league_admin/modify_player_view.php [L]
 RewriteRule ^league_admin/delete_controller/?$ view/league_admin/delete_controller.php [L]
 
 RewriteRule ^login/?$ view/login/login.php [L]

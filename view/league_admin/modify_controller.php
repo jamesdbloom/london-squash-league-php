@@ -22,6 +22,7 @@ if ($type == 'division') {
     DivisionDAO::update(
         Parameters::read_post_input('id'),
         Parameters::read_post_input('league_id'),
+        Parameters::read_post_input('round_id'),
         Parameters::read_post_input('name')
     );
 }
@@ -31,6 +32,12 @@ if ($type == 'round') {
         Parameters::read_post_input('league_id'),
         Parameters::read_post_input('start'),
         Parameters::read_post_input('end')
+    );
+}
+if ($type == 'player') {
+    PlayerDAO::update_status_by_id(
+        Parameters::read_post_input('id'),
+        Parameters::read_post_input('status')
     );
 }
 
