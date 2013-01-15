@@ -13,6 +13,14 @@ class MatchDAO extends DAO implements Mapper
     const round_id_column = 'ROUND_ID';
     const division_id_column = 'DIVISION_ID';
     const score_column = 'SCORE';
+    const score_entered_date_column = 'SCORE_ENTERED_DATE';
+
+//    // 1: backup round table
+//     DROP TABLE IF EXISTS MATCHES_BACKUP;
+//     CREATE TABLE MATCHES_BACKUP LIKE MATCHES;
+//     INSERT MATCHES_BACKUP SELECT * FROM MATCHES;
+//    // 2: add column and reference constraint
+//     ALTER TABLE MATCHES ADD COLUMN SCORE_ENTERED_DATE DATETIME;
 
     public static function create_match_schema()
     {
@@ -27,6 +35,7 @@ class MatchDAO extends DAO implements Mapper
             self::round_id_column . " VARCHAR(25), " .
             self::division_id_column . " VARCHAR(25), " .
             self::score_column . " VARCHAR(25), " .
+            self::score_entered_date_column . " DATETIME, " .
             "CONSTRAINT foreign_key_" . self::player_one_id_column . " FOREIGN KEY (" . self::player_one_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
             "CONSTRAINT foreign_key_" . self::player_two_id_column . " FOREIGN KEY (" . self::player_two_id_column . ") REFERENCES " . UserDAO::table_name . "(" . UserDAO::id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
             "CONSTRAINT foreign_key_" . self::player_one_id_column . "_" . self::division_id_column . " FOREIGN KEY (" . self::player_one_id_column . ", " . self::division_id_column . ") REFERENCES " . PlayerDAO::table_name . "(" . PlayerDAO::user_id_column . ", " . PlayerDAO::division_id_column . ") ON UPDATE CASCADE ON DELETE RESTRICT, " .
@@ -131,9 +140,11 @@ class MatchDAO extends DAO implements Mapper
         $query =
             "UPDATE " . self::table_name .
                 " SET " . self::score_column . " = :" . self::score_column .
+                ", " . self::score_entered_date_column . " = :" . self::score_entered_date_column .
                 " WHERE " . self::id_column . " = :" . self::id_column;
         $parameters = array(
             ':' . self::score_column => $score,
+            ':' . self::score_entered_date_column => date('Y-m-d H:i:s'),
             ':' . self::id_column => $match_id,
         );
         self::insert_update_delete_create($query, $parameters, 'update player status by division id and user id ');
