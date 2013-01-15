@@ -62,8 +62,11 @@ class DivisionDAO extends DAO implements Mapper
         $query =
             "SELECT DISTINCT " . DivisionDAO::table_name . ".* " .
                 " FROM " . DivisionDAO::table_name .
-                " INNER JOIN " . PlayerDAO::table_name .
-                " ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::division_id_column .
+                " JOIN " . MatchDAO::table_name .
+                " ON " . DivisionDAO::table_name . "." . DivisionDAO::id_column . " = " . MatchDAO::table_name . "." . MatchDAO::division_id_column .
+                " JOIN " . PlayerDAO::table_name .
+                " ON " . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column .
+                " OR " . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column .
                 " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column .
                 ($ignore_player_status ? "" : " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' ");
         $parameters = array(

@@ -167,7 +167,8 @@ class MatchDAO extends DAO implements Mapper
             $match_row[self::player_two_id_column],
             $match_row[self::round_id_column],
             $match_row[self::division_id_column],
-            $match_row[self::score_column]
+            $match_row[self::score_column],
+            $match_row[self::score_entered_date_column]
         );
     }
 }

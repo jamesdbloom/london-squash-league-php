@@ -79,37 +79,42 @@ if (!empty($user)) {
 
         if (!$print_league) {
             // DIVISIONS
-            if (empty($league_id)) {
-                print "<h2 class='table_title'>Your Divisions</h2>";
+            if (count($divisions_in_league) > 0) {
+                if (empty($league_id)) {
+                    print "<h2 class='table_title'>Your Divisions</h2>";
+                } else {
+                    print "<h2 class='table_title'>" . $leagueData->print_league_name($league_id) . "</h2>";
+                }
+
+                print "<table>";
+                print "<tr><th class='league'>Club</th><th class='league'>League</th><th class='division'>Division</th></tr>";
+                print "<p class='table_message'>Click on a row to jump to the matches for that division</p>";
+                foreach ($divisions_in_league as $division) {
+                    $league = $leagueData->league_map[$division->league_id];
+                    print_table_row(
+                        array('club', 'league', 'division'),
+                        array(
+                            "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $leagueData->club_map[$league->club_id]->name . "</a>",
+                            "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $league->name . "</a>",
+                            "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $division->name . "</a>"
+                        ), "td", 'small_screen'
+                    );
+                }
+                foreach ($divisions_in_league as $division) {
+                    $league = $leagueData->league_map[$division->league_id];
+                    print_table_row(
+                        array('club', 'league', 'division'),
+                        array(
+                            "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $leagueData->club_map[$league->club_id]->name . "</a>",
+                            "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $league->name . "</a>",
+                            "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $division->name . "</a>"
+                        ), "td", 'large_screen'
+                    );
+                }
+                print "</table>";
             } else {
-                print "<h2 class='table_title'>" . $leagueData->print_league_name($league_id) . "</h2>";
+                print "<div class='message'>No divisions available</div>";
             }
-            print "<table>";
-            print "<tr><th class='league'>Club</th><th class='league'>League</th><th class='division'>Division</th></tr>";
-            print "<p class='table_message'>Click on a row to jump to the matches for that division</p>";
-            foreach ($divisions_in_league as $division) {
-                $league = $leagueData->league_map[$division->league_id];
-                print_table_row(
-                    array('club', 'league', 'division'),
-                    array(
-                        "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $leagueData->club_map[$league->club_id]->name . "</a>",
-                        "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $league->name . "</a>",
-                        "<a class='league_internal_page_link' href='#" . $division->id . "_small' >" . $division->name . "</a>"
-                    ), "td", 'small_screen'
-                );
-            }
-            foreach ($divisions_in_league as $division) {
-                $league = $leagueData->league_map[$division->league_id];
-                print_table_row(
-                    array('club', 'league', 'division'),
-                    array(
-                        "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $leagueData->club_map[$league->club_id]->name . "</a>",
-                        "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $league->name . "</a>",
-                        "<a class='league_internal_page_link' href='#" . $division->id . "_large' >" . $division->name . "</a>"
-                    ), "td", 'large_screen'
-                );
-            }
-            print "</table>";
         }
 
         // MATCHES
@@ -127,7 +132,13 @@ if (!empty($user)) {
                 // small screen - start
                 print_table_start($leagueData->print_division_name($division->id), 'small_screen', 'table_message small_screen', $division->id . "_small");
                 print "<tr><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
-                foreach ($matches_by_division_id[$division->id] as $match) {
+                if(is_array($matches_by_division_id[$division->id])) {
+                    $matches = $matches_by_division_id[$division->id];
+                } else {
+                    $matches = array();
+                    $matches[] = $matches_by_division_id[$division->id];
+                }
+                foreach ($matches as $match) {
                     $score = $match->score;
                     if (empty($score)
                         && $leagueData->user_is_player_in_match($user->id, $match->id)
