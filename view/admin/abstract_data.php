@@ -13,6 +13,7 @@ abstract class AbstractData
                 $value_array = array();
                 $value_array[] = $map[$list_item->$field];
                 $map[$list_item->$field] = $value_array;
+                $map[$list_item->$field][] = $list_item;
             }
         }
         return $map;

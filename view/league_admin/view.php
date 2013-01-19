@@ -152,14 +152,14 @@ if (Session::is_administrator()) {
         foreach ($leagueData->divisions_in_round($round_table->id) as $division) {
             print_table_start($leagueData->print_division_name($division->id), 'action_table', 'table_subtitle');
             print "<tr><th class='round'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th><th class='score_entered hide_on_medium_screen'>Score Entered</th><th class='button_column last'></th></tr>";
-            foreach ($leagueData->match_list as $match) {
-                if ($match->round_id == $round_table->id) {
+            foreach ($leagueData->matches_by_division_id[$division->id] as $match) {
+//                if ($match->round_id == $round_table->id) {
                     print_form(
                         Link::root . Link::League_Admin_Delete_Controller_Url,
                         array('round', 'player', 'player', 'score', 'score_entered hide_on_medium_screen'), array($leagueData->print_round_name($match->round_id, false), $leagueData->print_user_name($match->player_one_id, false), $leagueData->print_user_name($match->player_two_id, false), $match->score, $match->score_entered_date),
                         array('match_id'), array($match->id)
                     );
-                }
+//                }
             }
             print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'match');
             print "<tr><td class='round last'>";
