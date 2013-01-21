@@ -66,6 +66,7 @@ if (!empty($user)) {
                 print "<div class='standalone_link'><a href='" . Link::root . Link::League_Url . "?" . (!empty($league_id) ? "league_id=$league_id&" : "") . ($print_league ? 'print=true&' : '') . "finished=true'>Show finished rounds</a></div>";
             }
         }
+        print "<div class='standalone_link'><a href='" . Link::root . Link::Account_Url . "#matches'>Contact your opponents</a></div>";
     }
 
     // MATCHES
@@ -73,8 +74,15 @@ if (!empty($user)) {
     $start_date = '';
     $end_date = '';
 
+    $first_round = true;
+
     $matches_by_division_id = $leagueData->matches_by_division_id;
     foreach ($rounds as $round) {
+        if(!$first_round) {
+            print "<div class='page_break'></div>";
+            $first_round = false;
+        }
+
         $divisions_in_league = (empty($league_id) ? $leagueData->divisions_in_round($round->id, $division_list) : $leagueData->divisions_in_round($round->id));
 
         if (!$print_league) {
@@ -117,6 +125,8 @@ if (!empty($user)) {
             }
         }
 
+        $page_break_counter = 0;
+
         // MATCHES
         foreach ($divisions_in_league as $division) {
 
@@ -127,6 +137,9 @@ if (!empty($user)) {
                     print "<p class='table_subtitle'>" . $round->name . "</p>";
                     $start_date = $round->start;
                     $end_date = $round->end;
+                }
+                if($page_break_counter++ > 3) {
+                    print "<div class='page_break'></div>";
                 }
 
                 // small screen - start

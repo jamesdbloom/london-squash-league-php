@@ -30,7 +30,6 @@ body {
 }
 
 .table_message {
-    page-break-before: always;
     font-size: 1em;
 }
 
@@ -39,5 +38,13 @@ body {
 }
 
 #footer p {
+    display: none;
+}
+
+.page_break {
+    page-break-before: always;
+}
+
+.no_print {
     display: none;
 }

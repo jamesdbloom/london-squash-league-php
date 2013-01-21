@@ -63,7 +63,7 @@ if (!empty($user)) {
     // MATCHES
     $opponent_email_list = array();
 
-    print_table_start('Your Matches');
+    print_table_start('Your Matches', '', 'table_title', 'matches');
     print "<tr><th class='division'>Division</th><th class='round hide_on_small_screen'>Round</th><th class='player'>Player One</th><th class='player'>Player Two</th><th class='score'>Score</th></tr>";
     foreach ($accountData->user_match_list as $match) {
         $round = $accountData->round_map[$match->round_id];

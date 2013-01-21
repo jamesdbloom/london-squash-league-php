@@ -18,14 +18,14 @@ if (!empty($user)) {
     foreach (RoundDAO::get_all() as $round) {
         $league = LeagueDAO::get_by_id($round->league_id);
         if ($league_name != $league->name) {
+            print "<div class='page_break'></div>";
             $league_name = $league->name;
             print "<h2 class='table_subtitle'>" . ClubDAO::get_by_id($league->club_id)->name . " &rsaquo; " . $league->name . "</h2>";
         }
 
-        print "<p class='table_message'>" . $round->name . "</p>";
-
         $rankings = $leagueData->calculate_ranking($round->id);
         if (!empty($rankings)) {
+            print "<p class='table_message'>" . $round->name . "</p>";
             print "<table>";
             print "<tr><th class='player'>Player</th><th class='division'>Current Division</th><th class='score'>Points</th></tr>";
             foreach ($rankings as $ranking) {
@@ -33,6 +33,7 @@ if (!empty($user)) {
             }
             print "</table>";
         } else {
+            print "<p class='table_message no_print'>" . $round->name . "</p>";
             print "<p class='message'>no scores entered for this round yet</p>";
         }
     }
