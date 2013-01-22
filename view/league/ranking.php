@@ -5,7 +5,6 @@ $user = Session::get_user(true);
 
 if (!empty($user)) {
 
-    load::load_file('domain/ranking', 'rankingDAO.php');
     load::load_file('domain/round', 'roundDAO.php');
     load::load_file('domain/league', 'leagueDAO.php');
     load::load_file('domain/club', 'clubDAO.php');
