@@ -102,12 +102,10 @@ class PlayerDAO extends DAO implements Mapper
     {
         $query = "INSERT INTO " . self::table_name . "(" .
             self::user_id_column . "," .
-            self::division_id_column . "," .
             self::league_id_column . ", " .
             self::status_column .
             ") VALUES (" .
             ":" . self::user_id_column . "," .
-            ":" . self::division_id_column . "," .
             ":" . self::league_id_column . "," .
             ":" . self::status_column .
             ")";

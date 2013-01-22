@@ -14,7 +14,7 @@ if (Session::is_administrator()) {
     foreach ($userData->user_list as $user) {
         print_form(
             Link::root . Link::User_Admin_Delete_Controller_Url,
-            array('name', 'email hide_on_very_small_screen', 'mobile row_end_before_hidden_medium_screen', 'mobile_privacy hide_on_medium_screen'), array($user->name, $user->email, "<a href='tel:$user->mobile'>$user->mobile<a/>", User::get_mobile_privacy_text($user->mobile_privacy)),
+            array('name', 'email hide_on_very_small_screen', 'mobile row_end_before_hidden_medium_screen', 'mobile_privacy hide_on_medium_screen'), array("<a href='" . Link::root . Link::Account_Url . "?user_id=" . "$user->id'>$user->name<a/>", $user->email, $user->mobile, User::get_mobile_privacy_text($user->mobile_privacy)),
             array('user_id'), array($user->id)
         );
     }

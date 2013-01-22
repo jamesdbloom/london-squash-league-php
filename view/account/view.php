@@ -1,7 +1,12 @@
 <?php
 require_once('../../load.php');
 
-$user = Session::get_user(true);
+$user_id = Parameters::read_request_input('user_id');
+if (Session::is_administrator() && !empty($user_id)) {
+    $user = UserDAO::get_by_id($user_id);
+} else {
+    $user = Session::get_user(true);
+}
 
 if (!empty($user)) {
 
@@ -20,8 +25,10 @@ if (!empty($user)) {
     );
     print_form_table_end();
 
-    print "<div class='standalone_link'>" . Link::get_link(Link::Update_Password) . "</div>";
-    print "<div class='standalone_link'>" . Link::get_link(Link::Update_User) . "</div>";
+    if (empty($user_id)) {
+        print "<div class='standalone_link'>" . Link::get_link(Link::Update_Password) . "</div>";
+        print "<div class='standalone_link'>" . Link::get_link(Link::Update_User) . "</div>";
+    }
 
     // DIVISIONS
     $unregistered_divisions = $accountData->unregistered_leagues();

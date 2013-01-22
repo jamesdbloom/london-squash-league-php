@@ -154,9 +154,9 @@ class UserDAO extends DAO implements Mapper
     }
 
 
-    public static function update($name, $email, $mobile, $mobile_privacy)
+    public static function update($existing_email, $name, $new_email, $mobile, $mobile_privacy)
     {
-        $existing_user = self::get_by_email($email);
+        $existing_user = self::get_by_email($existing_email);
         $query = "UPDATE " . self::table_name .
             " SET " . self::name_column . " = :" . self::name_column . ", " .
             self::email_column . " = :" . self::email_column . ", " .
@@ -166,7 +166,7 @@ class UserDAO extends DAO implements Mapper
         $parameters = array(
             ':' . self::id_column => $existing_user->id,
             ':' . self::name_column => self::sanitize_value($name),
-            ':' . self::email_column => self::sanitize_email($email),
+            ':' . self::email_column => self::sanitize_email($new_email),
             ':' . self::mobile_column => self::sanitize_value($mobile),
             ':' . self::mobile_privacy_column => self::sanitize_value($mobile_privacy),
         );

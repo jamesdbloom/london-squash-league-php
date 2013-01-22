@@ -35,7 +35,7 @@ if (!empty($user)) {
         }
 
         if (!$GLOBALS['errors']->has_errors()) {
-            $user = UserDAO::update($human_name, $email, $mobile, $mobile_privacy);
+            $user = UserDAO::update($user->email, $human_name, $email, $mobile, $mobile_privacy);
             if (empty($user)) {
                 $GLOBALS['errors']->add('registration_failure', sprintf('Couldn&#8217;t update user details... please contact <a href="mailto:%s">%s</a>', Urls::webmaster_email(), Urls::webmaster_email()));
             }
@@ -60,7 +60,7 @@ if (!empty($user)) {
 
         <p>
             <label class='email' for='email'>Email:</label>
-            <input id='email' class='show_validation' type='email' name='email' readonly="readonly" value='<?php echo Form::escape_and_sanitize_field_value($email); ?>' autocorrect=”off” autocapitalize=”off” autocomplete=”off” required='required'
+            <input id='email' class='show_validation' type='email' name='email' value='<?php echo Form::escape_and_sanitize_field_value($email); ?>' autocorrect=”off” autocapitalize=”off” autocomplete=”off” required='required'
                    pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" tabindex='20'/>
 
         </p>
