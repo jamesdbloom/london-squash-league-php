@@ -25,11 +25,20 @@ if (Form::is_post()) {
     }
     if (!empty($new_password) && $new_password != $password_check) {
         $GLOBALS['errors']->add('password_reset_mismatch', 'The passwords do not match.');
+    } else if (!empty($user)) {
+        if (!InputValidation::is_valid_password($new_password)) {
+            $GLOBALS['errors']->add('invalid_email', 'The password does not match the required format, the password should be at least seven characters long, include at least one symbol (i.e. ! " ? $ % ^ &) and at least one digit');
+        } else {
+            UserDAO::update_password($user->email, $new_password);
+        }
+
+        $message = 'Password Lost and Changed for user: ' . $email . '\r\n';
+        Email::send_email(Urls::webmaster_email(), PageSearchTerms::site_title . ' Password Lost/Changed', $message);
     } else {
         $user = UserDAO::get_by_email_and_password($email, $existing_password);
         if (empty($user)) {
             $GLOBALS['errors']->add('existing_password_incorrect', 'Your existing password is incorrect');
-        } elseif (!InputValidation::is_valid_password($new_password)) {
+        } else if (!InputValidation::is_valid_password($new_password)) {
             $GLOBALS['errors']->add('invalid_email', 'The password does not match the required format, the password should be at least seven characters long, include at least one symbol (i.e. ! " ? $ % ^ &) and at least one digit');
         } else {
             UserDAO::update_password($user->email, $new_password);
@@ -59,11 +68,16 @@ if (!empty($key) && !empty($email)) {
     <input type="hidden" name="email" value="<?php echo Form::escape_and_sanitize_field_value(Parameters::read_post_input('email')); ?>"/>
 
     <div class="reset_password_form">
+
+        <?php if (empty($key)) { ?>
         <p>
             <label class='password' for="existing_password">Existing Password:</label>
             <input id="existing_password" type="password" name="existing_password" autocorrect=”off” autocapitalize=”off” autocomplete=”off” required="required"
                    value="" tabindex="10"/>
         </p>
+        <?php } else { ?>
+        <input type="hidden" name="key" value="<?php echo $key; ?>"/>
+        <?php } ?>
 
         <p>
             <label class='password' for="new_password">New Password:</label>

@@ -10,7 +10,7 @@ class Session
     public $last_activity_date;
 
     const uuid_length = 35; // > 11 + 33
-    const uuid_hash_length = 40;
+    const uuid_hash_length = 112;
     const SSO_ID_COOKIE_NAME = "secure_cookie";
 
     const active = 'active';
@@ -59,9 +59,9 @@ class Session
         return $uuid;
     }
 
-    public static function generate_hash($user_id, $uuid)
+    public static function generate_hash($input, $uuid)
     {
-        $seed = RANDOM_SEED + $user_id;
+        $seed = RANDOM_SEED . $input;
         $uuid_hash = md5($uuid . $seed);
         $uuid_hash .= sha1($uuid_hash);
         $uuid_hash .= sha1($uuid_hash . $seed);

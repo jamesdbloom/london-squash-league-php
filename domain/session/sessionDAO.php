@@ -19,7 +19,7 @@ class SessionDAO extends DAO implements Mapper
         self::insert_update_delete_create($query, $parameters, 'remove table ');
 
         $query = "CREATE TABLE " . self::table_name . " (" .
-            self::id_column . " VARCHAR(128) NOT NULL PRIMARY KEY, " .
+            self::id_column . " VARCHAR(250) NOT NULL PRIMARY KEY, " .
             self::user_id_column . " INT NOT NULL, " .
             self::status_column . " VARCHAR(12), " .
             self::created_date_column . " DATETIME, " .

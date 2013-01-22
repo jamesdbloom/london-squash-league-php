@@ -61,6 +61,10 @@ if (Form::is_post()) {
 }
 
 Page::header(Link::Login);
+$message = Parameters::read_request_input(LoginViewHelper::message);
+if (empty($message)) {
+    print "<br/><div class='errors_messages'>To improve security I have had to refactor the login code, as a result you will need to reset your password please follow this <a href='https://www.london-squash-league.com/retrieve_password'>link to reset your password</a><br/></div>";
+}
 load::include_file('view/login', 'login_form.php');
 Page::footer();
 ?>

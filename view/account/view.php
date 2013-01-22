@@ -30,21 +30,25 @@ if (!empty($user)) {
     }
 
     // LEAGUES
-    $unregistered_divisions = $accountData->unregistered_leagues();
+    $registered_leagues = array();
     print_table_start('Leagues', 'action_table', 'table_title', 'divisions');
     print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='status hide_on_very_small_screen'>Status</th><th class='division_unqualified'>Division</th><th class='button_column last'></th></tr>";
-    foreach ($accountData->user_division_list_ignore_player_status as $division) {
-        $league = $accountData->league_map[$division->league_id];
-        $player = $accountData->user_division_to_player_map[$division->id];
-        print_form(
-            Link::Account_Division_Controller_Url,
-            array('club', 'league_unqualified', 'status hide_on_very_small_screen', 'division_unqualified'),
-            array($accountData->print_club_name($league->club_id), $league->name, $player->status, $division->name),
-            array('division_id', 'user_id'),
-            array($division->id, $user->id),
-            ($player->status == Player::active ? 'unregister' : 're-register')
-        );
+    foreach ($accountData->user_player_list as $player) {
+        $league = $accountData->league_map[$player->league_id];
+        $division = $accountData->division_map[$player->division_id];
+        if (!empty($league)) {
+            print_form(
+                Link::Account_Division_Controller_Url . (!empty($user_id) ? '?user_id=' . $user_id : ''),
+                array('club', 'league_unqualified', 'status hide_on_very_small_screen', 'division_unqualified'),
+                array($accountData->print_club_name($league->club_id), $league->name, $player->status, $division->name),
+                array('player_id'),
+                array($player->id),
+                ($player->status == Player::active ? 'unregister' : 're-register')
+            );
+            $registered_leagues[] = $league;
+        }
     }
+    $unregistered_divisions = array_diff($accountData->league_list, $registered_leagues);
     print_create_form_start(Link::root . Link::Account_Create_Controller_Url, 'player');
     print "<input name='user_id' type='hidden' value='" . $user->id . "'>";
     if (count($unregistered_divisions) > 0) {

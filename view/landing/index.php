@@ -26,6 +26,7 @@ if (!empty($user)) {
     print "<li>" . Link::get_link(Link::Register, false, "1. " . Link::Register) . "</li>";
     print "<li>" . Link::get_link(Link::Join_A_League, false, "2. " . Link::Join_A_League) . "</li>";
     print "</ol>";
+    print "<br/><div class='errors_messages'>To improve security I have had to refactor the login code, as a result you will need to reset your password please follow this <a href='https://www.london-squash-league.com/retrieve_password'>link to reset your password</a><br/></div>";
     load::include_file('view/login', 'login_form.php');
 }
 Page::footer();

@@ -28,15 +28,20 @@ class AccountData extends LeagueData
     public function __construct()
     {
         parent::__construct();
-        $this->user = Session::get_user();
+        $user_id = Parameters::read_request_input('user_id');
+        if (Session::is_administrator() && !empty($user_id)) {
+            $this->user = UserDAO::get_by_id($user_id);
+        } else {
+            $this->user = Session::get_user();
+        }
         if (!empty($this->user)) {
             $user_id = $this->user->id;
             $this->user_club_list = ClubDAO::get_all_by_user_id($user_id);
             $this->user_league_list = LeagueDAO::get_all_by_user_id($user_id);
-            $this->user_league_list_ignore_player_status = LeagueDAO::get_all_by_user_id($user_id, true);
+            $this->user_league_list_ignore_player_status = LeagueDAO::get_all_by_user_id($user_id, true, true);
             $this->user_division_list = DivisionDAO::get_all_by_user_id($user_id);
             $this->user_division_list_ignore_round_status = DivisionDAO::get_all_by_user_id($user_id, false, true);
-            $this->user_division_list_ignore_player_status = DivisionDAO::get_all_by_user_id($user_id, true);
+            $this->user_division_list_ignore_player_status = DivisionDAO::get_all_by_user_id($user_id, true, true);
             $this->user_round_list = RoundDAO::get_all_by_user_id($user_id);
             $this->user_match_list = MatchDAO::get_all_by_user_id($user_id);
             $this->user_player_list = PlayerDAO::get_all_by_user_id($user_id);
