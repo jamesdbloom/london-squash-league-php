@@ -15,9 +15,8 @@ if (!empty($user)) {
 
     $accountData = new AccountData();
     Page::header(Link::Account, array(), $accountData->user->name, '', array(Link::get_link(Link::Update_Password), Link::get_link(Link::Update_User)));
-
     // USERS
-    print_table_start('User');
+    print_table_start('Your Details');
     print "<tr><th class='name'>Name</th><th class='email'>Email</th><th class='mobile row_end_before_hidden_small_screen'>Mobile</th><th class='mobile_privacy hide_on_small_screen'>Mobile Privacy</th></tr>";
     print_table_row(
         array('name', 'email', 'mobile row_end_before_hidden_small_screen', 'mobile_privacy hide_on_small_screen'),
@@ -30,9 +29,9 @@ if (!empty($user)) {
         print "<div class='standalone_link'>" . Link::get_link(Link::Update_User) . "</div>";
     }
 
-    // DIVISIONS
+    // LEAGUES
     $unregistered_divisions = $accountData->unregistered_leagues();
-    print_table_start('Divisions', 'action_table', 'table_title', 'divisions');
+    print_table_start('Leagues', 'action_table', 'table_title', 'divisions');
     print "<tr><th class='club'>Club</th><th class='league_unqualified'>League</th><th class='status hide_on_very_small_screen'>Status</th><th class='division_unqualified'>Division</th><th class='button_column last'></th></tr>";
     foreach ($accountData->user_division_list_ignore_player_status as $division) {
         $league = $accountData->league_map[$division->league_id];

@@ -57,7 +57,7 @@ class DivisionDAO extends DAO implements Mapper
         return self::load_all_objects($query, $parameters, new self(), 'load list of divisions ');
     }
 
-    public static function get_all_by_user_id($user_id, $ignore_player_status = false)
+    public static function get_all_by_user_id($user_id, $ignore_player_status = false, $ignore_round_status = false)
     {
         $query =
             "SELECT DISTINCT " . DivisionDAO::table_name . ".* " .
@@ -67,7 +67,10 @@ class DivisionDAO extends DAO implements Mapper
                 " JOIN " . PlayerDAO::table_name .
                 " ON " . MatchDAO::table_name . "." . MatchDAO::player_one_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column .
                 " OR " . MatchDAO::table_name . "." . MatchDAO::player_two_id_column . " = " . PlayerDAO::table_name . "." . PlayerDAO::id_column .
+                " JOIN " . RoundDAO::table_name .
+                " ON " . DivisionDAO::table_name . "." . DivisionDAO::round_id_column . " = " . RoundDAO::table_name . "." . RoundDAO::id_column .
                 " WHERE " . PlayerDAO::table_name . "." . PlayerDAO::user_id_column . " = :" . PlayerDAO::user_id_column .
+                ($ignore_round_status ? "" : " AND " . RoundDAO::table_name . "." . RoundDAO::start_column . " <= CURDATE() AND " . RoundDAO::table_name . "." . RoundDAO::end_column . " >= CURDATE()");
                 ($ignore_player_status ? "" : " AND " . PlayerDAO::table_name . "." . PlayerDAO::status_column . " <> '" . Player::inactive . "' ");
         $parameters = array(
             ':' . PlayerDAO::user_id_column => self::sanitize_value($user_id),

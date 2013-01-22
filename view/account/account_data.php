@@ -10,6 +10,7 @@ class AccountData extends LeagueData
     public $user_league_list;
     public $user_league_list_ignore_player_status;
     public $user_division_list;
+    public $user_division_list_ignore_round_status;
     public $user_division_list_ignore_player_status;
     public $user_round_list;
     public $user_match_list;
@@ -34,6 +35,7 @@ class AccountData extends LeagueData
             $this->user_league_list = LeagueDAO::get_all_by_user_id($user_id);
             $this->user_league_list_ignore_player_status = LeagueDAO::get_all_by_user_id($user_id, true);
             $this->user_division_list = DivisionDAO::get_all_by_user_id($user_id);
+            $this->user_division_list_ignore_round_status = DivisionDAO::get_all_by_user_id($user_id, false, true);
             $this->user_division_list_ignore_player_status = DivisionDAO::get_all_by_user_id($user_id, true);
             $this->user_round_list = RoundDAO::get_all_by_user_id($user_id);
             $this->user_match_list = MatchDAO::get_all_by_user_id($user_id);
