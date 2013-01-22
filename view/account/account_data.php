@@ -33,7 +33,7 @@ class AccountData extends LeagueData
             $this->user_club_list = ClubDAO::get_all_by_user_id($user_id);
             $this->user_league_list = LeagueDAO::get_all_by_user_id($user_id);
             $this->user_league_list_ignore_player_status = LeagueDAO::get_all_by_user_id($user_id, true);
-            $this->user_division_list = DivisionDAO::get_all_by_user_id($user_id, true);
+            $this->user_division_list = DivisionDAO::get_all_by_user_id($user_id);
             $this->user_division_list_ignore_player_status = DivisionDAO::get_all_by_user_id($user_id, true);
             $this->user_round_list = RoundDAO::get_all_by_user_id($user_id);
             $this->user_match_list = MatchDAO::get_all_by_user_id($user_id);
