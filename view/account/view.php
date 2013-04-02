@@ -96,6 +96,7 @@ if (!empty($user)) {
                 $score
             )
         );
+
         $opponent_email = $accountData->get_opponent_email($match->player_one_id, $match->player_two_id, $user->id);
         $opponent_email_list[$opponent_email] = $opponent_email;
     }

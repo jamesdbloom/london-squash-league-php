@@ -119,10 +119,11 @@ class LeagueData extends AbstractData
     public function get_opponent_email($player_one_id, $player_two_id, $user_id)
     {
         $email = null;
-        if ($player_one_id != $user_id) {
-            $email = $this->user_map[$player_one_id]->email;
-        } else if ($player_two_id != $user_id) {
-            $email = $this->user_map[$player_two_id]->email;
+        $current_user_player_id = $this->player_by_user_id_map[$user_id]->id;
+        if ($player_one_id != $current_user_player_id) {
+            $email = $this->user_map[$this->player_map[$player_one_id]->user_id]->email;
+        } else if ($player_two_id != $current_user_player_id) {
+            $email = $this->user_map[$this->player_map[$player_two_id]->user_id]->email;
         }
         return $email;
     }
