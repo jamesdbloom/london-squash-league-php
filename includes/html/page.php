@@ -20,6 +20,7 @@ class Page
             print "<link rel='stylesheet' type='text/css' media='all' href='$css_url'>";
         }
         print "<link rel='stylesheet' type='text/css' media='print' href='view/print.css' />";
+        print "<link rel='canonical' href='" . Urls::get_current_url_non_beta() . "'/>";
         print "<title>" . PageSearchTerms::site_title . " &rsaquo; $title</title>";
         print "</head>";
         print "<body>";
@@ -42,6 +43,24 @@ class Page
         print "</div>"; // section
         print "</div>"; // main_content
         print "<div id='footer'><p><a href='http://blog.jamesdbloom.com/'>© 2012 James D Bloom</a></p></div>";
+        print "<div style='display: none'>";
+        print "    <a href='http://blog.jamesdbloom.com/JVMInternals.html'><p>JVM Internals</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/TestingWebPagesInProcess.html'><p>Testing Web Pages In Process</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/JSAndCSSMinificationWithWRO4J.html'><p>JS and CSS Minification With WRO4J</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/UsingPropertySourceAndEnvironment.html'><p>Using PropertySource & Environment</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/ReducingAndMinifyingRequests.html'><p>Reducing & Minifying Requests</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/HighPerformanceMobileWebsites.html'><p>High Performance Mobile Websites</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/MobileStrategy.html'><p>Mobile Strategy</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/AvoidJavaScriptForMobileWeb.html'><p>Avoid JavaScript for Mobile Web</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/WhyDoesWebPerformanceMatter.html'><p>Why Does Web Performance Matter?</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/MobileWebBestPractices.html'><p>Mobile Web Best Practices</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/HowToFloatCorrectly.html'><p>How To Float Correctly</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/WhyUseApplicationCache.html'><p>Why use Application Cache?</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/HowToUseApplicationCache.html'><p>How to use Application Cache?</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/TipsForUsingApplicationCache.html'><p>Tips using Application Cache?</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/ProblemsWithApplicationCache.html'><p>Problems with Application Cache?</p></a>";
+        print "    <a href='http://blog.jamesdbloom.com/JavaScriptAndApplicationCache.html'><p>JavaScript and Application Cache?</p></a>";
+        print "</div>";
         print "</div>"; // container
         ?>
     <!-- google analytics start -->

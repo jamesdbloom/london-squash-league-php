@@ -55,6 +55,11 @@ class Urls
         return self::get_root_url() . self::get_current_path();
     }
 
+    public static function get_current_url_non_beta()
+    {
+        return str_replace("beta", "www", self::get_current_url());
+    }
+
     public static function get_current_path()
     {
         return $_SERVER['REQUEST_URI'];
