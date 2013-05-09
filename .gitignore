@@ -39,3 +39,9 @@ Thumbs.db
 # JetBrains config files #
 ##########################
 .idea
+
+# Project Security #
+####################
+config.php.tmp
+config.www.tmp
+db143442_*.sql
