@@ -42,6 +42,6 @@ Thumbs.db
 
 # Project Security #
 ####################
-config.php.tmp
-config.www.tmp
+config.php
+config.www
 db143442_*.sql
