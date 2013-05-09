@@ -11,33 +11,33 @@ if (Session::is_administrator()) {
 
     // CLUBS
     print_table_start('Clubs', 'action_table');
-    print "<tr><th class='club'>Name</th><th class='address'>Address</th><th class='button_column last'></th></tr>";
+    print "<tr><th class='db_id'>Id</th><th class='club'>Name</th><th class='address'>Address</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->club_list as $club) {
         print_form_with_modify(
             Link::root . Link::League_Admin_Delete_Controller_Url,
-            array('club', 'address'), array($club->name, $club->address),
+            array('db_id', 'club', 'address'), array($club->id, $club->name, $club->address),
             array('club_id'), array($club->id),
             Link::League_Admin_Modify_Club_Url, $club->id
         );
 
     }
     print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'club');
-    print "<tr class='create_row'><td class='club last'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address last'><input name='address' type='text' pattern='.{10,125}'></td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
+    print "<tr class='create_row'><td class='db_id last'></td><td class='club last'><input class='show_validation' name='name' type='text' pattern='.{3,25}' required='required'></td><td class='address last'><input name='address' type='text' pattern='.{10,125}'></td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
     print_form_table_end();
 
     // LEAGUES
     print_table_start('Leagues', 'action_table');
-    print "<tr><th class='club'>Club</th><th class='league'>League</th><th class='button_column last'></th></tr>";
+    print "<tr><th class='db_id'>Id</th><th class='club'>Club</th><th class='league'>League</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->league_list as $league) {
         print_form_with_modify(
             Link::root . Link::League_Admin_Delete_Controller_Url,
-            array('club', 'league'), array($leagueData->print_club_name($league->club_id), $league->name),
+            array('db_id', 'club', 'league'), array($league->id, $leagueData->print_club_name($league->club_id), $league->name),
             array('league_id'), array($league->id),
             Link::League_Admin_Modify_League_Url, $league->id
         );
     }
     print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'league');
-    print "<tr class='create_row'><td class='club last'>";
+    print "<tr class='create_row'><td class='db_id last'></td><td class='club last'>";
     if (count($leagueData->club_list) > 0) {
         print "<select name='club_id'>";
         foreach ($leagueData->club_list as $club) {
@@ -52,11 +52,11 @@ if (Session::is_administrator()) {
 
     // ROUNDS
     print_table_start('Rounds', 'action_table');
-    print "<tr><th class='division'>League</th><th class='status hide_on_small_screen'>Status</th><th class='date'>Start</th><th class='date'>End</th><th class='button_column last'></th></tr>";
+    print "<tr><th class='db_id'>Id</th><th class='division'>League</th><th class='status hide_on_small_screen'>Status</th><th class='date'>Start</th><th class='date'>End</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->round_list as $round) {
         print_form_with_modify(
             Link::root . Link::League_Admin_Delete_Controller_Url,
-            array('division', 'status hide_on_small_screen', 'date', 'date'), array($leagueData->print_league_name($round->league_id), $round->status, date('d-M-Y', $round->start), date('d-M-Y', $round->end)),
+            array('db_id', 'division', 'status hide_on_small_screen', 'date', 'date'), array($round->id, $leagueData->print_league_name($round->league_id), $round->status, date('d-M-Y', $round->start), date('d-M-Y', $round->end)),
             array('round_id'), array($round->id),
             Link::League_Admin_Modify_Round_Url, $round->id
         );
@@ -64,7 +64,7 @@ if (Session::is_administrator()) {
     $leagues = $leagueData->league_list;
     if (count($leagues) > 0) {
         print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'round');
-        print "<tr class='create_row'><td class='division last'>";
+        print "<tr class='create_row'><td class='db_id last'></td><td class='division last'>";
         print "<select name='league_id'>";
         foreach ($leagues as $league) {
             print "<option value='" . $league->id . "''>" . $leagueData->print_league_name($league->id) . "</option>";
@@ -77,17 +77,17 @@ if (Session::is_administrator()) {
 
     // DIVISIONS
     print_table_start('Divisions', 'action_table');
-    print "<tr><th class='league'>League</th><th class='round'>Round</th><th class='division'>Division</th><th class='button_column last'></th></tr>";
+    print "<tr><th class='db_id'>Id</th><th class='league'>League</th><th class='round'>Round</th><th class='division'>Division</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->division_list as $division) {
         print_form_with_modify(
             Link::root . Link::League_Admin_Delete_Controller_Url,
-            array('league', 'round', 'division'), array($leagueData->print_league_name($division->league_id), $leagueData->print_round_name($division->round_id, false), $division->name),
+            array('db_id', 'league', 'round', 'division'), array($division->id, $leagueData->print_league_name($division->league_id), $leagueData->print_round_name($division->round_id, false), $division->name),
             array('division_id'), array($division->id),
             Link::League_Admin_Modify_Division_Url, $division->id
         );
     }
     print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'division');
-    print "<tr class='create_row'><td class='round last' colspan='2'>";
+    print "<tr class='create_row'><td class='db_id last'></td><td class='round last' colspan='2'>";
     if (count($leagueData->league_list) > 0) {
         print "<select name='round_id'>";
         foreach ($leagueData->round_list as $round) {
@@ -103,20 +103,20 @@ if (Session::is_administrator()) {
     // PLAYERS
     $number_of_players = 0;
     print_table_start('Players', 'action_table');
-    print "<tr><th class='division'>Division</th><th class='name'>User</th><th class='status'>Status</th><th class='button_column last'></th></tr>";
+    print "<tr><th class='db_id'>Id</th><th class='division'>Division</th><th class='name'>User</th><th class='status'>Status</th><th class='button_column last'></th></tr>";
     foreach ($leagueData->player_list as $player) {
         print_form_with_modify(
             Link::root . Link::League_Admin_Delete_Controller_Url,
-            array('division', 'name', 'status'), array($leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false, '', true), $player->status),
+            array('db_id', 'division', 'name', 'status'), array($player->id, $leagueData->print_division_name($player->division_id), $leagueData->print_user_name($player->id, false, '', true), $player->status),
             array('player_id'), array($player->id),
             Link::League_Admin_Modify_Player_Url, $player->id
         );
-        if($player->id > $number_of_players) {
-           $number_of_players = $player->id;
+        if ($player->id > $number_of_players) {
+            $number_of_players = $player->id;
         }
     }
     print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'player');
-    print "<tr class='create_row'><td class='division last'>";
+    print "<tr class='create_row'><td class='db_id last'></td><td class='division last'>";
     if (count($leagueData->division_list) > 0) {
         print "<select name='division_id'>";
         foreach ($leagueData->division_list as $division) {
@@ -162,7 +162,7 @@ if (Session::is_administrator()) {
 //                }
             }
             print_create_form_start(Link::root . Link::League_Admin_Create_Controller_Url, 'match');
-            print "<tr><td class='round last'>";
+            print "<tr><td class='db_id last'></td><td class='round last'>";
             if (count($leagueData->round_list) > 0) {
                 print "<select name='round_id'>";
                 foreach ($leagueData->round_list as $round) {
@@ -195,7 +195,7 @@ if (Session::is_administrator()) {
             } else {
                 print "&nbsp;";
             }
-            print "</td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
+            print "</td><td class='score last'></td><td class='score_entered hide_on_medium_screen last'></td><td class='button_column last'><input type='submit' name='create' value='create'></td></tr>";
             print_form_table_end();
         }
     }

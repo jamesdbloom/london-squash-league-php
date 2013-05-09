@@ -945,6 +945,10 @@ table.large_screen {
     display: none;
 }
 
+.db_id {
+    max-width: 8em;
+}
+
 @media only screen and (max-width : 900px) {
     tr.large_screen,
     h2.large_screen,
